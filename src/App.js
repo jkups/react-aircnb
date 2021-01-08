@@ -1,12 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+// import {Route, Link, HashRouter as Router} from 'react-router-dom';
+// import axios from 'axios';
+import SearchResults from './components/SearchResults'
+import './App.css'
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
 
-      </header>
+        <SearchResults />
+
     </div>
   );
 }
