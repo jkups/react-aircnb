@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from './Login';
+
 // import Signup from './Signup';
 
 
@@ -8,7 +9,7 @@ class AuthModal extends React.Component {
     const showHide = this.props.authVisible ? 'show-modal' : 'hide-modal'
     return(
       <div className={ showHide }>
-        <Login />
+        <Login handleLogin={ this.props.handleLogin }/>
       </div>
     )
   }

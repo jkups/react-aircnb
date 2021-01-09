@@ -4,7 +4,10 @@ import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 import Demo from './Demo'
+import { getLoginStatus } from './AuthHelpers'
 import AuthModal from './components/authentication/AuthModal'
+
+const SERVER_BASE_URL = 'http://localhost:3000';
 
 class AirBnC extends React.Component {
   state = {
@@ -14,13 +17,20 @@ class AirBnC extends React.Component {
   }
 
   getLoginStatus = () =>{
-    axios.get(URL,{
+    axios.get(`${SERVER_BASE_URL}/logged_in`,{
       withCredentials: true
     })
-    .then( data => {
-      
+    .then( response => {
+      console.log(response);
+      if(response.data.logged_in){
+        this.handleLogin(response.data)
+      } else {
+        this.handleLogout()
+      }
     })
+    .catch(console.log)
   }
+
   showHideAuthModal = () => {
     this.setState({
       authModalVisible: !this.state.authModalVisible
@@ -29,16 +39,28 @@ class AirBnC extends React.Component {
 
   handleLogin = data => {
     this.setState({
+      authModalVisible: false,
       user: data.user,
-      isLoggedIn: !this.state.isLoggedIn
+      isLoggedIn: true
     })
   }
 
   handleLogout = () => {
+    if(this.state.isLoggedIn){
+      axios.delete(`${SERVER_BASE_URL}/login.json`,{
+        withCredentials: true
+      })
+      .then(data => console.log(data))
+    }
+
     this.setState({
       user: {},
-      isLoggedIn: !this.state.isLoggedIn
+      isLoggedIn: false
     })
+  }
+
+  componentDidMount() {
+    this.getLoginStatus()
   }
 
   render(){
@@ -46,6 +68,7 @@ class AirBnC extends React.Component {
       <div>
         <Router>
           <Link onClick={ this.showHideAuthModal }>Login</Link>
+          <Link onClick={ this.handleLogout }>Logout</Link>
           <Link to="/demo" >Demo Link</Link>
           <Route exact path="/demo"
             render={ props => <Demo {...props} showAuthModal={this.showHideAuthModal} /> }
@@ -53,7 +76,7 @@ class AirBnC extends React.Component {
         </Router>
         <AuthModal
         authVisible={ this.state.authModalVisible }
-        showAuthModal={ this.showHideAuthModal }
+        handleLogin={ this.handleLogin }
         />
       </div>
     )
