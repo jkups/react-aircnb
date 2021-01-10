@@ -8,8 +8,7 @@ import SearchBar from './components/SearchBar';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SearchBar />
-    <Confirmation />
+    <AirBnC />
   </React.StrictMode>,
   document.getElementById('root')
 );

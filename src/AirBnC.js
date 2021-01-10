@@ -5,20 +5,25 @@ import logo from './logo.svg';
 import './App.css';
 import Demo from './Demo'
 import AuthModal from './components/authentication/AuthModal'
+import SearchBar from './components/SearchBar';
+import SearchResults from './components/SearchResults';
 
 class AirBnC extends React.Component {
-  state = {
-    authModalVisible: false,
-    isLoggedIn: false,
-    user: {}
-  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      authModalVisible: false,
+      isLoggedIn: false,
+      user: {}
+    };
+  };
 
   getLoginStatus = () =>{
     axios.get(URL,{
       withCredentials: true
     })
     .then( data => {
-      
+
     })
   }
   showHideAuthModal = () => {
@@ -50,11 +55,14 @@ class AirBnC extends React.Component {
           <Route exact path="/demo"
             render={ props => <Demo {...props} showAuthModal={this.showHideAuthModal} /> }
           />
-        </Router>
+          <Route exact path="/search" component={SearchBar }/>
+          <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
         <AuthModal
         authVisible={ this.state.authModalVisible }
         showAuthModal={ this.showHideAuthModal }
         />
+        <SearchBar/>
+        </Router>
       </div>
     )
   }
