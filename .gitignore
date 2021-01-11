@@ -38,4 +38,5 @@ log/
 node_modules/
 /yarn-error.log
 .byebug_history
-.eslintcache          
+.eslintcache
+/src/api 

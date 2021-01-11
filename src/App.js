@@ -8,11 +8,13 @@ import './App.css'
 function App() {
   return (
     <div className="App">
-
-        <SearchResults />
+      
+       <SearchResults />
 
     </div>
   );
 }
 
 export default App;
+
+// <SearchResults />
