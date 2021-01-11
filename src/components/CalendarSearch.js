@@ -9,16 +9,32 @@ import { Link, Route, HashRouter as Router } from 'react-router-dom';
 const CalendarSearch = (props) => {
 
   const [state, setState] = useState([
-    {
-      startDate: new Date(),
-      endDate: null,
-      key: 'selection',
-    },
-  ]);
+      {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection'
+      }
+    ]);
+
+  // const selectionRange = {
+  //   startDate: new Date(),
+  //   endDate: new Date(),
+  //   key: 'selection',
+  //   }
+
+  const handleSelect = (item) => {
+    setState([item.selection])
+    props.handleSelect([item.selection])
+  }
 
   return(
     <div>
-      <DateRange editableDateInputs={true} onChange={item => setState([item.selection])} moveRangeOnFirstSelection={false} ranges={state} className="calendar-search"/>
+      <DateRange
+        editableDateInputs={true}
+        onChange={handleSelect}
+        moveRangeOnFirstSelection={false}
+        ranges={state}
+      />
     </div>
   ); //return
 

@@ -11,8 +11,6 @@ import CalendarSearch from './CalendarSearch';
 
 const SearchBar = (props) => {
 
-
-
   const [state, setState] = useState([
     {
       startDate: new Date(),
@@ -22,6 +20,8 @@ const SearchBar = (props) => {
   ]);
 
   const [searchText, setSearchText] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
   const [calendarShow, setCalendarShow] = useState(false);
 
@@ -33,35 +33,37 @@ const SearchBar = (props) => {
     e.preventDefault();
     // console.log('Submit!');
     // console.log(state[0].startDate);
-    let url = "/search/" + searchText + "/" +  state[0].startDate + "/" + state[0].endDate;
-    console.log(url);
-    props.history.push(url);
-
+    props.history.push(`/search/${searchText}/${startDate}/${endDate}`)
+    setCalendarShow(false);
   };
 
   const handleSearchTerm = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setSearchText(e.target.value);
   };
 
+  const handleSelect = (item) => {
+    // console.log("Item:",item[0].startDate,item[0].endDate);
+    setStartDate(item[0].startDate);
+    setEndDate(item[0].endDate);
+  }
+
+  console.log("history:", props.history);
   return(
-    <div>
+    <div className="position-absolute">
         <span>
         <input placeholder="Type your location..." onChange={handleSearchTerm}></input>
 
-        <span className="button" onClick={toggleCalendar}> Select Dates </span> </span>
+        <span className="button" onClick={toggleCalendar}> Select Dates </span><span><button type="button" onClick={handleSubmit}> Search</button></span></span>
           {
             calendarShow === true ?
               <span>
-                <CalendarSearch state={state} />
+                <CalendarSearch state={state} handleSelect = {handleSelect} />
               </span>
               :
             <span></span>
           }
-          <span>
 
-
-        <button type="button" onClick={handleSubmit}> Search</button></span>
         {/* <div className="dropdown">
 
           <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Dates</button>

@@ -120,3 +120,11 @@
 .calendar-search {
   pointer-events: none;
 }
+
+.nav {
+  background-color: black;
+}
+
+.spacer{
+  height: 145px;
+}

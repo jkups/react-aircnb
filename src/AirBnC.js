@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import logo from './logo.svg';
+import Home from './components/Home';
 import './App.css';
 
 //Authentication Components
@@ -84,15 +85,11 @@ class AirBnC extends React.Component {
     return(
       <div>
           <Router>
-            <Header />
-            <Route exact path = "/About" component = {About} />
-            <Route exact path = "/Terms" component = {Terms} />
-            <Route exact path = "/Contact" component = {Contact} />
-            <Route exact path="/search" component={SearchBar }/>
-            <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
 
-            <div className="outer-wrapper">
+            <div className="container-fluid position-fixed nav">
+              <Header />
               <div className="container">
+                <Route path = "/" component = {SearchBar} />
                 <nav>
                   {
                     this.state.isLoggedIn ?
@@ -110,11 +107,15 @@ class AirBnC extends React.Component {
                 </nav>
               </div>
             </div>
-
+            <Route exact path = "/" component = {Home} />
+            <Route exact path="/search/:searchText/:startDate/:endDate" component={ SearchResults }/>
             <Route exact path="/property/:id"
               render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} /> }
             />
-
+            <Route exact path = "/About" component = {About} />
+            <Route exact path = "/Terms" component = {Terms} />
+            <Route exact path = "/Contact" component = {Contact} />
+            <Footer />
           {
             // Authentication Component
             // Available on all routes
@@ -136,7 +137,7 @@ class AirBnC extends React.Component {
               </AuthModal> : null
           }
 
-          <Footer />
+
         </Router>
 
       </div>
