@@ -18,6 +18,8 @@ import Footer from './components/Footer'
 import Terms from './components/Terms'
 import Contact from './components/Contact'
 import About from './components/About'
+import SearchBar from './components/SearchBar';
+import SearchResults from './components/SearchResults';
 
 
 const SERVER_BASE_URL = 'http://localhost:3000';
@@ -86,7 +88,9 @@ class AirBnC extends React.Component {
             <Route exact path = "/About" component = {About} />
             <Route exact path = "/Terms" component = {Terms} />
             <Route exact path = "/Contact" component = {Contact} />
-            
+            <Route exact path="/search" component={SearchBar }/>
+            <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
+
             <div className="outer-wrapper">
               <div className="container">
                 <nav>
