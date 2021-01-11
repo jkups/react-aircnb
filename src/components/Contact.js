@@ -18,18 +18,21 @@ import '../App.css'
     }
   }
 
-  handleSubmit(e){
-    e.preventDefault();
-    axios({
+  handleSubmit(event){
+    event.preventDefault();
+      axios({
       method: "POST",
-      url:"http://localhost:3000/send",
+      url:"http://localhost:3000/contact/new",
       data:  this.state
     }).then((response)=>{
+      console.log(response);
       if (response.data.status === 'success') {
         alert("Message Sent.");
         this.resetForm()
+
       } else if (response.data.status === 'fail') {
         alert("Message failed to send.")
+        console.log();
       }
     })
   }
@@ -54,8 +57,6 @@ import '../App.css'
      this.setState({message: event.target.value})
    }
 
-   handleSubmit(event) {
-   }
 
   render(){
   // console.log(props.history);
@@ -82,10 +83,10 @@ import '../App.css'
            <input type="email" className="form-control" aria-describedby="emailHelp" value={this.state.email} onChange={this.onEmailChange.bind(this)} />
          </div>
          <br />
-         <div className="form-group">
-           <label htmlFor="booking">Booking Code (optional)</label>
-           <input type="booking" className="form-control" value={this.state.booking} onChange={this.onBookingChange.bind(this)} />
-         </div>
+           <div className="form-group">
+             <label htmlFor="booking">Booking Code (optional)</label>
+             <input type="booking" className="form-control" value={this.state.booking} onChange={this.onBookingChange.bind(this)} />
+           </div>
          <br />
          <div className="form-group">
            <label htmlFor="message">Message</label>
