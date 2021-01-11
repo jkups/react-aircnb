@@ -34,22 +34,34 @@ class Login extends React.Component {
 
   render(){
     return(
-      <div>
+      <div className="auth-dialog">
         <form onSubmit={ this.handleSubmit }>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email address"
-            onChange={ this.handleChange }
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your email address"
-            onChange={ this.handleChange }
-          />
-          <input type="submit" value="Login" />
+          <h4>Login</h4>
+          <div>
+            <input
+              className="input"
+              type="email"
+              name="email"
+              placeholder="Enter your email address"
+              onChange={ this.handleChange }
+              />
+          </div>
+          <div>
+            <input
+              className="input"
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              onChange={ this.handleChange }
+              />
+          </div>
+          <div>
+            <button className="button" type="submit">Login</button>
+          </div>
         </form>
+        <span onClick={ () => this.props.toggleAuthModal('signup', true) }>
+          Don't have an account? Signup.
+        </span>
       </div>
     )
   }

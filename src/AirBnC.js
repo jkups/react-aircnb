@@ -3,14 +3,22 @@ import { Link, Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
-import Demo from './Demo'
-import { getLoginStatus } from './AuthHelpers'
+
+//Authentication Components
 import AuthModal from './components/authentication/AuthModal'
+import Login from './components/authentication/Login'
+import Signup from './components/authentication/Signup'
+
+//Reservation components
+import Reservation from './components/reservation/Reservation'
+
+
 
 const SERVER_BASE_URL = 'http://localhost:3000';
 
 class AirBnC extends React.Component {
   state = {
+    authForm: '',
     authModalVisible: false,
     isLoggedIn: false,
     user: {}
@@ -31,9 +39,10 @@ class AirBnC extends React.Component {
     .catch(console.log)
   }
 
-  showHideAuthModal = () => {
+  toggleAuthModal = (form, visible) => {
     this.setState({
-      authModalVisible: !this.state.authModalVisible
+      authModalVisible: visible,
+      authForm: form
     })
   }
 
@@ -66,18 +75,53 @@ class AirBnC extends React.Component {
   render(){
     return(
       <div>
-        <Router>
-          <Link onClick={ this.showHideAuthModal }>Login</Link>
-          <Link onClick={ this.handleLogout }>Logout</Link>
-          <Link to="/demo" >Demo Link</Link>
-          <Route exact path="/demo"
-            render={ props => <Demo {...props} showAuthModal={this.showHideAuthModal} /> }
-          />
-        </Router>
-        <AuthModal
-        authVisible={ this.state.authModalVisible }
-        handleLogin={ this.handleLogin }
-        />
+          <Router>
+            <div className="outer-wrapper">
+              <div className="container">
+                <nav>
+                  {
+                    this.state.isLoggedIn ?
+                    <span>
+                      <Link onClick={ this.handleLogout }>Logout</Link>
+                    </span>
+                    :
+                    <span>
+                      <Link onClick={ () => this.toggleAuthModal('login', true) }>Login</Link>
+                    </span>
+                  }
+                  <span>
+                    <Link to="/property/9" >Demo Reservation</Link>
+                  </span>
+                </nav>
+              </div>
+            </div>
+
+            <Route exact path="/property/:id"
+              render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} /> }
+            />
+
+          </Router>
+
+          {
+            // Authentication Component
+            // Available on all routes
+          }
+          {
+            this.state.authModalVisible ?
+              <AuthModal>
+                {
+                  this.state.authForm === 'login' ?
+                    <Login
+                      handleLogin={ this.handleLogin }
+                      toggleAuthModal={ this.toggleAuthModal }
+                    /> :
+                    <Signup
+                      handleLogin={ this.handleLogin }
+                      toggleAuthModal={ this.toggleAuthModal }
+                    />
+                }
+              </AuthModal> : null
+          }
       </div>
     )
   }
