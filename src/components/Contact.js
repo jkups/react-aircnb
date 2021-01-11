@@ -6,66 +6,82 @@ import '../App.css'
 
 
 // class Terms extends React.Component {
-  const Contact = (props) => {
-  // render(){
+  class Contact extends React.Component {
+
+    constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      message: '',
+      booking:'',
+    }
+  }
+
+  onNameChange(event) {
+     this.setState({name: event.target.value})
+   }
+
+   onEmailChange(event) {
+     this.setState({email: event.target.value})
+   }
+
+   onBookingChange(event) {
+     this.setState({booking: event.target.value})
+   }
+
+   onMessageChange(event) {
+     this.setState({message: event.target.value})
+   }
+
+   handleSubmit(event) {
+   }
+
+  render(){
   // console.log(props.history);
     return(
       <div className="Terms">
         <h2> Contact Us </h2>
         <br />
-        <p>
-          G'day!
-        <br />
-        <br />
-        </p>
 
         <p>
-          If you have any queries about a property please send us an email to:
-        </p>
-        <p>
-          <strong>properties@AirCnB.com </strong>
-
-        </p>
-        <br />
-        <p>
-          If you have any queries about a booking please send us an email to:
-
-        </p>
-
-        <p>
-          <strong>bookings@AirCnB.com </strong>
-
-        </p>
-        <br />
-        <p>
-          If you would like to give us any feedback please send us an email to:
-
-        </p>
-
-        <p>
-          <strong>feedback@AirCnB.com </strong>
-
+          If you have any queries about a property, a booking or just want us to send your feedback please enter your details below:
         </p>
 
         <br />
-        <p>
-
-          Or if you would like to contact us by phone:
-
-        </p>
-
-        <p>
-          <strong>1800 000 999 </strong>
-
-        </p>
 
 
+        <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
+         <div className="form-group">
+           <label htmlFor="name">Name</label>
+           <input type="text" className="form-control" value={this.state.name} onChange={this.onNameChange.bind(this)} />
+         </div>
+         <br />
+         <div className="form-group">
+           <label htmlFor="exampleInputEmail1">Email address</label>
+           <input type="email" className="form-control" aria-describedby="emailHelp" value={this.state.email} onChange={this.onEmailChange.bind(this)} />
+         </div>
+         <br />
+         <div className="form-group">
+           <label htmlFor="booking">Booking Code (optional)</label>
+           <input type="booking" className="form-control" value={this.state.booking} onChange={this.onBookingChange.bind(this)} />
+         </div>
+         <br />
+         <div className="form-group">
+           <label htmlFor="message">Message</label>
+           <textarea className="form-control" rows="5" value={this.state.message} onChange={this.onMessageChange.bind(this)} />
+         </div>
+         <br />
+         <button type="submit" className="btn btn-primary">Submit</button>
+       </form>
 
 
-
-      </div>
-    );
-
+     </div>
+   );
+ }
 }
+
+
+
 
 export default Contact;

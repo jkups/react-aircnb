@@ -1,23 +1,32 @@
 import React, { useEffect, useState} from 'react';
 // import {Route, Link, HashRouter as Router} from 'react-router-dom';
-import axios from 'axios';
-import { DOMAIN_PROPERTIES_API_URL, DOMAIN_PROPERTIES_PARAMS} from "../api/ApiData.js";
+// import axios from 'axios';
 
 const ListingDisplay = (props) => {
-  const [listingData,setListingData] = useState([]);
-  useEffect(()=>{
+  const [listingData,setListingData] = useState(props.propertyData);
 
-    axios.get(DOMAIN_PROPERTIES_API_URL + props.propertyId, {params: DOMAIN_PROPERTIES_PARAMS})
-    .then((res) => {
-      console.log("List results: ", res.data);
-      setListingData(res.data);
-    })
-  },[])
   return (
-    <div>
-      <div>Address: {listingData.address}</div>
-      <div>Bedrooms: {listingData.bedrooms}</div>
-      <div>Bathrooms: {listingData.bathrooms}</div>
+    <div className="container border-bottom py-3">
+      <div className="row">
+        <div className="col-6 my-2 ml-1">
+          {
+            <img src={listingData.images[0].image_url} loading="lazy" className=" rounded"/>
+          }
+        </div>
+        <div className="col-6 my-2 pt-3 text-right">
+          <div className="">entire {listingData.property_type} in {props.searchTerm}</div>
+          <div><strong>{listingData.heading}</strong></div>
+          <div className="container">
+            <div className="row">
+              <div className="col-2">
+                <hr/>
+              </div>
+            </div>
+          </div>
+          <div>{ listingData.max_guests } guests | {listingData.bedrooms} beds | {listingData.bathrooms} bath</div>
+          <div className="d-flex justify-content-end"><p className="font-weight-bold"><strong>$ {listingData.listing_price}</strong> / night</p></div>
+        </div>
+      </div>
     </div>
   ); //return
 }; //function
