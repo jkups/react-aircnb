@@ -61,7 +61,6 @@ class AirBnC extends React.Component {
         authVisible={ this.state.authModalVisible }
         showAuthModal={ this.showHideAuthModal }
         />
-        <SearchBar/>
         </Router>
       </div>
     )
