@@ -12,6 +12,12 @@ import Signup from './components/authentication/Signup'
 //Reservation components
 import Reservation from './components/reservation/Reservation'
 
+// Common Components
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Terms from './components/Terms'
+import Contact from './components/Contact'
+import About from './components/About'
 
 
 const SERVER_BASE_URL = 'http://localhost:3000';
@@ -76,6 +82,11 @@ class AirBnC extends React.Component {
     return(
       <div>
           <Router>
+            <Header />
+            <Route exact path = "/About" component = {About} />
+            <Route exact path = "/Terms" component = {Terms} />
+            <Route exact path = "/Contact" component = {Contact} />
+            
             <div className="outer-wrapper">
               <div className="container">
                 <nav>
@@ -100,28 +111,30 @@ class AirBnC extends React.Component {
               render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} /> }
             />
 
-          </Router>
-
           {
             // Authentication Component
             // Available on all routes
           }
           {
             this.state.authModalVisible ?
-              <AuthModal>
-                {
-                  this.state.authForm === 'login' ?
-                    <Login
-                      handleLogin={ this.handleLogin }
-                      toggleAuthModal={ this.toggleAuthModal }
-                    /> :
-                    <Signup
-                      handleLogin={ this.handleLogin }
-                      toggleAuthModal={ this.toggleAuthModal }
+            <AuthModal>
+              {
+                this.state.authForm === 'login' ?
+                <Login
+                  handleLogin={ this.handleLogin }
+                  toggleAuthModal={ this.toggleAuthModal }
+                  /> :
+                  <Signup
+                    handleLogin={ this.handleLogin }
+                    toggleAuthModal={ this.toggleAuthModal }
                     />
                 }
               </AuthModal> : null
           }
+
+          <Footer />
+        </Router>
+
       </div>
     )
   }

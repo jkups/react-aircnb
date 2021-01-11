@@ -1,5 +1,7 @@
 import React from 'react'
 import Billing from './Billing'
+import './Reservation.css'
+import '../authentication/Auth.css'
 
 class Reservation extends React.Component {
   state = {
