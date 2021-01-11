@@ -39,4 +39,4 @@ node_modules/
 /yarn-error.log
 .byebug_history
 .eslintcache
-/src/api 
+yarn.lock

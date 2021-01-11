@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import AirBnC from './AirBnC';
 import reportWebVitals from './reportWebVitals';
+import Confirmation from './components/Confirmation';
+import SearchBar from './components/SearchBar';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AirBnC />
   </React.StrictMode>,
   document.getElementById('root')
 );
