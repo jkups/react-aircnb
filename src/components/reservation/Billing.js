@@ -65,7 +65,16 @@ class Billing extends React.Component {
 
     return(
       <div className="billing">
-        <div>$765.00 <span>total</span></div>
+        {
+          dateDiff <= 0 ?
+            <div>
+              ${ pricePerNight.toFixed(2) } <span>/night</span>
+            </div> :
+            <div>
+              ${ (pricePerNight * dateDiff + cleaningFee + serviceFee).toFixed(2) } <span>total</span>
+            </div>
+        }
+
         <div className="reserve">
           <div className="date-range" onClick={ this.toggleCalendar }>
             <div className="date left">
@@ -201,7 +210,9 @@ class Billing extends React.Component {
                 </div>
                 <div className="bill-total">
                   <span>Total</span>
-                  <span>$385.00</span>
+                  <span>
+                    ${ (pricePerNight * dateDiff + cleaningFee + serviceFee).toFixed(2) }
+                  </span>
                 </div>
               </div>
           }

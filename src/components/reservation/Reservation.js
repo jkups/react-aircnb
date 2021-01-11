@@ -52,6 +52,7 @@ class Reservation extends React.Component {
   render(){
     const selectionRange = this.state
     const address = this.state.property.address
+    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyCdUMO5lFn8XLThP8fHi1b_2mIxEdJsv0c&amp;q=${ address }&amp;zoom=11`
     const amenitiesOne = this.state.property.amenities.slice()
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
 
@@ -129,7 +130,7 @@ class Reservation extends React.Component {
               </div>
               <div className="map">
                 <h4>Location</h4>
-                <iframe class="border rounded shadow-sm" allowfullscreen="" frameborder="0" src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyCdUMO5lFn8XLThP8fHi1b_2mIxEdJsv0c&amp;q=${ address }&amp;zoom=11`} width="100%" height="400"></iframe>
+                <iframe class="border rounded shadow-sm" allowfullscreen="" frameborder="0" src={ mapUrl } width="100%" height="400"></iframe>
               </div>
             </li>
             <li>
