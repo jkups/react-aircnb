@@ -3,74 +3,141 @@ import { Link, Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
-import Demo from './Demo'
+
+//Authentication Components
 import AuthModal from './components/authentication/AuthModal'
+import Login from './components/authentication/Login'
+import Signup from './components/authentication/Signup'
+
+//Reservation components
+import Reservation from './components/reservation/Reservation'
+
+// Common Components
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Terms from './components/Terms'
 import Contact from './components/Contact'
 import About from './components/About'
+import SearchBar from './components/SearchBar';
+import SearchResults from './components/SearchResults';
 
+
+const SERVER_BASE_URL = 'http://localhost:3000';
 
 class AirBnC extends React.Component {
   state = {
+    authForm: '',
     authModalVisible: false,
     isLoggedIn: false,
     user: {}
   }
 
   getLoginStatus = () =>{
-    axios.get(URL,{
+    axios.get(`${SERVER_BASE_URL}/logged_in`,{
       withCredentials: true
     })
-    .then( data => {
-
+    .then( response => {
+      console.log(response);
+      if(response.data.logged_in){
+        this.handleLogin(response.data)
+      } else {
+        this.handleLogout()
+      }
     })
+    .catch(console.log)
   }
-  showHideAuthModal = () => {
+
+  toggleAuthModal = (form, visible) => {
     this.setState({
-      authModalVisible: !this.state.authModalVisible
+      authModalVisible: visible,
+      authForm: form
     })
   }
 
   handleLogin = data => {
     this.setState({
+      authModalVisible: false,
       user: data.user,
-      isLoggedIn: !this.state.isLoggedIn
+      isLoggedIn: true
     })
   }
 
   handleLogout = () => {
+    if(this.state.isLoggedIn){
+      axios.delete(`${SERVER_BASE_URL}/login.json`,{
+        withCredentials: true
+      })
+      .then(data => console.log(data))
+    }
+
     this.setState({
       user: {},
-      isLoggedIn: !this.state.isLoggedIn
+      isLoggedIn: false
     })
+  }
+
+  componentDidMount() {
+    this.getLoginStatus()
   }
 
   render(){
     return(
       <div>
+          <Router>
+            <Header />
+            <Route exact path = "/About" component = {About} />
+            <Route exact path = "/Terms" component = {Terms} />
+            <Route exact path = "/Contact" component = {Contact} />
+            <Route exact path="/search" component={SearchBar }/>
+            <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
 
-        <Header />
+            <div className="outer-wrapper">
+              <div className="container">
+                <nav>
+                  {
+                    this.state.isLoggedIn ?
+                    <span>
+                      <Link onClick={ this.handleLogout }>Logout</Link>
+                    </span>
+                    :
+                    <span>
+                      <Link onClick={ () => this.toggleAuthModal('login', true) }>Login</Link>
+                    </span>
+                  }
+                  <span>
+                    <Link to="/property/9" >Demo Reservation</Link>
+                  </span>
+                </nav>
+              </div>
+            </div>
 
-        <Router>
+            <Route exact path="/property/:id"
+              render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} /> }
+            />
 
-          <Link onClick={ this.showHideAuthModal }>Login</Link>
-            <Link to="/demo" >Demo Link</Link>
-          <Route exact path = "/About" component = {About} />
-          <Route exact path = "/Terms" component = {Terms} />
-          <Route exact path = "/Contact" component = {Contact} />
-          <Route exact path="/demo"
-            render={ props => <Demo {...props} showAuthModal={this.showHideAuthModal} /> }
-          />
+          {
+            // Authentication Component
+            // Available on all routes
+          }
+          {
+            this.state.authModalVisible ?
+            <AuthModal>
+              {
+                this.state.authForm === 'login' ?
+                <Login
+                  handleLogin={ this.handleLogin }
+                  toggleAuthModal={ this.toggleAuthModal }
+                  /> :
+                  <Signup
+                    handleLogin={ this.handleLogin }
+                    toggleAuthModal={ this.toggleAuthModal }
+                    />
+                }
+              </AuthModal> : null
+          }
 
-        <AuthModal
-        authVisible={ this.state.authModalVisible }
-        showAuthModal={ this.showHideAuthModal }
-        />
-
-            <Footer />
-          </Router>
+          <Footer />
+        </Router>
 
       </div>
     )
