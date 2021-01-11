@@ -116,3 +116,7 @@
   text-align: center;
 
 }
+
+.calendar-search {
+  pointer-events: none;
+}

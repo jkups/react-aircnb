@@ -5,6 +5,7 @@ import 'react-date-range/dist/theme/default.css';
 import axios from 'axios';
 import { DateRange } from 'react-date-range';
 import { Link, Route, HashRouter as Router } from 'react-router-dom';
+import CalendarSearch from './CalendarSearch';
 
 // const SEARCH_BAR_URL = 'http://localhost:3001/'
 
@@ -21,6 +22,12 @@ const SearchBar = (props) => {
   ]);
 
   const [searchText, setSearchText] = useState();
+
+  const [calendarShow, setCalendarShow] = useState(false);
+
+  const toggleCalendar = () => {
+    setCalendarShow(!calendarShow);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,10 +46,23 @@ const SearchBar = (props) => {
 
   return(
     <div>
-
+        <span>
         <input placeholder="Type your location..." onChange={handleSearchTerm}></input>
 
-        <div className="dropdown">
+        <span className="button" onClick={toggleCalendar}> Select Dates </span> </span>
+          {
+            calendarShow === true ?
+              <span>
+                <CalendarSearch state={state} />
+              </span>
+              :
+            <span></span>
+          }
+          <span>
+
+
+        <button type="button" onClick={handleSubmit}> Search</button></span>
+        {/* <div className="dropdown">
 
           <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Dates</button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -58,7 +78,7 @@ const SearchBar = (props) => {
 
         <br/><br/>
 
-        <input placeholder="Type your location..." onChange={handleSearchTerm}></input>
+        <input placeholder="Type your location..." onChange={handleSearchTerm}></input> */}
 
         {/* <div className="modal" tabindex="-1" role="dialog">
           <div className="modal-dialog" role="document">
@@ -85,11 +105,6 @@ const SearchBar = (props) => {
         </div>
         <br/> */}
 
-          <DateRange editableDateInputs={true} onChange={item => setState([item.selection])} moveRangeOnFirstSelection={false} ranges={state}/>
-
-
-
-        <button type="button" onClick={handleSubmit}> Search</button>
 
     </div>
   );
