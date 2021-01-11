@@ -16,10 +16,17 @@ const CalendarSearch = (props) => {
     },
   ]);
 
+  const dateChange = (selection) => {
+    setState({selection});
+  }
+
+  console.log();
+
   return(
-    <div>
-      <DateRange editableDateInputs={true} onChange={item => setState([item.selection])} moveRangeOnFirstSelection={false} ranges={state} className="calendar-search"/>
-    </div>
+    <span>
+      <DateRange editableDateInputs={true} onChange={item => dateChange([item.selection])}
+      moveRangeOnFirstSelection={false} ranges={state} />
+    </span>
   ); //return
 
 
