@@ -89,8 +89,7 @@ class AirBnC extends React.Component {
 
               <div className="container">
                 <Header />
-                <Link to="/" > Home </Link> |
-                <Route path = "/" component = {SearchBar} />
+                <Route path = "/" className="inline" component = {SearchBar} />
                 <nav>
                   {
                     this.state.isLoggedIn ?
@@ -104,6 +103,7 @@ class AirBnC extends React.Component {
                   }
                   <span>
                     <Link to="/property/9" >Demo Reservation</Link>
+                    <Link to="/" > Home </Link> |
                   </span>
                 </nav>
               </div>
