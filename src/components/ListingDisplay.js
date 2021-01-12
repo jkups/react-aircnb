@@ -5,12 +5,14 @@ import React, { useState} from 'react';
 const ListingDisplay = (props) => {
   const [listingData] = useState(props.propertyData);
   // console.log("listingData: ", listingData.id);
+
+
   return (
     <div className="container border-bottom py-3" onClick={props.handleClick} id={listingData.id}>
       <div className="row">
         <div className="col-6 my-2 ml-1">
           {
-            <img src={listingData.images[0].image_url} loading="lazy" alt={listingData.images[0].name} className=" rounded"/>
+            <img src={listingData.images[0].image_url} loading="lazy" alt={listingData.images[0].name} className="rounded"/>
           }
         </div>
         <div className="col-6 my-2 pt-3 text-right">
