@@ -68,6 +68,7 @@ nav span {
   padding: 10px;
   background-color: pink;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .button:hover {

@@ -43,16 +43,37 @@ class Reservation extends React.Component {
   }
 
   handleSelect = ranges => {
-    console.log(ranges);
     this.setState({
       ranges: ranges.selection
     })
   }
 
+  processReservation = reservation => {
+    const url = `/book/${reservation.id}`
+    const params = {
+      startDate: reservation.from_date,
+      endDate: reservation.to_date,
+      guests_count: reservation.guests_count,
+      listing_price: reservation.property.listing_price,
+      cleaning_fee: reservation.property.cleaning_fee,
+      service_fee: reservation.property.service_fee,
+      total_due: reservation.total_due,
+      heading: reservation.property.heading,
+      title: reservation.property.title,
+      bed:reservation.property.bedrooms,
+      bath:reservation.property.bathrooms
+    }
+    // this.props.history.push(url)
+    this.props.history.push({
+      pathname: url,
+      search: "?" + new URLSearchParams(params).toString()
+    })
+  }
+
   render(){
-    const selectionRange = this.state
     const address = this.state.property.address
-    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyCdUMO5lFn8XLThP8fHi1b_2mIxEdJsv0c&amp;q=${ address }&amp;zoom=11`
+    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyCdUMO5lFn8XLThP8fHi1b_2mIxEdJsv0c&q=${address}&zoom=11`
+
     const amenitiesOne = this.state.property.amenities.slice()
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
 
@@ -130,15 +151,20 @@ class Reservation extends React.Component {
               </div>
               <div className="map">
                 <h4>Location</h4>
-                <iframe class="border rounded shadow-sm" allowfullscreen="" frameborder="0" src={ mapUrl } width="100%" height="400"></iframe>
+                <iframe className="border rounded shadow-sm" allowFullScreen="" frameBorder="0" src={ mapUrl } width="100%" height="400">
+                </iframe>
               </div>
             </li>
             <li>
               <div className="right">
                 <Billing
+                  toggleAuthModal={ this.props.toggleAuthModal}
                   selectionRange={ this.state.ranges }
                   property={ this.state.property }
                   handleSelect={ this.handleSelect }
+                  isLoggedIn={ this.props.isLoggedIn }
+                  user={ this.props.user }
+                  processReservation={ this.processReservation }
                 />
               </div>
             </li>

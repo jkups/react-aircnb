@@ -5,12 +5,7 @@ import axios from 'axios'
 const SERVER_BASE_URL = 'http://localhost:3000'
 class Billing extends React.Component {
   state = {
-    costPerDay: 110, //from reservation compo
-    cleaningFee: 50, //from reservation compo
-    serviceFee: 0, //from reservation compo
-    total: 0,
     showCalendar: false,
-    maxGuests: 3, //from reservation compo
     guestsCount: 1
   }
 
@@ -44,12 +39,33 @@ class Billing extends React.Component {
     })
   }
 
-  makeReservation = () => {
-    const user = {}
-    axios.post(`${SERVER_BASE_URL}/reservations`,
-      { user },
-      { withCredentials: true }
-    )
+  initiateReservation = () => {
+    if(this.props.isLoggedIn){
+      const reservation = {
+        property_id: 11,
+        from_date: this.props.selectionRange.startDate,
+        to_date: this.props.selectionRange.endDate,
+        user_id: this.props.user.id,
+        guests_count: this.state.guestsCount,
+        booking_code: Math.random().toString(16).substr(2, 8)
+      }
+      axios.post(`${SERVER_BASE_URL}/reservations.json`,
+        { reservation },
+        { withCredentials: true }
+      )
+      .then(res => {
+        console.log(res.data);
+        this.props.processReservation(res.data)
+      })
+      .catch(console.warn)
+
+    } else {
+      this.props.toggleAuthModal('login', true)
+    }
+  }
+
+  formatCurrency = value => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
   }
 
   render(){
@@ -57,9 +73,12 @@ class Billing extends React.Component {
     const maxGuests = this.props.property.max_guests
     const cleaningFee = this.props.property.cleaning_fee
     const serviceFee = this.props.property.service_fee
+    const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
+
+    const total = pricePerNight * dateDiff
+    const grandTotal = pricePerNight * dateDiff + cleaningFee + serviceFee
 
     const dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };
-    let dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
 
     let nights = dateDiff <= 0 ? 'Select a date range' : `${dateDiff} nights`
 
@@ -68,10 +87,10 @@ class Billing extends React.Component {
         {
           dateDiff <= 0 ?
             <div>
-              ${ pricePerNight.toFixed(2) } <span>/night</span>
+              { this.formatCurrency(pricePerNight) } <span>/night</span>
             </div> :
             <div>
-              ${ (pricePerNight * dateDiff + cleaningFee + serviceFee).toFixed(2) } <span>total</span>
+              { this.formatCurrency(grandTotal) } <span>total</span>
             </div>
         }
 
@@ -163,7 +182,7 @@ class Billing extends React.Component {
               </div> : null
           }
           <span>
-            You can have maixmum of { maxGuests } guests
+            You can have a maximum of { maxGuests } guests
           </span>
         </div>
         <div>
@@ -177,7 +196,7 @@ class Billing extends React.Component {
               </button> :
               <button
                 className="button"
-                onClick={ this.makeReservation }
+                onClick={ this.initiateReservation }
                 >
                 Make Reservation
               </button>
@@ -196,22 +215,26 @@ class Billing extends React.Component {
                 <span>Price shown is the total lodging price, including any additional fees.</span>
                 <div className="bill-table">
                   <div>
-                    <span>${ pricePerNight.toFixed(2) } x { dateDiff } nights</span>
-                    <span>${ (pricePerNight * dateDiff).toFixed(2) }</span>
+                    <span>
+                      { this.formatCurrency(pricePerNight) } x { dateDiff } nights
+                    </span>
+                    <span>
+                      { this.formatCurrency(total) }
+                    </span>
                   </div>
                   <div>
                     <span>Cleaning fee</span>
-                    <span>${ cleaningFee.toFixed(2) }</span>
+                    <span>{ this.formatCurrency(cleaningFee) }</span>
                   </div>
                   <div>
                     <span>Service fee</span>
-                    <span>${ serviceFee.toFixed(2) }</span>
+                    <span>{ this.formatCurrency(serviceFee) }</span>
                   </div>
                 </div>
                 <div className="bill-total">
                   <span>Total</span>
                   <span>
-                    ${ (pricePerNight * dateDiff + cleaningFee + serviceFee).toFixed(2) }
+                    { this.formatCurrency(grandTotal) }
                   </span>
                 </div>
               </div>

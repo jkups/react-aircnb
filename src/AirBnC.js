@@ -1,16 +1,19 @@
 import React from 'react';
-import { Link, Route, HashRouter as Router } from 'react-router-dom';
+import { Redirect, Link, Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 
-//Authentication Components
+// Authentication Components
 import AuthModal from './components/authentication/AuthModal'
 import Login from './components/authentication/Login'
 import Signup from './components/authentication/Signup'
 
-//Reservation components
+// Reservation components
 import Reservation from './components/reservation/Reservation'
+
+// Payment components
+import Payment from './components/payment/Payment'
 
 // Common Components
 import Header from './components/Header'
@@ -83,37 +86,47 @@ class AirBnC extends React.Component {
   render(){
     return(
       <div>
-          <Router>
-            <Header />
-            <Route exact path = "/About" component = {About} />
-            <Route exact path = "/Terms" component = {Terms} />
-            <Route exact path = "/Contact" component = {Contact} />
-            <Route exact path="/search" component={SearchBar }/>
-            <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
+        <Router>
+          <Header />
+          <Route exact path = "/About" component = {About} />
+          <Route exact path = "/Terms" component = {Terms} />
+          <Route exact path = "/Contact" component = {Contact} />
+          <Route exact path="/search" component={SearchBar }/>
+          <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
 
-            <div className="outer-wrapper">
-              <div className="container">
-                <nav>
-                  {
-                    this.state.isLoggedIn ?
-                    <span>
-                      <Link onClick={ this.handleLogout }>Logout</Link>
-                    </span>
-                    :
-                    <span>
-                      <Link onClick={ () => this.toggleAuthModal('login', true) }>Login</Link>
-                    </span>
-                  }
+          <div className="outer-wrapper">
+            <div className="container">
+              <nav>
+                {
+                  this.state.isLoggedIn ?
                   <span>
-                    <Link to="/property/9" >Demo Reservation</Link>
+                    <Link onClick={ this.handleLogout }>Logout</Link>
                   </span>
-                </nav>
-              </div>
+                  :
+                  <span>
+                    <Link onClick={ () => this.toggleAuthModal('login', true) }>Login</Link>
+                  </span>
+                }
+                <span>
+                  <Link to="/property/1" >Demo Reservation</Link>
+                </span>
+              </nav>
             </div>
+          </div>
 
-            <Route exact path="/property/:id"
-              render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} /> }
-            />
+          <Route exact path="/property/:id"
+            render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} isLoggedIn={this.state.isLoggedIn} user={this.state.user} /> }
+          />
+        {
+
+          // <Route exact path="/book/:reservation_id" component={ Payment } />
+        }
+
+          <Route exact path="/book/:reservation_id">
+              {
+                  this.state.isLoggedIn ? <Payment /> : <Redirect to="/search" />
+              }
+          </Route>
 
           {
             // Authentication Component
@@ -138,7 +151,6 @@ class AirBnC extends React.Component {
 
           <Footer />
         </Router>
-
       </div>
     )
   }
