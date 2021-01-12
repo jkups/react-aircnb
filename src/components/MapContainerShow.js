@@ -19,11 +19,19 @@ export class MapContainerShow extends React.Component {
 
   displayMarkers = () => {
   return this.props.locations.map((location, index) => {
-      return <Marker key={index} id={index} position={{
-        lat: location.latitude,
-        lng: location.longitude
-      }}
-   onClick={() => console.log("You clicked me!")} title={"$100"}/>
+      return <Marker
+                key={index}
+                id={index}
+                position={{
+                  lat: location.latitude,
+                  lng: location.longitude
+                }}
+                onClick={() => console.log("You clicked me!")}
+                title={"$100"}
+                icon={{
+                  url: `https://chart.googleapis.com/chart?chst=d_bubble_icon_texts_big&chld=home|bb|FFFFFF|000000|${location.title}|${location.heading}|$${location.listing_price} p/n|Max Guests: ${location.max_guests}`,
+                }}
+                />
     })
   }
 

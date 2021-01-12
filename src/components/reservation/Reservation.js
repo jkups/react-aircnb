@@ -4,6 +4,7 @@ import './Reservation.css'
 import '../authentication/Auth.css'
 import MapContainerShow from '../MapContainerShow';
 import axios from 'axios'
+import Reviews from './Reviews'
 
 const SERVER_BASE_URL = 'http://localhost:3000'
 
@@ -27,7 +28,9 @@ class Reservation extends React.Component {
     	bathrooms: 0,
     	amenities: '',
     	cleaning_fee: 0,
-    	service_fee: 0
+    	service_fee: 0,
+      longitude: -33.8688197,
+      latitude: 151.2092955
     }
   }
 
@@ -63,8 +66,11 @@ class Reservation extends React.Component {
 
   render(){
     const address = this.state.property.address
-    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAW5MNODxdAncbpnSGtOIl6Gyfjo-e6w3g&q=${address}&zoom=11`
-
+    const locations = [
+      this.state.property.longitude,
+      this.state.property.latitude
+    ]
+    
     const amenitiesOne = this.state.property.amenities.split(',')
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
 
@@ -140,10 +146,20 @@ class Reservation extends React.Component {
                   </li>
                 </ul>
               </div>
+              <div className="amenities">
+                <h4>Reviews</h4>
+
+                     <Reviews />
+
+              </div>
               <div className="map">
                 <h4>Location</h4>
-                <iframe className="border rounded shadow-sm" allowFullScreen="" frameBorder="0" src={ mapUrl } width="100%" height="400">
-                </iframe>
+                {
+                  locations.length > 0 ?
+                  <MapContainerShow lat={this.state.property.latitude} long={this.state.property.longitude} locations={locations} />
+                    :
+                  <p>Loading...</p>
+                }
               </div>
             </li>
             <li>
