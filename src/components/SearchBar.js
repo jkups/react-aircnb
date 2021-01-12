@@ -1,18 +1,17 @@
-import React, {state, useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import axios from 'axios';
-import { DateRange } from 'react-date-range';
-import { Link, Route, HashRouter as Router } from 'react-router-dom';
+// import axios from 'axios';
+// import { DateRange } from 'react-date-range';
+// import { HashRouter as Router } from 'react-router-dom';
+import CalendarSearch from './CalendarSearch';
 
 // const SEARCH_BAR_URL = 'http://localhost:3001/'
 
 const SearchBar = (props) => {
 
-
-
-  const [state, setState] = useState([
+  const [state] = useState([
     {
       startDate: new Date(),
       endDate: null,
@@ -21,28 +20,51 @@ const SearchBar = (props) => {
   ]);
 
   const [searchText, setSearchText] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
+  const [calendarShow, setCalendarShow] = useState(false);
+
+  const toggleCalendar = () => {
+    setCalendarShow(!calendarShow);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log('Submit!');
     // console.log(state[0].startDate);
-    let url = "/search/" + searchText + "/" +  state[0].startDate + "/" + state[0].endDate;
-    console.log(url);
-    props.history.push(url);
-
+    props.history.push(`/search/${searchText}/${startDate}/${endDate}`)
+    setCalendarShow(false);
   };
 
   const handleSearchTerm = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setSearchText(e.target.value);
   };
 
-  return(
-    <div>
+  const handleSelect = (item) => {
+    // console.log("Item:",item[0].startDate,item[0].endDate);
+    setStartDate(item[0].startDate);
+    setEndDate(item[0].endDate);
+  }
 
+  // console.log("history:", props.history);
+  return(
+    <div className="position-absolute">
+        <span>
         <input placeholder="Type your location..." onChange={handleSearchTerm}></input>
 
-        <div className="dropdown">
+        <span className="button" onClick={toggleCalendar}> Select Dates </span><span><button type="button" onClick={handleSubmit}> Search</button></span></span>
+          {
+            calendarShow === true ?
+              <span>
+                <CalendarSearch state={state} handleSelect = {handleSelect} />
+              </span>
+              :
+            <span></span>
+          }
+
+        {/* <div className="dropdown">
 
           <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Dates</button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -58,7 +80,7 @@ const SearchBar = (props) => {
 
         <br/><br/>
 
-        <input placeholder="Type your location..." onChange={handleSearchTerm}></input>
+        <input placeholder="Type your location..." onChange={handleSearchTerm}></input> */}
 
         {/* <div className="modal" tabindex="-1" role="dialog">
           <div className="modal-dialog" role="document">
@@ -85,11 +107,6 @@ const SearchBar = (props) => {
         </div>
         <br/> */}
 
-          <DateRange editableDateInputs={true} onChange={item => setState([item.selection])} moveRangeOnFirstSelection={false} ranges={state}/>
-
-
-
-        <button type="button" onClick={handleSubmit}> Search</button>
 
     </div>
   );

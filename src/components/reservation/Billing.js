@@ -3,6 +3,7 @@ import Calendar from './Calendar'
 import axios from 'axios'
 
 const SERVER_BASE_URL = 'http://localhost:3000'
+
 class Billing extends React.Component {
   state = {
     showCalendar: false,
@@ -16,7 +17,6 @@ class Billing extends React.Component {
   }
 
   clearCalendar = () => {
-    console.log('here');
     const ranges = {}
     ranges['selection'] = {
       startDate: new Date(),
@@ -42,10 +42,9 @@ class Billing extends React.Component {
   initiateReservation = () => {
     if(this.props.isLoggedIn){
       const reservation = {
-        property_id: 11,
+        property_id: this.props.property.id,
         from_date: this.props.selectionRange.startDate,
         to_date: this.props.selectionRange.endDate,
-        user_id: this.props.user.id,
         guests_count: this.state.guestsCount,
         booking_code: Math.random().toString(16).substr(2, 8)
       }
@@ -69,7 +68,7 @@ class Billing extends React.Component {
   }
 
   render(){
-    const pricePerNight = this.props.property.price_per_night
+    const pricePerNight = this.props.property.listing_price
     const maxGuests = this.props.property.max_guests
     const cleaningFee = this.props.property.cleaning_fee
     const serviceFee = this.props.property.service_fee
@@ -170,6 +169,7 @@ class Billing extends React.Component {
                 <Calendar
                   handleSelect={ this.props.handleSelect }
                   selectionRange={ this.props.selectionRange }
+                  dateRangeReserved={this.props.property.reservations}
                 />
                 <div className="calendar action">
                   <span onClick={ this.clearCalendar }>

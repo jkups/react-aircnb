@@ -8,6 +8,11 @@ class Calendar extends React.Component {
     dateRangeReserved: false,
   }
 
+  componentDidMount = () => {
+    // map existing reservation dates
+    // update dateRangeReserved state
+  }
+
   render(){
     const selectionRange = this.props.selectionRange
 
