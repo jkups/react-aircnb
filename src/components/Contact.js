@@ -15,6 +15,7 @@ import '../App.css'
       email: '',
       message: '',
       booking:'',
+      response:''
     }
   }
 
@@ -22,24 +23,22 @@ import '../App.css'
     event.preventDefault();
       axios({
       method: "POST",
-      url:"http://localhost:3000/contact/new",
+      url:"http://localhost:3000/contact/create",
       data:  this.state
     }).then((response)=>{
-      console.log(response);
-      if (response.data.status === 'success') {
-        alert("Message Sent.");
-        this.resetForm()
-
-      } else if (response.data.status === 'fail') {
-        alert("Message failed to send.")
-        console.log();
-      }
+      console.log(response.data.sent);
+      this.setState({response:response.data.sent})
+      this.resetForm()
+      setTimeout(()=>this.setState({response:''}), 2000)
     })
-  }
+    .catch(console.warn)
+  } //handleSubmit
 
   resetForm(){
-    this.setState({name: '', email: '', message: ''})
+    this.setState({name: '', email: '', message: '', booking:''})
   }
+
+
 
   onNameChange(event) {
      this.setState({name: event.target.value})
@@ -54,6 +53,7 @@ import '../App.css'
    }
 
    onMessageChange(event) {
+     console.log(event);
      this.setState({message: event.target.value})
    }
 
@@ -70,7 +70,7 @@ import '../App.css'
         </p>
 
         <br />
-
+        {this.state.response === true ? <p> message sent </p> : <p> </p> }
 
         <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
          <div className="form-group">
