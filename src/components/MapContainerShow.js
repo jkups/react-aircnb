@@ -1,22 +1,21 @@
 import React from 'react';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 
-export class MapContainer extends React.Component {
+export class MapContainerShow extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          lat: this.props.lat, //-33.8688197,
-          long: this.props.long //151.2092955,
+          lat: -33.8688197,
+          long: 151.2092955,
       };
   };
 
-  // componentDidMount(){
-  //   this.setState({
-  //     lat: this.props.lat,
-  //     long: this.props.long
-  //   });
-    // console.log("search lat:",this.props.lat);
-  // }
+  componentDidMount(){
+    this.setState({
+      lat: this.props.lat,
+      long: this.props.long
+    });
+  }
 
   displayMarkers = () => {
   return this.props.locations.map((location, index) => {
@@ -30,15 +29,14 @@ export class MapContainer extends React.Component {
 
 render(){
   const mapStyles = {
-    width: '300px',
-    height: '550px',
+    width: '600px',
+    height: '400px',
   };
-  console.log("State lat: ",this.state.lat);
-  console.log("Prop lat: ",this.props.lat);
+  // console.log("Inside lat: ",this.props.lat);
   // console.log("Inside long: ",this.props.long);
   // console.log("Locations: ",this.props.locations);
     return (
-      <div className="position-fixed">
+      <div className="">
         <Map
           google={this.props.google}
           zoom={10}
@@ -54,4 +52,4 @@ render(){
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyAW5MNODxdAncbpnSGtOIl6Gyfjo-e6w3g'
-})(MapContainer);
+})(MapContainerShow);
