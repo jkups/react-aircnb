@@ -10,21 +10,23 @@ export class MapContainer extends React.Component {
       };
   };
 
-  // componentDidMount(){
-  //   this.setState({
-  //     lat: this.props.lat,
-  //     long: this.props.long
-  //   });
-    // console.log("search lat:",this.props.lat);
-  // }
 
   displayMarkers = () => {
-  return this.props.locations.map((location, index) => {
-      return <Marker key={index} id={index} position={{
-        lat: location.latitude,
-        lng: location.longitude
-      }}
-   onClick={() => console.log("You clicked me!")} title={"$100"}/>
+    return this.props.locations.map((location, index) => {
+      return <Marker
+              key={index}
+              id={index}
+              position={{
+                lat: location.latitude,
+                lng: location.longitude
+              }}
+              onClick={() => console.log("You clicked me!")}
+              title={"$100"}
+              name={"location.name"}
+              icon={{
+                url: `https://chart.googleapis.com/chart?chst=d_bubble_text_small&chld=bb|$ ${location.listing_price} / ${location.max_guests} Guests|FFFFFF|000000`,
+              }}
+              />
     })
   }
 
@@ -33,10 +35,17 @@ render(){
     width: '300px',
     height: '550px',
   };
-  console.log("State lat: ",this.state.lat);
-  console.log("Prop lat: ",this.props.lat);
+  console.log("State lat map: ",this.state.lat);
+  console.log("Prop lat map: ",this.props.lat);
   // console.log("Inside long: ",this.props.long);
   // console.log("Locations: ",this.props.locations);
+  const points = this.props.locations;
+
+  // const bounds = new this.props.goolge.maps.LatLngBounds();
+  // for(let i = 0; i < points.length; i++){
+  //   bounds.extend(points[i])
+  // }
+
     return (
       <div className="position-fixed">
         <Map

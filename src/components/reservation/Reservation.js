@@ -85,7 +85,6 @@ class Reservation extends React.Component {
   render(){
     const selectionRange = this.state
     const address = this.state.address
-    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyCdUMO5lFn8XLThP8fHi1b_2mIxEdJsv0c&amp;q=${ address }&amp;zoom=11`
     const amenitiesOne = this.state.amenities.slice()
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
 
@@ -173,7 +172,7 @@ class Reservation extends React.Component {
                 <h4>Location</h4>
                   {
                     this.state.locations.length > 0 ?
-                    <MapContainerShow lat={this.state.latitude} long={this.state.longitude} locations={this.state.locations}/>
+                    <MapContainerShow lat={this.state.latitude} long={this.state.longitude} locations={this.state.propertyData} />
                       :
                     <p>Loading...</p>
                   }

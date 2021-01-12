@@ -4,7 +4,7 @@ import axios from 'axios';
 import ListingDisplay from './ListingDisplay';
 import MapContainer from './MapContainer';
 
-const LISTING_DISPLAY_API = "http://localhost:3000/properties.json";
+// const LISTING_DISPLAY_API = "http://localhost:3000/properties.json";
 const GOOGLE_GEOCODE_API = "https://maps.googleapis.com/maps/api/geocode/json?";
 // const GOOGLE_KEY = "AIzaSyAW5MNODxdAncbpnSGtOIl6Gyfjo-e6w3g"
 const SEARCH_RESULTS_RAILS = "http://localhost:3000/properties/search/";
@@ -12,7 +12,7 @@ const SEARCH_RESULTS_RAILS = "http://localhost:3000/properties/search/";
 const SearchResults = (props) => {
 
   const [searchData,setSearchData] = useState([]);
-  const [searchTerm] = useState(props.match.params.searchText);
+  const [searchTerm, setSearchTerm] = useState(props.match.params.searchText);
   const [startDate] = useState(props.match.params.startDate);
   const [endDate] = useState(props.match.params.endDate);
   const [searchLat,setSearchLat] = useState();
@@ -20,7 +20,9 @@ const SearchResults = (props) => {
   const [locations,setLocations] = useState([]);
   // console.log({locations});
 
-  const SEARCH_RESULTS_RAILS = "http://localhost/"
+  console.log("---------------");
+  console.log("SearchText: ", searchTerm, props.match.params.searchText);
+
 
   const params = (searchTerm) => {
     let paramsObj = {
@@ -31,18 +33,22 @@ const SearchResults = (props) => {
   }
 
   useEffect(()=>{
-    axios.get(LISTING_DISPLAY_API)
-    .then(res => {
-      // console.log(res.data);
-      setSearchData(res.data)
-      console.log("Results: ",res.data);
-      // res.data.forEach(res=>{
-      //   setLocations(locations=>[...locations, {latitude: res.latitude,longitude: res.longitude }])
-      // })
-      setLocations(res.data)
-    })
-    .catch(console.warn())
-  },[])
+    setSearchTerm(props.match.params.searchText);
+  },[props.match.params.searchText])
+
+  // useEffect(()=>{
+  //   axios.get(LISTING_DISPLAY_API)
+  //   .then(res => {
+  //     // console.log(res.data);
+  //     setSearchData(res.data)
+  //     console.log("Results: ",res.data);
+  //     // res.data.forEach(res=>{
+  //     //   setLocations(locations=>[...locations, {latitude: res.latitude,longitude: res.longitude }])
+  //     // })
+  //     setLocations(res.data)
+  //   })
+  //   .catch(console.warn())
+  // },[])
 
   useEffect(()=>{
     axios.get(GOOGLE_GEOCODE_API,{params: params(searchTerm)})
@@ -53,27 +59,24 @@ const SearchResults = (props) => {
       // console.log("search lat:", res.data.results[0].geometry.location.lat);
     })
     .catch(console.warn())
-  },[searchTerm])
+  },[props.match.params.searchText])
 
   useEffect(()=>{
     axios.get(SEARCH_RESULTS_RAILS + "/" + searchTerm)
     .then(res => {
-      console.log("Search Results:", res.data);
+      // console.log("**Search Results:**", res.data);
+      setSearchData(res.data)
+      setLocations(res.data)
     })
     .catch(console.warn())
-  },[searchTerm])
-  // console.log(searchData);
+  },[props.match.params.searchText])
 
-  // const mapStyles={
-  //   width: '100%',
-  //   height: '100%'
-  // };
 
   const handleClick = (ev) => {
     // console.log("card clicked!",ev.currentTarget.id);
     props.history.push(`/property/${ev.currentTarget.id}/${startDate}/${endDate}`)
   }
-  // console.log("search lat:", searchLat);
+   console.log("search lat res:", searchLat);
   return (
     <div className="container">
       <div className="spacer">
