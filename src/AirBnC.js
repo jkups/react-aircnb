@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
-import logo from './logo.svg';
 import Home from './components/Home';
 import './App.css';
 
@@ -108,10 +107,8 @@ class AirBnC extends React.Component {
               </div>
             </div>
             <Route exact path = "/" component = {Home} />
-            <Route exact path="/search/:searchText/:startDate/:endDate" component={ SearchResults }/>
-            <Route exact path="/property/:id"
-              render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} /> }
-            />
+            <Route exact path="/search/:searchText/:startDate/:endDate" component={ SearchResults } />
+            <Route exact path="/property/:listing_id/:startDate/:endDate" component={ Reservation } /> 
             <Route exact path = "/About" component = {About} />
             <Route exact path = "/Terms" component = {Terms} />
             <Route exact path = "/Contact" component = {Contact} />
@@ -128,11 +125,11 @@ class AirBnC extends React.Component {
                 <Login
                   handleLogin={ this.handleLogin }
                   toggleAuthModal={ this.toggleAuthModal }
-                  /> :
-                  <Signup
-                    handleLogin={ this.handleLogin }
-                    toggleAuthModal={ this.toggleAuthModal }
-                    />
+                /> :
+                <Signup
+                  handleLogin={ this.handleLogin }
+                  toggleAuthModal={ this.toggleAuthModal }
+                />
                 }
               </AuthModal> : null
           }

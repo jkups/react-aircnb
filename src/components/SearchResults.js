@@ -6,17 +6,18 @@ import MapContainer from './MapContainer';
 
 const LISTING_DISPLAY_API = "http://localhost:3000/properties.json";
 const GOOGLE_GEOCODE_API = "https://maps.googleapis.com/maps/api/geocode/json?"
-const GOOGLE_KEY = "AIzaSyAW5MNODxdAncbpnSGtOIl6Gyfjo-e6w3g"
+// const GOOGLE_KEY = "AIzaSyAW5MNODxdAncbpnSGtOIl6Gyfjo-e6w3g"
 
 const SearchResults = (props) => {
 
   const [searchData,setSearchData] = useState([]);
-  const [searchTerm,setSearchTerm] = useState(props.match.params.searchText);
-  const [startDate,setStartDate] = useState(props.match.params.startDate);
-  const [endDate,setEndDate] = useState(props.match.params.endDate);
+  const [searchTerm] = useState(props.match.params.searchText);
+  const [startDate] = useState(props.match.params.startDate);
+  const [endDate] = useState(props.match.params.endDate);
   const [searchLat,setSearchLat] = useState();
   const [searchLong,setSearchLong] = useState();
   const [locations,setLocations] = useState([]);
+  // console.log({locations});
 
   const params = (searchTerm) => {
     let paramsObj = {
@@ -29,11 +30,13 @@ const SearchResults = (props) => {
   useEffect(()=>{
     axios.get(LISTING_DISPLAY_API)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       setSearchData(res.data)
-      res.data.forEach(res=>{
-        setLocations(locations=>[...locations, {latitude: res.latitude,longitude: res.longitude }])
-      })
+      console.log("Results: ",res.data);
+      // res.data.forEach(res=>{
+      //   setLocations(locations=>[...locations, {latitude: res.latitude,longitude: res.longitude }])
+      // })
+      setLocations(res.data)
     })
     .catch(console.warn())
   },[])
@@ -41,20 +44,25 @@ const SearchResults = (props) => {
   useEffect(()=>{
     axios.get(GOOGLE_GEOCODE_API,{params: params(searchTerm)})
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       setSearchLat(res.data.results[0].geometry.location.lat);
       setSearchLong(res.data.results[0].geometry.location.lng);
-
+      // console.log("search lat:", res.data.results[0].geometry.location.lat);
     })
     .catch(console.warn())
-  },[])
+  },[searchTerm])
   // console.log(searchData);
 
-  const mapStyles={
-    width: '100%',
-    height: '100%'
-  };
+  // const mapStyles={
+  //   width: '100%',
+  //   height: '100%'
+  // };
 
+  const handleClick = (ev) => {
+    // console.log("card clicked!",ev.currentTarget.id);
+    props.history.push(`/property/${ev.currentTarget.id}/${startDate}/${endDate}`)
+  }
+  // console.log("search lat:", searchLat);
   return (
     <div className="container">
       <div className="spacer">
@@ -78,12 +86,19 @@ const SearchResults = (props) => {
         </div>
         <div className="col-3">
         </div>
-        <div className="col-3"><MapContainer lat={searchLat} long={searchLong} locations={locations}/></div>
+        <div className="col-3">
+        {
+          locations.length > 0 ?
+          <MapContainer lat={searchLat} long={searchLong} locations={locations}/>
+            :
+          <p>Loading...</p>
+        }
+      </div>
       </div>
       <div className="row">
         <div className="col-8">
           {
-            searchData.map((data,index) => <ListingDisplay key={index} propertyData={data} searchTerm={searchTerm}/>)
+            searchData.map((data,index) => <ListingDisplay key={index} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
           }
         </div>
         <div className="col-4">

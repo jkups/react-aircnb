@@ -1,17 +1,17 @@
-import React, {state, useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import axios from 'axios';
-import { DateRange } from 'react-date-range';
-import { Link, Route, HashRouter as Router } from 'react-router-dom';
+// import axios from 'axios';
+// import { DateRange } from 'react-date-range';
+// import { HashRouter as Router } from 'react-router-dom';
 import CalendarSearch from './CalendarSearch';
 
 // const SEARCH_BAR_URL = 'http://localhost:3001/'
 
 const SearchBar = (props) => {
 
-  const [state, setState] = useState([
+  const [state] = useState([
     {
       startDate: new Date(),
       endDate: null,
@@ -48,7 +48,7 @@ const SearchBar = (props) => {
     setEndDate(item[0].endDate);
   }
 
-  console.log("history:", props.history);
+  // console.log("history:", props.history);
   return(
     <div className="position-absolute">
         <span>

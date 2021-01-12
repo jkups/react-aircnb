@@ -128,3 +128,10 @@
 .spacer{
   height: 145px;
 }
+
+.home-back{
+  background-image: url('https://news.airbnb.com/wp-content/uploads/sites/4/2020/04/Airbnb_Peru_Skylodge.jpg');
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+}

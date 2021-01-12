@@ -4,14 +4,32 @@ import axios from 'axios'
 
 const SERVER_BASE_URL = 'http://localhost:3000'
 class Billing extends React.Component {
-  state = {
-    costPerDay: 110, //from reservation compo
-    cleaningFee: 50, //from reservation compo
-    serviceFee: 0, //from reservation compo
-    total: 0,
-    showCalendar: false,
-    maxGuests: 3, //from reservation compo
-    guestsCount: 1
+  constructor(props){
+    super(props);
+    this.state = {
+      costPerDay: 0, //from reservation compo
+      cleaningFee: 0, //from reservation compo
+      serviceFee: 0, //from reservation compo
+      total: 0,
+      showCalendar: false,
+      maxGuests: 0, //from reservation compo
+      guestsCount: 1
+    };
+  };
+
+  componentDidMount(){
+    this.setState({
+      costPerDay: this.props.costPerDay, //from reservation compo
+      cleaningFee: this.props.cleaningFee, //from reservation compo
+      serviceFee: this.props.serviceFee, //from reservation compo
+      maxGuests: this.props.maxGuests, //from reservation compo
+    })
+    // console.log("selectionRange:",this.props);
+    // console.log("costPerDay:",this.props.costPerDay );
+    // console.log("cleaningFee:",this.props.cleaningFee );
+    // console.log("serviceFee:",this.props.serviceFee );
+    // console.log(  "maxGuests:",this.props.maxGuests );
+    // console.log("handleSelect:",this.props.handleSelect  );
   }
 
   toggleCalendar = () => {
@@ -21,7 +39,7 @@ class Billing extends React.Component {
   }
 
   clearCalendar = () => {
-    console.log('here');
+    // console.log('here');
     const ranges = {}
     ranges['selection'] = {
       startDate: new Date(),
@@ -32,8 +50,8 @@ class Billing extends React.Component {
   }
 
   updateGuestsCount = value => {
-    const maxGuests = this.props.property.max_guests
-    console.log(maxGuests);
+    const maxGuests = this.state.maxGuests
+    // console.log(maxGuests);
     let guestsCount = this.state.guestsCount
 
     if(value && guestsCount < maxGuests ) guestsCount++
@@ -53,10 +71,17 @@ class Billing extends React.Component {
   }
 
   render(){
-    const pricePerNight = this.props.property.price_per_night
-    const maxGuests = this.props.property.max_guests
-    const cleaningFee = this.props.property.cleaning_fee
-    const serviceFee = this.props.property.service_fee
+    const pricePerNight = this.state.costPerDay
+    const maxGuests = this.state.maxGuests
+    const cleaningFee = this.state.cleaningFee
+    const serviceFee = this.state.serviceFee
+
+    // console.log("selectionRange:",this.state);
+    // console.log("costPerDay:",this.state.costPerDay );
+    // console.log("cleaningFee:",this.state.cleaningFee );
+    // console.log("serviceFee:",this.state.serviceFee );
+    // console.log(  "maxGuests:",this.state.maxGuests );
+    // console.log("handleSelect:",this.state.handleSelect  );
 
     const dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };
     let dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
@@ -81,7 +106,7 @@ class Billing extends React.Component {
               <div>CHECK-IN</div>
               <div>
                 {
-                  this.props.selectionRange.startDate.toLocaleDateString()
+                  this.props.selectionRange.startDate.toString()
                 }
               </div>
             </div>
@@ -89,7 +114,7 @@ class Billing extends React.Component {
               <div>CHECKOUT</div>
               <div>
                 {
-                  this.props.selectionRange.endDate.toLocaleDateString()
+                  this.props.selectionRange.endDate.toString()
                 }
               </div>
             </div>

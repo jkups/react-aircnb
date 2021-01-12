@@ -1,9 +1,9 @@
-import React, {state, useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
-import { Link, Route, HashRouter as Router } from 'react-router-dom';
+// import { Link, Route, HashRouter as Router } from 'react-router-dom';
 
 
 const CalendarSearch = (props) => {
