@@ -1,6 +1,6 @@
 import React from 'react';
 // import {Route, Link, HashRouter as Router} from 'react-router-dom';
-// import axios from 'axios';
+import axios from 'axios';
 
 import '../App.css'
 
@@ -15,8 +15,30 @@ import '../App.css'
       email: '',
       message: '',
       booking:'',
+      response:''
     }
   }
+
+  handleSubmit(event){
+    event.preventDefault();
+      axios({
+      method: "POST",
+      url:"http://localhost:3000/contact/create",
+      data:  this.state
+    }).then((response)=>{
+      console.log(response.data.sent);
+      this.setState({response:response.data.sent})
+      this.resetForm()
+      setTimeout(()=>this.setState({response:''}), 2000)
+    })
+    .catch(console.warn)
+  } //handleSubmit
+
+  resetForm(){
+    this.setState({name: '', email: '', message: '', booking:''})
+  }
+
+
 
   onNameChange(event) {
      this.setState({name: event.target.value})
@@ -31,11 +53,10 @@ import '../App.css'
    }
 
    onMessageChange(event) {
+     console.log(event);
      this.setState({message: event.target.value})
    }
 
-   handleSubmit(event) {
-   }
 
   render(){
   // console.log(props.history);
@@ -49,7 +70,7 @@ import '../App.css'
         </p>
 
         <br />
-
+        {this.state.response === true ? <p> message sent </p> : <p> </p> }
 
         <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
          <div className="form-group">
@@ -62,10 +83,10 @@ import '../App.css'
            <input type="email" className="form-control" aria-describedby="emailHelp" value={this.state.email} onChange={this.onEmailChange.bind(this)} />
          </div>
          <br />
-         <div className="form-group">
-           <label htmlFor="booking">Booking Code (optional)</label>
-           <input type="booking" className="form-control" value={this.state.booking} onChange={this.onBookingChange.bind(this)} />
-         </div>
+           <div className="form-group">
+             <label htmlFor="booking">Booking Code (optional)</label>
+             <input type="booking" className="form-control" value={this.state.booking} onChange={this.onBookingChange.bind(this)} />
+           </div>
          <br />
          <div className="form-group">
            <label htmlFor="message">Message</label>

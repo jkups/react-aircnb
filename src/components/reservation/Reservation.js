@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Reservation.css'
 import '../authentication/Auth.css'
 import MapContainerShow from '../MapContainerShow';
+import Reviews from './Reviews'
 
 const LISTING_DISPLAY_API = "http://localhost:3000/properties/";
 
@@ -167,6 +168,12 @@ class Reservation extends React.Component {
                     }
                   </li>
                 </ul>
+              </div>
+              <div className="amenities">
+                <h4>Reviews</h4>
+
+                     <Reviews />
+
               </div>
               <div className="map">
                 <h4>Location</h4>
