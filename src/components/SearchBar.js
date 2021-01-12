@@ -64,49 +64,6 @@ const SearchBar = (props) => {
             <span></span>
           }
 
-        {/* <div className="dropdown">
-
-          <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Dates</button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <div className="dropdown-menu">
-              <a className="dropdown-item" href="#">
-              <DateRange className="dropdown-item" editableDateInputs={true} onChange={item => setState([item.selection])} moveRangeOnFirstSelection={false} ranges={state}/>
-              </a>
-              <a className="dropdown-item" href="#">second tag</a>
-            </div>
-          </div>
-        </div>
-        <button type="button" onClick={handleSubmit}> Search</button>
-
-        <br/><br/>
-
-        <input placeholder="Type your location..." onChange={handleSearchTerm}></input> */}
-
-        {/* <div className="modal" tabindex="-1" role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Select Dates</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <p>
-                  <DateRange  editableDateInputs={true} onChange={item => setState([item.selection])} moveRangeOnFirstSelection={false} ranges={state}/>
-                </p>
-              </div>
-              <div className="modal-footer">
-
-                <button type="button" className="btn btn-primary">Save changes</button>
-
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br/> */}
-
 
     </div>
   );

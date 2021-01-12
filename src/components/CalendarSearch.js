@@ -27,6 +27,7 @@ const CalendarSearch = (props) => {
     props.handleSelect([item.selection])
   }
 
+
   return(
     <div>
       <DateRange

@@ -86,8 +86,10 @@ class AirBnC extends React.Component {
           <Router>
 
             <div className="container-fluid position-fixed nav">
-              <Header />
+
               <div className="container">
+                <Header />
+                <Link to="/" > Home </Link> |
                 <Route path = "/" component = {SearchBar} />
                 <nav>
                   {
@@ -108,7 +110,7 @@ class AirBnC extends React.Component {
             </div>
             <Route exact path = "/" component = {Home} />
             <Route exact path="/search/:searchText/:startDate/:endDate" component={ SearchResults } />
-            <Route exact path="/property/:listing_id/:startDate/:endDate" component={ Reservation } /> 
+            <Route exact path="/property/:listing_id/:startDate/:endDate" component={ Reservation } />
             <Route exact path = "/About" component = {About} />
             <Route exact path = "/Terms" component = {Terms} />
             <Route exact path = "/Contact" component = {Contact} />
