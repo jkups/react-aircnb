@@ -50,7 +50,7 @@ class Reservation extends React.Component {
     const url = `${SERVER_BASE_URL}/properties/${this.props.match.params.listing_id}.json`
     const startDate = `'${this.props.match.params.startDate}'`
     const endDate = `'${this.props.match.params.endDate}'`
-    console.log("listing:", this.props.match.params.listing_id, url);
+    console.log("End Date#############:", this.props.match.params.endDate, url);
     axios.get(url)
     .then(res => {
       this.setState({
@@ -72,6 +72,9 @@ class Reservation extends React.Component {
       longitude:this.state.property.longitude,
       latitude:this.state.property.latitude
     }]
+
+    console.log("Start:",this.state.ranges.startDate);
+    console.log("End:",this.state.ranges.endDate);
 
     const amenitiesOne = this.state.property.amenities.split(',')
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
