@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-// import axios from 'axios';
-// import { DateRange } from 'react-date-range';
-// import { HashRouter as Router } from 'react-router-dom';
 import CalendarSearch from './CalendarSearch';
-
-// const SEARCH_BAR_URL = 'http://localhost:3001/'
 
 const SearchBar = (props) => {
 
@@ -28,27 +23,20 @@ const SearchBar = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log('Submit!');
-    // console.log(state[0].startDate);
     let url = "/search/" + searchText + "/" +  startDate + "/" + endDate;
-    console.log(url);
     props.history.push(url);
     setCalendarShow(false);
   };
 
   const handleSearchTerm = (e) => {
-    // console.log(e.target.value);
     setSearchText(e.target.value);
   };
 
   const handleSelect = (item) => {
-    // console.log("Item:",item[0].startDate,item[0].endDate);
     setStartDate(item[0].startDate);
     setEndDate(item[0].endDate);
-
   }
 
-  // console.log("history:", props.history);
   return(
     <div>
         <div className="search-wrapper">

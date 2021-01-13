@@ -1,40 +1,26 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
-const REVIEW_API = "http://localhost:3000/";
+const Reviews = (props) => {
 
-class Reviews extends React.Component {
-
-  constructor(props) {
-      super(props);
-      this.state = {
-        reviews: [],
-
-      }
-    }
-
-    componentDidMount(){
-      const url = REVIEW_API + '/properties/'+ this.props.propertydata.id + ".json";
-      axios.get(url)
-      .then((res)=>{
-        console.log('response',res.data);
-        })
-      .catch(console.warn)
-      }
-
-
-  render(){
-    console.log("property", this.props.propertydata.id);
+  const rating = () => {
+    console.log("rating: ", props.review.rating);
+    let stars = [];
+     for(let i = 0; i < props.review.rating; i++){
+       stars.push(<span> ⭐ </span>)
+     }
+     return stars;
+  }
+  // console.log("Props: ", props);
 
     return(
       <div>
-
-          <li> Review 1</li>
-
-
+        {
+          rating()
+        }
+        <p>{props.review.comment}</p>
       </div>
     )
-  }
 }
 
 export default Reviews
