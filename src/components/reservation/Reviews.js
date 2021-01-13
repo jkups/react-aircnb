@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const REVIEW_API = "http://localhost:3000/properties/";
+const REVIEW_API = "http://localhost:3000/";
 
 class Reviews extends React.Component {
 
@@ -9,21 +9,22 @@ class Reviews extends React.Component {
       super(props);
       this.state = {
         reviews: [],
+
       }
     }
 
     componentDidMount(){
-      const url = REVIEW_API + this.props + ".json";
+      const url = REVIEW_API + '/properties/'+ this.props.propertydata.id + ".json";
       axios.get(url)
-      .then((response)=>{
-        console.log(response);
+      .then((res)=>{
+        console.log('response',res.data);
         })
       .catch(console.warn)
       }
 
 
   render(){
-
+    console.log("property", this.props.propertydata.id);
 
     return(
       <div>

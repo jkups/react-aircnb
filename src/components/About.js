@@ -1,4 +1,5 @@
 import React from 'react';
+import Review_form from './Review_form';
 // import {Route, Link, HashRouter as Router} from 'react-router-dom';
 // import axios from 'axios';
 
@@ -52,7 +53,7 @@ import '../App.css'
           Kyle, Stacey, John and David
         </p>
 
-
+        <Review_form />
 
       </div>
     );

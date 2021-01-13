@@ -151,7 +151,7 @@ class Reservation extends React.Component {
               <div className="amenities">
                 <h4>Reviews</h4>
 
-                     <Reviews />
+                     <Reviews propertydata={this.state.property}/>
 
               </div>
               <div className="map">

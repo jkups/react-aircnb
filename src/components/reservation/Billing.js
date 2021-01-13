@@ -51,6 +51,7 @@ class Billing extends React.Component {
       axios.post(`${SERVER_BASE_URL}/reservations.json`,
         { reservation },
         { withCredentials: true }
+
       )
       .then(res => {
         console.log(res.data);
@@ -75,6 +76,7 @@ class Billing extends React.Component {
     const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
 
     const total = pricePerNight * dateDiff
+    
     const grandTotal = pricePerNight * dateDiff + cleaningFee + serviceFee
 
     const dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };
