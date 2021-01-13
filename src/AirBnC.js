@@ -87,10 +87,9 @@ class AirBnC extends React.Component {
     return(
       <div>
         <Router>
-          <div className="container-fluid nav position-fixed">
+          <div>
             <Header />
-            <div className="container">
-              <Route path = "/" component = {SearchBar} />
+            <div className="container nav">
               <nav>
 
                 {

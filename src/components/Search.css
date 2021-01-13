@@ -1,0 +1,72 @@
+.nav {
+  background-color:  white;
+  color: black;
+}
+
+.hero {
+  background-image: url('https://news.airbnb.com/wp-content/uploads/sites/4/2020/04/Airbnb_Peru_Skylodge.jpg');
+  background-repeat: no-repeat;
+}
+
+.hero-search {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  height: 100vh
+}
+
+.search-wrapper {
+  display:flex;
+  border-radius: 50px;
+  background-color: white;
+}
+
+.search-wrapper .search-item {
+  padding: 10px 30px;
+  border-radius:50px;
+  cursor: pointer;
+}
+
+.search-wrapper .search-item:hover {
+  background-color: lightgrey;
+}
+
+.search-wrapper .search-item > input {
+  border: none;
+  background-color: rgba(0,0,0,0);
+}
+
+.search-wrapper .search-item > input:focus, .search-button:focus {
+  outline: none;
+}
+
+.search-item.dates {
+  width: 200px;
+}
+
+.search-item > div:first-child {
+  font-size:14px;
+  font-weight: 600;
+}
+
+.search-calendar {
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+  background-color: white;
+  border-radius: 25px;
+  box-shadow: 1px 1px rgba(0,0,0,0.5);
+  margin-top: 15px;
+}
+
+.search-button {
+  padding: 15px 20px;
+  margin: 10px;
+  border-radius: 50%;
+  border: none;
+  background-color: pink;
+}
+
+.search-button:hover {
+  background-color: purple;
+}
