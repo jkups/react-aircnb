@@ -3,33 +3,11 @@ import Calendar from './Calendar'
 import axios from 'axios'
 
 const SERVER_BASE_URL = 'http://localhost:3000'
-class Billing extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      costPerDay: 0, //from reservation compo
-      cleaningFee: 0, //from reservation compo
-      serviceFee: 0, //from reservation compo
-      total: 0,
-      showCalendar: false,
-      maxGuests: 0, //from reservation compo
-      guestsCount: 1
-    };
-  };
 
-  componentDidMount(){
-    this.setState({
-      costPerDay: this.props.costPerDay, //from reservation compo
-      cleaningFee: this.props.cleaningFee, //from reservation compo
-      serviceFee: this.props.serviceFee, //from reservation compo
-      maxGuests: this.props.maxGuests, //from reservation compo
-    })
-    // console.log("selectionRange:",this.props);
-    // console.log("costPerDay:",this.props.costPerDay );
-    // console.log("cleaningFee:",this.props.cleaningFee );
-    // console.log("serviceFee:",this.props.serviceFee );
-    // console.log(  "maxGuests:",this.props.maxGuests );
-    // console.log("handleSelect:",this.props.handleSelect  );
+class Billing extends React.Component {
+  state = {
+    showCalendar: false,
+    guestsCount: 1
   }
 
   toggleCalendar = () => {
@@ -39,7 +17,6 @@ class Billing extends React.Component {
   }
 
   clearCalendar = () => {
-    // console.log('here');
     const ranges = {}
     ranges['selection'] = {
       startDate: new Date(),
@@ -50,8 +27,8 @@ class Billing extends React.Component {
   }
 
   updateGuestsCount = value => {
-    const maxGuests = this.state.maxGuests
-    // console.log(maxGuests);
+    const maxGuests = this.props.property.max_guests
+    console.log(maxGuests);
     let guestsCount = this.state.guestsCount
 
     if(value && guestsCount < maxGuests ) guestsCount++
@@ -62,29 +39,45 @@ class Billing extends React.Component {
     })
   }
 
-  makeReservation = () => {
-    const user = {}
-    axios.post(`${SERVER_BASE_URL}/reservations`,
-      { user },
-      { withCredentials: true }
-    )
+  initiateReservation = () => {
+    if(this.props.isLoggedIn){
+      const reservation = {
+        property_id: this.props.property.id,
+        from_date: this.props.selectionRange.startDate,
+        to_date: this.props.selectionRange.endDate,
+        guests_count: this.state.guestsCount,
+        booking_code: Math.random().toString(16).substr(2, 8)
+      }
+      axios.post(`${SERVER_BASE_URL}/reservations.json`,
+        { reservation },
+        { withCredentials: true }
+      )
+      .then(res => {
+        console.log(res.data);
+        this.props.processReservation(res.data)
+      })
+      .catch(console.warn)
+
+    } else {
+      this.props.toggleAuthModal('login', true)
+    }
+  }
+
+  formatCurrency = value => {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
   }
 
   render(){
-    const pricePerNight = this.state.costPerDay
-    const maxGuests = this.state.maxGuests
-    const cleaningFee = this.state.cleaningFee
-    const serviceFee = this.state.serviceFee
+    const pricePerNight = this.props.property.listing_price
+    const maxGuests = this.props.property.max_guests
+    const cleaningFee = this.props.property.cleaning_fee
+    const serviceFee = this.props.property.service_fee
+    const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
 
-    // console.log("selectionRange:",this.state);
-    // console.log("costPerDay:",this.state.costPerDay );
-    // console.log("cleaningFee:",this.state.cleaningFee );
-    // console.log("serviceFee:",this.state.serviceFee );
-    // console.log(  "maxGuests:",this.state.maxGuests );
-    // console.log("handleSelect:",this.state.handleSelect  );
+    const total = pricePerNight * dateDiff
+    const grandTotal = pricePerNight * dateDiff + cleaningFee + serviceFee
 
     const dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };
-    let dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
 
     let nights = dateDiff <= 0 ? 'Select a date range' : `${dateDiff} nights`
 
@@ -93,10 +86,10 @@ class Billing extends React.Component {
         {
           dateDiff <= 0 ?
             <div>
-              ${ pricePerNight.toFixed(2) } <span>/night</span>
+              { this.formatCurrency(pricePerNight) } <span>/night</span>
             </div> :
             <div>
-              ${ (pricePerNight * dateDiff + cleaningFee + serviceFee).toFixed(2) } <span>total</span>
+              { this.formatCurrency(grandTotal) } <span>total</span>
             </div>
         }
 
@@ -106,7 +99,7 @@ class Billing extends React.Component {
               <div>CHECK-IN</div>
               <div>
                 {
-                  this.props.selectionRange.startDate.toString()
+                  this.props.selectionRange.startDate.toLocaleDateString()
                 }
               </div>
             </div>
@@ -114,7 +107,7 @@ class Billing extends React.Component {
               <div>CHECKOUT</div>
               <div>
                 {
-                  this.props.selectionRange.endDate.toString()
+                  this.props.selectionRange.endDate.toLocaleDateString()
                 }
               </div>
             </div>
@@ -176,6 +169,7 @@ class Billing extends React.Component {
                 <Calendar
                   handleSelect={ this.props.handleSelect }
                   selectionRange={ this.props.selectionRange }
+                  dateRangeReserved={this.props.property.reservations}
                 />
                 <div className="calendar action">
                   <span onClick={ this.clearCalendar }>
@@ -188,7 +182,7 @@ class Billing extends React.Component {
               </div> : null
           }
           <span>
-            You can have maixmum of { maxGuests } guests
+            You can have a maximum of { maxGuests } guests
           </span>
         </div>
         <div>
@@ -202,7 +196,7 @@ class Billing extends React.Component {
               </button> :
               <button
                 className="button"
-                onClick={ this.makeReservation }
+                onClick={ this.initiateReservation }
                 >
                 Make Reservation
               </button>
@@ -221,22 +215,26 @@ class Billing extends React.Component {
                 <span>Price shown is the total lodging price, including any additional fees.</span>
                 <div className="bill-table">
                   <div>
-                    <span>${ pricePerNight.toFixed(2) } x { dateDiff } nights</span>
-                    <span>${ (pricePerNight * dateDiff).toFixed(2) }</span>
+                    <span>
+                      { this.formatCurrency(pricePerNight) } x { dateDiff } nights
+                    </span>
+                    <span>
+                      { this.formatCurrency(total) }
+                    </span>
                   </div>
                   <div>
                     <span>Cleaning fee</span>
-                    <span>${ cleaningFee.toFixed(2) }</span>
+                    <span>{ this.formatCurrency(cleaningFee) }</span>
                   </div>
                   <div>
                     <span>Service fee</span>
-                    <span>${ serviceFee.toFixed(2) }</span>
+                    <span>{ this.formatCurrency(serviceFee) }</span>
                   </div>
                 </div>
                 <div className="bill-total">
                   <span>Total</span>
                   <span>
-                    ${ (pricePerNight * dateDiff + cleaningFee + serviceFee).toFixed(2) }
+                    { this.formatCurrency(grandTotal) }
                   </span>
                 </div>
               </div>
