@@ -87,9 +87,9 @@ class AirBnC extends React.Component {
     return(
       <div>
         <Router>
-          <div className="container-fluid nav">
+          <div>
             <Header />
-            <div className="container">
+            <div className="container nav">
               <nav>
                 {
                   this.state.isLoggedIn ?

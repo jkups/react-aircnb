@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import '../App.css';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
 // import axios from 'axios';
 // import { DateRange } from 'react-date-range';
 // import { HashRouter as Router } from 'react-router-dom';
@@ -20,13 +17,13 @@ const SearchBar = (props) => {
   ]);
 
   const [searchText, setSearchText] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState('Select date');
+  const [endDate, setEndDate] = useState('Select date');
 
   const [calendarShow, setCalendarShow] = useState(false);
 
   const toggleCalendar = () => {
-    setCalendarShow(!calendarShow);
+    setCalendarShow(true);
   }
 
   const handleSubmit = (e) => {
@@ -46,25 +43,56 @@ const SearchBar = (props) => {
     // console.log("Item:",item[0].startDate,item[0].endDate);
     setStartDate(item[0].startDate);
     setEndDate(item[0].endDate);
+
   }
 
   // console.log("history:", props.history);
   return(
-    <div className="position-absolute">
-        <span>
-        <input placeholder="Type your location..." onChange={handleSearchTerm}></input>
+    <div>
+        <div className="search-wrapper">
+          <div className="search-item">
+            <div>Location</div>
+            <input
+              placeholder="Enter a location..."
+              onChange={handleSearchTerm}>
+            </input>
+          </div>
 
-        <span className="button" onClick={toggleCalendar}> Select Dates </span><span><button type="button" onClick={handleSubmit}> Search</button></span></span>
-          {
-            calendarShow === true ?
-              <span>
-                <CalendarSearch state={state} handleSelect = {handleSelect} />
-              </span>
-              :
-            <span></span>
-          }
+          <div className="search-item dates" onClick={toggleCalendar}>
+            <div>Check in</div>
+            <div>
+              {
+                Object.prototype.toString.call(startDate) === "[object Date]" ?
+                startDate.toLocaleDateString() :
+                startDate
+              }
+            </div>
+          </div>
 
+          <div className="search-item dates" onClick={toggleCalendar}>
+            <div>Check out</div>
+            <div>
+              {
+                Object.prototype.toString.call(endDate) === "[object Date]" ?
+                endDate.toLocaleDateString() :
+                endDate
+              }
+            </div>
+          </div>
 
+          <div>
+            <button className="search-button" onClick={handleSubmit}>
+              &#x1F50D;
+            </button>
+          </div>
+        </div>
+        {
+          calendarShow === true ?
+            <div className="search-calendar">
+              <CalendarSearch state={state} handleSelect = {handleSelect} />
+            </div>
+            : null
+        }
     </div>
   );
 }
