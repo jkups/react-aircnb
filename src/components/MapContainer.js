@@ -5,8 +5,8 @@ export class MapContainer extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          lat: this.props.lat, //-33.8688197,
-          long: this.props.long, //151.2092955,
+          // lat: this.props.lat, //-33.8688197,
+          // long: this.props.long, //151.2092955,
           bounds: null,
       };
   };
