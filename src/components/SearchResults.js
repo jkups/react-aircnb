@@ -3,6 +3,7 @@ import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import ListingDisplay from './ListingDisplay';
 import MapContainer from './MapContainer';
+import Pagination from './Pagination';
 
 // const LISTING_DISPLAY_API = "http://localhost:3000/properties.json";
 const GOOGLE_GEOCODE_API = "https://maps.googleapis.com/maps/api/geocode/json?";
@@ -85,6 +86,7 @@ const SearchResults = (props) => {
         <div className="col-6">
           <div className="container text-nowrap">
           <h1>Communist Accomodation in { searchTerm }</h1>
+          <Pagination resultCount={["insert","state","here","d","e","f","g"]} currentPageNumber={"currentPage"}/>
             <div className="row">
               <div className="col-5">
                 <button className="btn btn-outline-secondary text-nowrap">Cancellation flexability</button>
@@ -119,6 +121,7 @@ const SearchResults = (props) => {
         </div>
       </div>
       pages component goes here
+
     </div>
   ); //return
 }; //function
