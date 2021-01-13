@@ -6,9 +6,21 @@ export class MapContainer extends React.Component {
       super(props);
       this.state = {
           lat: this.props.lat, //-33.8688197,
-          long: this.props.long //151.2092955,
+          long: this.props.long, //151.2092955,
+          bounds: null,
       };
   };
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.locations !== this.props.locations){
+      const bounds = new this.props.google.maps.LatLngBounds();
+        // for (let i = 0; i < points.length; i++) {
+        this.props.locations.forEach((item, i) => {
+          bounds.extend({lat:item.latitude,lng:item.longitude});
+        });
+        this.setState({bounds});
+    }
+  }
 
 
   displayMarkers = () => {
@@ -30,6 +42,8 @@ export class MapContainer extends React.Component {
     })
   }
 
+
+
 render(){
   const mapStyles = {
     width: '300px',
@@ -40,6 +54,7 @@ render(){
   // console.log("Inside long: ",this.props.long);
   // console.log("Locations: ",this.props.locations);
   const points = this.props.locations;
+  console.log("google: ", this.props.google);
 
   // const bounds = new this.props.goolge.maps.LatLngBounds();
   // for(let i = 0; i < points.length; i++){
@@ -52,7 +67,8 @@ render(){
           google={this.props.google}
           zoom={10}
           style={mapStyles}
-          initialCenter={{ lat: this.props.lat, lng: this.props.long}}
+          initialCenter={{ lat: this.props.locations[0].latitude, lng: this.props.locations[0].longitude}}
+          bounds={this.state.bounds}
         >
         {this.displayMarkers()}
         </Map>
