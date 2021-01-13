@@ -7,37 +7,31 @@ class Review_form extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        booking:'',
-        review: '',
+        comment: '',
         rating:''
       }
     }
 
     handleSubmit(event){
       event.preventDefault();
-        axios({
-        method: "POST",
-        url:"http://localhost:3000/reviews/post",
-        data:  this.state
-      }).then((response)=>{
-        console.log(response.data.sent);
-        this.setState({response:response.data.sent})
-
+      axios.post(`http://localhost:3000/reviews.json`,
+      { review: this.state },
+      { withCredentials: true }
+      )
+      .then((response)=>{
+        console.log(response.data);
+        this.setState({response:response.data})
       })
       .catch(console.warn)
     } //handleSubmit
 
 
-    onBookingChange(event) {
-      this.setState({booking: event.target.value})
-    }
-
     onRatingChange(event) {
       this.setState({rating: event.target.value})
     }
 
-    onReviewChange(event) {
-      this.setState({review: event.target.value})
+    onCommentChange(event) {
+      this.setState({comment: event.target.value})
     }
 
 
@@ -48,18 +42,13 @@ class Review_form extends React.Component {
 
       <form id="submit-review" onSubmit={this.handleSubmit.bind(this)} method="POST">
        <div className="form-group">
-         <label htmlFor="booking_code">Booking Code</label>
-         <input type="text" className="form-control" value={this.state.booking} onChange={this.onBookingChange.bind(this)} />
-       </div>
-       <br />
-       <div className="form-group">
          <label htmlFor="rating">Rating (0-5)</label>
          <input type="number" id="quantity" name="quantity" min="1" max="5" className="form-control"  value={this.state.rating} onChange={this.onRatingChange.bind(this)} />
        </div>
        <br />
          <div className="form-group">
-           <label htmlFor="review">Review </label>
-           <textarea className="form-control" rows="5" value={this.state.review} onChange={this.onReviewChange.bind(this)} />
+           <label htmlFor="review">Comment </label>
+           <textarea className="form-control" rows="5" value={this.state.comment} onChange={this.onCommentChange.bind(this)} />
          </div>
 
        <br />
