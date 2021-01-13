@@ -42,18 +42,20 @@ class Confirmation extends React.Component {
     const endDate = new Date(this.state.endDate)
 
     return(
-      <div style={{marginTop:"75px"}}>
-        <h2>Congratulations!</h2>
-        <h3>Booking confirmation: {this.state.bookingCode}</h3>
-        <p>You have successfully booked:</p>
-        <ul>
-          <li>Property address: {this.state.propertyAddress}</li>
-          <li>Dates: from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()} </li>
-        </ul>
-        <div onClick={this.printConfirmation}>Print confirmation</div>
-        <br />
-        <br />
-        <Link to="/search" className="button">Make another booking</Link>
+      <div className="container">
+        <div>
+          <h2>Congratulations!</h2>
+          <h3>Booking confirmation: {this.state.bookingCode.toUpperCase()}</h3>
+          <p>You have successfully booked:</p>
+          <ul>
+            <li>Property address: {this.state.propertyAddress}</li>
+            <li>Dates: from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()} </li>
+          </ul>
+          <div onClick={this.printConfirmation}>Print confirmation</div>
+          <br />
+          <br />
+          <Link to="/search" className="button">Make another booking</Link>
+        </div>
       </div>
     ); //return
   } //render

@@ -48,20 +48,21 @@ export class MapContainerShow extends React.Component {
 
 render(){
   const mapStyles = {
-    width: '600px',
-    height: '400px',
+    width: '100%',
+    height: '100%',
   };
-  console.log("Inside lat: ",this.state.lat);
-  console.log("Inside long: ",this.state.long);
+  console.log("Inside lat: ",this.props.lat);
+  console.log("Inside long: ",this.props.long);
   console.log("location: ",this.props.locations);
   // console.log("Locations: ",this.props.locations);
     return (
-      <div className="">
+      <div className="Top">
         <Map
           google={this.props.google}
-          zoom={10}
+          zoom={11}
           style={mapStyles}
           initialCenter={{ lat: this.props.lat, lng: this.props.long}}
+          center={{ lat: this.props.lat, lng: this.props.long}}
         >
         <Marker
                   key="1"

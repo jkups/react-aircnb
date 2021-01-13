@@ -89,23 +89,21 @@ class AirBnC extends React.Component {
         <Router>
           <div>
             <Header />
-            <div className="container nav">
-              <nav>
-
-                {
-                  this.state.isLoggedIn ?
-                  <span>
-                    <span onClick={ this.handleLogout }>Logout</span>
-                  </span>
-                  :
-                  <span>
-                    <span onClick={ () => this.toggleAuthModal('login', true) }>Login</span>
-                  </span>
-                }
-                <span>
-                  <Link to="/" className="inline" > Home </Link>
-                </span>
-              </nav>
+            <div className="nav-wrapper">
+              <div className="container">
+                <nav className="nav">
+                  <div className="logo">
+                    <Link to="/" >aircnb</Link>
+                  </div>
+                  <Link to="/" className="nav-links"> Home </Link>
+                  {
+                    this.state.isLoggedIn ?
+                    <Link className="nav-links" onClick={ this.handleLogout }>Logout</Link>
+                    :
+                    <Link className="nav-links" onClick={ () => this.toggleAuthModal('login', true) }>Login</Link>
+                  }
+                </nav>
+              </div>
             </div>
           </div>
 
@@ -113,7 +111,6 @@ class AirBnC extends React.Component {
           <Route exact path = "/About" component = {About} />
           <Route exact path = "/Terms" component = {Terms} />
           <Route exact path = "/Contact" component = {Contact} />
-          <Route exact path="/search" component={SearchBar }/>
 
           <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
 
