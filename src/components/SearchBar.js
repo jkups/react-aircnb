@@ -30,7 +30,9 @@ const SearchBar = (props) => {
     e.preventDefault();
     // console.log('Submit!');
     // console.log(state[0].startDate);
-    props.history.push(`/search/${searchText}/${startDate}/${endDate}`)
+    let url = "/search/" + searchText + "/" +  state[0].startDate + "/" + state[0].endDate;
+    console.log(url);
+    props.history.push(url);
     setCalendarShow(false);
   };
 
