@@ -50,7 +50,7 @@ class Reservation extends React.Component {
     const url = `${SERVER_BASE_URL}/properties/${this.props.match.params.listing_id}.json`
     const startDate = `'${this.props.match.params.startDate}'`
     const endDate = `'${this.props.match.params.endDate}'`
-
+    console.log("listing:", this.props.match.params.listing_id, url);
     axios.get(url)
     .then(res => {
       this.setState({
@@ -61,16 +61,18 @@ class Reservation extends React.Component {
         },
         property: res.data[0]
       })
+      console.log("Data object: ", res.data[0]);
     })
+
   }
 
   render(){
     const address = this.state.property.address
-    const locations = [
-      this.state.property.longitude,
-      this.state.property.latitude
-    ]
-    
+    const locations = [{
+      longitude:this.state.property.longitude,
+      latitude:this.state.property.latitude
+    }]
+
     const amenitiesOne = this.state.property.amenities.split(',')
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
 
@@ -156,7 +158,7 @@ class Reservation extends React.Component {
                 <h4>Location</h4>
                 {
                   locations.length > 0 ?
-                  <MapContainerShow lat={this.state.property.latitude} long={this.state.property.longitude} locations={locations} />
+                  <MapContainerShow lat={this.state.latitude} long={this.state.londitude} locations={this.state.property} />
                     :
                   <p>Loading...</p>
                 }
