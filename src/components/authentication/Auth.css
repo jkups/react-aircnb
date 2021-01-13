@@ -30,6 +30,13 @@ nav span {
   align-items:center;
 }
 
+.auth-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .auth-dialog {
   background-color: white;
   border-radius: 5px;
@@ -68,6 +75,7 @@ nav span {
   padding: 10px;
   background-color: pink;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .button:hover {

@@ -1,21 +1,6 @@
-.button {
-  width: 100%;
-  border: none;
-  border-radius: 5px;
-  margin: 5px 0;
-  font-size: 16px;
-  padding: 10px;
-  background-color: pink;
-  box-sizing: border-box;
-}
-
-.button:hover {
-  color: white;
-  background-color: purple;
-}
-
 .reservation {
   margin-top: 30px;
+  margin-bottom: 100px;
 }
 
 .reservation .primary-header div, .reservation .secondary-header div {
@@ -212,7 +197,7 @@ img {
 }
 
 .bill-table {
-  margin-top: 35px;
+  margin-top: 25px;
 }
 
 .bill-table div, .bill-total {

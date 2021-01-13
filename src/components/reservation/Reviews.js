@@ -1,9 +1,25 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
 
-
-const LISTING_DISPLAY_API = "http://localhost:3000/reviews/";
+const REVIEW_API = "http://localhost:3000/properties/";
 
 class Reviews extends React.Component {
+
+  constructor(props) {
+      super(props);
+      this.state = {
+        reviews: [],
+      }
+    }
+
+    componentDidMount(){
+      const url = REVIEW_API + this.props + ".json";
+      axios.get(url)
+      .then((response)=>{
+        console.log(response);
+        })
+      .catch(console.warn)
+      }
 
 
   render(){
@@ -11,7 +27,10 @@ class Reviews extends React.Component {
 
     return(
       <div>
-        Review
+
+          <li> Review 1</li>
+
+
       </div>
     )
   }

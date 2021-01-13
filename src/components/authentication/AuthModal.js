@@ -7,7 +7,9 @@ class AuthModal extends React.Component {
   render(){
     return(
       <div className="auth-modal">
-        {this.props.children}
+        <div className="auth-wrapper">
+          {this.props.children}
+        </div>
       </div>
     )
   }

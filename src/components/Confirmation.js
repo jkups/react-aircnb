@@ -1,39 +1,60 @@
 import React from 'react';
-// import axios from 'axios';
+import axios from 'axios';
+import { Link } from 'react-router-dom'
 import '../App.css';
 //add import for selected page
 
+const SERVER_BASE_URL = 'http://localhost:3000';
 
 class Confirmation extends React.Component {
 
   state = {
     //reservations.json (booking code through params)
-    propsBookingConfirmation: "er345rs",
-    propsDateFrom: "18-01-2021",
-    propsDateTo: "20-1-2021",
-    propsPropertyAddress: "123 ABC Street",
+    bookingCode: "",
+    startDate: "",
+    endDate: "",
+    propertyAddress: ""
+  }
+
+  printConfirmation = () => {
+    window.print()
+  }
+
+  componentDidMount = () => {
+    const id = this.props.match.params.reservation_id
+    axios.get(`${SERVER_BASE_URL}/reservations/${id}.json`, {
+      withCredentials: true
+    })
+    .then(res => {
+      console.log(res.data);
+      this.setState({
+        bookingCode: res.data.booking_code,
+        startDate: res.data.from_date,
+        endDate: res.data.to_date,
+        propertyAddress: res.data.property.address
+      })
+    })
+    .catch(console.warn)
   }
 
   render() {
-
+    const startDate = new Date(this.state.startDate)
+    const endDate = new Date(this.state.endDate)
 
     return(
-      <div>
-      <h2>Congratulations!</h2>
-      <h3>Booking confirmation: {this.state.propsBookingConfirmation}</h3>
-      <p>You have successfully booked:</p>
-      <ul>
-        <li>Property address: {this.state.propsPropertyAddress}</li>
-        <li>Dates: from {this.state.propsDateFrom} to {this.state.propsDateTo} </li>
-      </ul>
-      <a href="javascript:window.print()">Print confirmation</a>
-      <br />
-      <br />
-      <button>Make another booking</button>
-
-
+      <div style={{marginTop:"75px"}}>
+        <h2>Congratulations!</h2>
+        <h3>Booking confirmation: {this.state.bookingCode}</h3>
+        <p>You have successfully booked:</p>
+        <ul>
+          <li>Property address: {this.state.propertyAddress}</li>
+          <li>Dates: from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()} </li>
+        </ul>
+        <div onClick={this.printConfirmation}>Print confirmation</div>
+        <br />
+        <br />
+        <Link to="/search" className="button">Make another booking</Link>
       </div>
-
     ); //return
   } //render
 } // Confirmation class
