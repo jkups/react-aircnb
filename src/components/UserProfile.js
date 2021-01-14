@@ -11,7 +11,7 @@ class UserProfile extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        user_id: 80,
+        user_id: 205,
         about_info:'',
         name:'',
         email_confirmed:false,
@@ -42,8 +42,7 @@ class UserProfile extends React.Component {
     }
 
   render(){
-
-
+      console.log("Logitout",this.state.reservations);
     return(
       <div className="Terms">
         <h1> Hi, I'm {this.state.name} </h1>
@@ -86,8 +85,12 @@ class UserProfile extends React.Component {
 
             <h2> Reservations  </h2>
             {
+<<<<<<< HEAD
               this.state.reservations.map((data,index)=> <div key={index}> <span> <ReservationsProfile reservation={data}/> </span> <span> <ReviewForm data={this.state.data} reservationid={data.id} userid={this.state.user_id} /> </span> </div>)
 
+=======
+              this.state.reservations.map((data,index)=> <ReservationsProfile reservation={data} /> )
+>>>>>>> 09f278d652e95d47ce8a56806d6600fd4266c507
             }
 
 
@@ -96,10 +99,9 @@ class UserProfile extends React.Component {
 
 
         </div>
-
+<div className="big-spacer">
+</div>
       </div>
-
-
     )
   }
 }

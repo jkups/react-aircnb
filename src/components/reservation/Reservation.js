@@ -81,7 +81,6 @@ class Reservation extends React.Component {
 
   render(){
 
-    const address = this.state.property.address
     const coOrds = [{
       lng:this.state.property.longitude,
       lat:this.state.property.latitude

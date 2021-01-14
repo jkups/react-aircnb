@@ -141,7 +141,7 @@ class Braintree extends React.Component {
     return(
       <div className="braintree">
         <div>
-          <img src={CardLogo} className="card-logo"/>
+          <img src={CardLogo} alt="" className="card-logo"/>
         </div>
         <form onSubmit={ this.handleSubmit }>
 

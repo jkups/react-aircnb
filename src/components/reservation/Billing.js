@@ -73,7 +73,7 @@ class Billing extends React.Component {
     const serviceFee = this.props.property.service_fee
     const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
     const total = pricePerNight * dateDiff
-    
+
     const grandTotal = pricePerNight * dateDiff + cleaningFee + serviceFee
 
     const dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };

@@ -4,6 +4,7 @@ import ListingDisplay from './ListingDisplay';
 import MapContainer from './MapContainer';
 import Paginate from './Paginate';
 import SearchBar from './SearchBar';
+import './Search.css'
 
 
 // const GOOGLE_GEOCODE_API = "https://maps.googleapis.com/maps/api/geocode/json?";
@@ -36,9 +37,9 @@ const SearchResults = (props) => {
       setPageCount(Math.ceil(res.data.length / SEARCH_RESULTS_PER_PAGE ))
     })
     .catch(console.warn())
-
      // loadPageData(3,0);
   },[searchTerm])
+
 
   const loadPageData = (offset) => {
     // console.log({itemsPerPage,offset});
@@ -84,6 +85,9 @@ const SearchResults = (props) => {
      })
      .catch(console.warn())
   }
+
+
+
   const priceRanges = (ev) => {
 
     if(ev.target.innerHTML == "-50"){
@@ -113,72 +117,144 @@ const SearchResults = (props) => {
 
   const priceArray = [{range:"-50"},{range:"50-70"},{range:"70-90"},{range:"90-110"},{range:"110-130"},{range:"130+"}];
 
+  const mkArray = (array) => {
+    let arr = [];
+    for(let i = 0; i < array.length;i++){
+      arr.push(array[i].property_type);
+    }
+    return arr;
+  }
+
+  const sort_unique = (arr) => {
+
+    if (arr.length === 0) return arr;
+
+    arr = arr.sort(function (a, b) { return a*1 - b*1; });
+    var ret = [arr[0]];
+    for (var i = 1; i < arr.length; i++) { //Start loop at 1: arr[0] can never be a duplicate
+      if (arr[i-1] !== arr[i]) {
+        ret.push(arr[i]);
+      }
+    }
+    console.log("the array:",ret);
+    return ret;
+  }
+
   return (
-    <div className="container">
+    <div className="search-result">
+        {
 
-          <SearchBar {...props}/>
+          // <SearchBar {...props}/>
+        }
 
-      <div className="row">
-        <div className="col-9">
-          <div className="container text-nowrap">
-          <h1>Accomodation in { searchTerm }</h1>
-          <div className="row">
-            <div className="col-3">
-              <div className="dropdown">
-                <button className="btn btn-outline-secondary dropdown-toggle" type="button" onClick={toggleType}>
-                  Type of place
-                </button>
-                <div className="list-group">
-                {
-                  showType === true ? locations.map((data,index)=><div onClick={propertyType}>{data.property_type}</div>) : null
-                }
+        <div>
+          <h3>
+            <strong>Accomodation in { searchTerm }</strong>
+          </h3>
+          <div className="search-filter">
+            <div className="type-filter">
+              <div className="filter-button" onClick={toggleType}>
+                Type of place
               </div>
-              </div>
-            </div>
-            <div className="col-3">
-              <button className="btn btn-outline-secondary dropdown-toggle"  onClick={togglePrice}>Price</button>
-              <div className="list-group">
               {
-                showPrice === true ? priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>) : null
+                showType === true ?
+                <div className="filter-options">
+                  {
+                    showType === true ? sort_unique(mkArray(locations)).map((data,index)=><div key={index} onClick={propertyType}>{data}</div>) : null
+                  }
+                </div> : null
               }
             </div>
+            <div className="price-filter">
+              <button className="filter-button" onClick={togglePrice}>Price</button>
+              {
+                showPrice === true ?
+                <div className="filter-options">
+                  {
+                    priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>)
+                  }
+                </div> : null
+              }
             </div>
-            <div className="col-6">
+          </div>
+          <div className="search-list">
+            {
+              listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+            }
+            <div className="pagination">
               {
                 locations.length > 0 ?
                 <Paginate length={locations.length} pageCount={pageCount} loadPageData={loadPageData} perPage={SEARCH_RESULTS_PER_PAGE} searchTerm={searchTerm} />
-                 :
+                :
                 <p>Loading....</p>
               }
             </div>
           </div>
+        </div>
+        <div>
+          <div className="search-map">
+            {
+              locations.length > 0 ?
+              <MapContainer locations={locations}/>
+                :
+              <p>Loading...</p>
+            }
           </div>
         </div>
-        <div className="col-3" id="">
-          {
-            locations.length > 0 ?
-            <MapContainer locations={locations}/>
-              :
-            <p>Loading...</p>
-          }
-        </div>
-      </div>
 
-      <div className="container mt-2">
-      <div className="row">
-        <div className="col-8 click">
-          {
-            listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
-          }
-        <div className="spacer">
-        </div>
-        </div>
-        <div className="col-4">
-        </div>
-      </div>
     </div>
-
-  </div>
   ); //return
 }; //function
 export default SearchResults;
+
+
+// <div>
+//   <h1>Accomodation in { searchTerm }</h1>
+//   <div className="col-9">
+//     <div className="container text-nowrap">
+//       <div className="row">
+//         <div className="col-3">
+//           <div className="part of filter:  dropdown">
+//             <button className="btn btn-outline-secondary dropdown-toggle" type="button" onClick={toggleType}>
+//               Type of place
+//             </button>
+//             <div className="list-group">
+//               {
+//                 showType === true ? locations.map((data,index)=><div onClick={propertyType}>{data.property_type}</div>) : null
+//               }
+//             </div>
+//           </div>
+//         </div>
+//         <div className="col-3">
+//           <button className="btn btn-outline-secondary dropdown-toggle"  onClick={togglePrice}>Price</button>
+//           <div className="list-group">
+//             {
+//               showPrice === true ? priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>) : null
+//             }
+//           </div>
+//         </div>
+//         <div className="col-6">
+//           {
+//             locations.length > 0 ?
+//             <Paginate length={locations.length} pageCount={pageCount} loadPageData={loadPageData} perPage={SEARCH_RESULTS_PER_PAGE} searchTerm={searchTerm} />
+//             :
+//             <p>Loading....</p>
+//           }
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+//   <div className="col-3" id="">
+//     {
+//       locations.length > 0 ?
+//       <MapContainer locations={locations}/>
+//       :
+//       <p>Loading...</p>
+//     }
+//   </div>
+// </div>
+// <div>
+//   {
+//     listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+//   }
+// </div>

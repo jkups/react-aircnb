@@ -74,7 +74,7 @@
   color: grey;
 }
 
-.braintree {
+.braintree, .confirmation {
   background-color: #f5f5f5;
   border-radius: 5px;
   padding: 35px;
@@ -92,7 +92,7 @@
   border-radius: 5px;
 }
 
-.braintree > div {
+.braintree > div, .confirmation > div {
   background-color: white;
   padding:15px;
   margin-bottom:45px;
@@ -107,4 +107,24 @@
   margin-left:-2px;
   margin-top:5px;
   width: 40%;
+}
+
+.confirmation > div {
+  margin-bottom: 10px;
+}
+
+.confirmation p {
+  font-size: 16px;
+  color: grey;
+}
+
+.confirmation-action {
+  text-align:center;
+  color: black;
+}
+
+.confirmation-action a{
+  display: block;
+  color: black;
+  text-decoration:none;
 }

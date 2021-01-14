@@ -79,8 +79,6 @@ class Payment extends React.Component {
 
     const total = pricePerNight * dateDiff
 
-    const dateFormat = { year: 'numeric', month: 'numeric', day: 'numeric' };
-
     return(
       <div className="container">
         <div className="payment">
@@ -93,7 +91,7 @@ class Payment extends React.Component {
               <div className="right">
                 <ul>
                   <li className="property-image">
-                    <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" width="100%" />
+                    <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="" width="100%" />
                   </li>
                   <li className="property-details">
                     <div>{title}</div>
@@ -136,7 +134,7 @@ class Payment extends React.Component {
                       </div>
                     </div>
                     <div className="bill-total">
-                      <span>Total</span>
+                      <span>Total Due</span>
                       <span>
                         {this.formatCurrency(totalDue)}
                       </span>
