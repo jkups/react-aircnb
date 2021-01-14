@@ -171,14 +171,14 @@ class Reservation extends React.Component {
               </div>
               <div className="map">
                 <h4>Location</h4>
+                <div className="map-wrapper">
                 {
-                  <div className="map-wrapper">
                     this.state.property.listing_price > 0 ?
                       <MapContainerShow coOrds={coOrds} locations={this.state.property} />
                         :
                       <p>Loading...</p>
-                  </div>
                 }
+                </div>
               </div>
             </li>
             <li>

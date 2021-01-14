@@ -4,8 +4,6 @@ import ListingDisplay from './ListingDisplay';
 import MapContainer from './MapContainer';
 import Paginate from './Paginate';
 import SearchBar from './SearchBar';
-import PropertyTypes from './PropertyTypes';
-
 
 
 // const GOOGLE_GEOCODE_API = "https://maps.googleapis.com/maps/api/geocode/json?";
@@ -76,9 +74,9 @@ const SearchResults = (props) => {
       setShowPrice(false)
     }
   }
-  const getPropertyType = (propertyType) => {
+  const propertyType = (ev) => {
     console.log("hello", propertyType);
-     const url = BASE_URL + "/properties/searchtype/" + searchTerm + "/" + propertyType + "/100/0";
+     const url = BASE_URL + "/properties/searchtype/" + searchTerm + "/" + ev.target.innerHTML + "/100/0";
      axios.get(url)
      .then((res)=> {
          setListData(res.data)
@@ -86,6 +84,34 @@ const SearchResults = (props) => {
      })
      .catch(console.warn())
   }
+  const priceRanges = (ev) => {
+
+    if(ev.target.innerHTML == "-50"){
+      getRangeData(0,50);
+    }else if(ev.target.innerHTML == "50-70"){
+      getRangeData(50,70);
+    }else if(ev.target.innerHTML == "70-90"){
+      getRangeData(70,90);
+    }else if(ev.target.innerHTML == "90-110"){
+      getRangeData(90,110);
+    }else if(ev.target.innerHTML == "110-130"){
+      getRangeData(110,130);
+    }else if(ev.target.innerHTML == "130+"){
+      getRangeData(130,1000000);
+    }
+  }
+
+  const getRangeData = (lower,higher) => {
+    const url = BASE_URL + "/properties/searchprice/" + searchTerm + "/" + lower + "/" + higher + "/100/0";
+    axios.get(url)
+    .then((res)=> {
+        setListData(res.data)
+        setShowPrice(false)
+    })
+    .catch(console.warn())
+  }
+
+  const priceArray = [{range:"-50"},{range:"50-70"},{range:"70-90"},{range:"90-110"},{range:"110-130"},{range:"130+"}];
 
   return (
     <div className="container">
@@ -104,16 +130,18 @@ const SearchResults = (props) => {
                 </button>
                 <div className="list-group">
                 {
-                  showType === true ? locations.map((data,index)=><PropertyTypes key={index} data={data} sendPropertyType={getPropertyType}/>) : null
+                  showType === true ? locations.map((data,index)=><div onClick={propertyType}>{data.property_type}</div>) : null
                 }
               </div>
               </div>
             </div>
             <div className="col-3">
               <button className="btn btn-outline-secondary dropdown-toggle"  onClick={togglePrice}>Price</button>
+              <div className="list-group">
               {
-                showPrice === true ? <div>Hello</div> : null
+                showPrice === true ? priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>) : null
               }
+            </div>
             </div>
             <div className="col-6">
               {

@@ -9,10 +9,12 @@ const Func = (props) => {
     // consoev.target.innerHTMLle.log("Target:", ev.target.innerHTML);
   }
 
+  // console.log("Data:", props.data);
+
   return (
     <div className="list-group-item" onClick={handleClick}>
         {
-          props.data.property_type
+          props.data.range
         }
     </div>
   ); //return

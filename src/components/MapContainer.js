@@ -35,7 +35,7 @@ export class MapContainer extends React.Component {
               title={"$100"}
               name={"location.name"}
               icon={{
-                url: `https://chart.googleapis.com/chart?chst=d_fnote_title&chld=balloon|1|000000|h|$ ${location.listing_price}|${location.max_guests} guests`,
+                url: `https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|FFFFFF|10|b|$ ${location.listing_price}`,
               }}
               />
     })
