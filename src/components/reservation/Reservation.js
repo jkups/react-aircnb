@@ -30,7 +30,8 @@ class Reservation extends React.Component {
     	cleaning_fee: 0,
     	service_fee: 0,
       longitude: -33.8688197,
-      latitude: 151.2092955
+      latitude: 151.2092955,
+      reviews: []
     }
   }
 
@@ -50,7 +51,6 @@ class Reservation extends React.Component {
     const url = `${SERVER_BASE_URL}/properties/${this.props.match.params.listing_id}.json`
     const startDate = `'${this.props.match.params.startDate}'`
     const endDate = `'${this.props.match.params.endDate}'`
-
     axios.get(url)
     .then(res => {
       this.setState({
@@ -64,19 +64,33 @@ class Reservation extends React.Component {
     })
   }
 
+  rating = () => {
+    let ratings = 0;
+    let iterate = 0;
+    this.state.property.reviews.forEach((review)=>{
+      ratings += review.rating;
+      iterate++;
+    })
+
+    let stars = [];
+     for(let i = 0; i < (ratings / iterate) ; i++){
+       stars.push(<span> ⭐ </span>)
+     }
+     return stars;
+  }
+
   render(){
 
     const address = this.state.property.address
+    const coOrds = [{
+      lng:this.state.property.longitude,
+      lat:this.state.property.latitude
+    }]
 
-    const locations = {
-      title: this.state.property.title,
-      heading: this.state.property.heading,
-      listing_price: this.state.property.listing_price
-    }
+    // console.log("$$$$propertyData:$$$", this.state.property);
 
     const amenitiesOne = this.state.property.amenities.split(',')
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
-
 
     return(
       <div className="container">
@@ -150,16 +164,21 @@ class Reservation extends React.Component {
                 </ul>
               </div>
               <div className="amenities">
-                <h4>Reviews</h4>
-
-                     <Reviews />
-
+                <h4>Reviews { this.rating()}</h4>
+                  {
+                       this.state.property.reviews.map((review,index) => <Reviews key={index} review={review} />)
+                  }
               </div>
               <div className="map">
                 <h4>Location</h4>
-                <div className="map-wrapper">
-                  <MapContainerShow lat={this.state.property.latitude} long={this.state.property.longitude} locations={locations} />
-                </div>
+                {
+                  <div className="map-wrapper">
+                    this.state.property.listing_price > 0 ?
+                      <MapContainerShow coOrds={coOrds} locations={this.state.property} />
+                        :
+                      <p>Loading...</p>
+                  </div>
+                }
               </div>
             </li>
             <li>

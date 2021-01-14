@@ -28,7 +28,6 @@ class Billing extends React.Component {
 
   updateGuestsCount = value => {
     const maxGuests = this.props.property.max_guests
-    console.log(maxGuests);
     let guestsCount = this.state.guestsCount
 
     if(value && guestsCount < maxGuests ) guestsCount++
@@ -53,7 +52,6 @@ class Billing extends React.Component {
         { withCredentials: true }
       )
       .then(res => {
-        console.log(res.data);
         this.props.processReservation(res.data)
       })
       .catch(console.warn)
@@ -69,13 +67,10 @@ class Billing extends React.Component {
 
   render(){
     const pricePerNight = this.props.property.listing_price
-
-    console.log('price:', pricePerNight);
     const maxGuests = this.props.property.max_guests
     const cleaningFee = this.props.property.cleaning_fee
     const serviceFee = this.props.property.service_fee
     const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
-    console.log('date',dateDiff);
     const total = pricePerNight * dateDiff
     const grandTotal = pricePerNight * dateDiff + cleaningFee + serviceFee
 

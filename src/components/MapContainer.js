@@ -14,7 +14,6 @@ export class MapContainer extends React.Component {
   componentDidUpdate(prevProps) {
     if(prevProps.locations !== this.props.locations){
       const bounds = new this.props.google.maps.LatLngBounds();
-        // for (let i = 0; i < points.length; i++) {
         this.props.locations.forEach((item, i) => {
           bounds.extend({lat:item.latitude,lng:item.longitude});
         });
@@ -42,24 +41,11 @@ export class MapContainer extends React.Component {
     })
   }
 
-
-
 render(){
   const mapStyles = {
     width: '300px',
     height: '550px',
   };
-  console.log("State lat map: ",this.state.lat);
-  console.log("Prop lat map: ",this.props.lat);
-  // console.log("Inside long: ",this.props.long);
-  // console.log("Locations: ",this.props.locations);
-  const points = this.props.locations;
-  console.log("google: ", this.props.google);
-
-  // const bounds = new this.props.goolge.maps.LatLngBounds();
-  // for(let i = 0; i < points.length; i++){
-  //   bounds.extend(points[i])
-  // }
 
     return (
       <div className="position-fixed">

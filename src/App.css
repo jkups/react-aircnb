@@ -138,3 +138,12 @@
 .nav {
   background-color: black;
 }
+
+.pagination{
+  /* border: 1px solid red; */
+
+}
+
+.click:hover{
+  cursor: pointer;
+}
