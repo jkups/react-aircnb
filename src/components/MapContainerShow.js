@@ -35,7 +35,7 @@ render(){
           onClick={() => console.log("You clicked me!")}
           title={"$100"}
           icon={{
-            url: `https://chart.googleapis.com/chart?chst=d_bubble_icon_texts_big&chld=home|bb|FFFFFF|000000|${this.props.locations.title}|${this.props.locations.heading}|$${this.props.locations.listing_price} p/n|Max Guests: ${this.props.locations.max_guests}`
+            url: `https://chart.googleapis.com/chart?chst=d_fnote_title&chld=balloon|1|000000|h|$${this.props.locations.listing_price}|Max Guests: ${this.props.locations.max_guests}|Book Now!`
           }}
           />
         </Map>

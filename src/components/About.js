@@ -16,7 +16,7 @@ import '../App.css'
         <br />
         <br />
         <p>
-          Welcome to AirCnB, the new communist platform that let you book a property for short and long stay around Australia.
+          Welcome to AirCnB, the platform that let you book a property for short and long stay around Australia.
         </p>
         <br />
         <p>

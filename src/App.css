@@ -144,3 +144,7 @@
 .click:hover{
   cursor: pointer;
 }
+
+.spacer{
+  height: 100px;
+}

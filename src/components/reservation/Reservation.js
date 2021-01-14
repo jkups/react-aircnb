@@ -80,7 +80,7 @@ class Reservation extends React.Component {
   }
 
   render(){
-    
+
     const coOrds = [{
       lng:this.state.property.longitude,
       lat:this.state.property.latitude
@@ -171,9 +171,12 @@ class Reservation extends React.Component {
               <div className="map">
                 <h4>Location</h4>
                 <div className="map-wrapper">
-                  {
-                      this.state.property.listing_price > 0 ? <MapContainerShow coOrds={coOrds} locations={this.state.property} /> : <p>Loading...</p>
-                  }
+                {
+                    this.state.property.listing_price > 0 ?
+                      <MapContainerShow coOrds={coOrds} locations={this.state.property} />
+                        :
+                      <p>Loading...</p>
+                }
                 </div>
               </div>
             </li>

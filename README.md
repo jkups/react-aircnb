@@ -1,14 +1,14 @@
 AirCnB platform
 -----------------------------------------------------
 
-This is a group project and is basically a clone of AirBnB but CnB means Communist and Beds.
+This is a group project and is basically a clone of AirBnB but with a diffent ending "CnB" which means Comfort and Beds.
 
 links
 ------------------------------------------------------
 Github Rails code: https://github.com/staceyrea/rails-air-cnb-app
 Github React code: https://github.com/staceyrea/react-air-cnb-app
-Heroku-rails:
-Gitgub-react:
+Live demo (Heroku-rails): https://air-bnb-replication.herokuapp.com/
+Live demo (Gitgub-react): https://staceyrea.github.io/react-air-cnb-app/#/
 
 Tech stack used
 ------------------------------------------------------
@@ -16,6 +16,7 @@ Tech stack used
 React
 PostgreSQL
 RoR
+CSS
 Bootstrap
 Braintree
 APIs
@@ -37,4 +38,4 @@ TBA
 
 Future features
 ------------------------------------------------------
-TBA
+User will be able to favourite Properties
