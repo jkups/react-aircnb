@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from "react-dom";
 import braintree from 'braintree-web'
-
+import CardLogo from './card-logo.png'
 class Braintree extends React.Component {
 
   state = {
@@ -140,6 +140,9 @@ class Braintree extends React.Component {
   render(){
     return(
       <div className="braintree">
+        <div>
+          <img src={CardLogo} className="card-logo"/>
+        </div>
         <form onSubmit={ this.handleSubmit }>
 
           <label htmlFor="cardholder-name">Name on Card</label>

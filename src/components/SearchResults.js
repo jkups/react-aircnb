@@ -7,7 +7,8 @@ import SearchBar from './SearchBar';
 
 
 // const GOOGLE_GEOCODE_API = "https://maps.googleapis.com/maps/api/geocode/json?";
-const SEARCH_RESULTS_RAILS = "http://localhost:3000/properties/search/";
+const BASE_URL = "http://localhost:3000";
+const SEARCH_RESULTS_PER_PAGE = 3;
 
 const SearchResults = (props) => {
 
@@ -16,6 +17,9 @@ const SearchResults = (props) => {
   const [endDate] = useState(props.match.params.endDate);
   const [locations,setLocations] = useState([]);
   const [listData,setListData] = useState([]);
+  const [showType, setShowType] = useState(false);
+  const [showPrice, setShowPrice] = useState(false);
+  const [pageCount, setPageCount] = useState(0);
 
   // const params = (searchTerm) => {
   //   let paramsObj = {
@@ -26,13 +30,25 @@ const SearchResults = (props) => {
   // }
 
   useEffect(()=>{
-    axios.get(SEARCH_RESULTS_RAILS + "/" + searchTerm)
+    axios.get(BASE_URL + "/properties/search/" + searchTerm)
     .then(res => {
       setLocations(res.data)
+      setPageCount(Math.ceil(res.data.length / SEARCH_RESULTS_PER_PAGE ))
     })
     .catch(console.warn())
 
+     // loadPageData(3,0);
   },[searchTerm])
+
+  const loadPageData = (offset) => {
+    // console.log({itemsPerPage,offset});
+    const url = BASE_URL + "/properties/search/" + searchTerm + "/"+ SEARCH_RESULTS_PER_PAGE + "/" + offset;
+    axios.get(url)
+    .then((res)=> {
+        setListData(res.data)
+    })
+    .catch(console.warn())
+  }
 
   const handleClick = (ev) => {
     // console.log("card clicked!",ev.currentTarget.id);
@@ -43,69 +59,126 @@ const SearchResults = (props) => {
   const listDataRet = (data) => {
     setListData(data);
   }
-  console.log("res data:", listData);
+
+  const toggleType = () => {
+    if(showType === false){
+      setShowType(true)
+    }else if(showType === true){
+      setShowType(false)
+    }
+  }
+  const togglePrice = () => {
+    if(showPrice === false){
+      setShowPrice(true)
+    }else if(showPrice === true){
+      setShowPrice(false)
+    }
+  }
+  const propertyType = (ev) => {
+    console.log("hello", propertyType);
+     const url = BASE_URL + "/properties/searchtype/" + searchTerm + "/" + ev.target.innerHTML + "/100/0";
+     axios.get(url)
+     .then((res)=> {
+         setListData(res.data)
+         setShowType(false)
+     })
+     .catch(console.warn())
+  }
+  const priceRanges = (ev) => {
+
+    if(ev.target.innerHTML == "-50"){
+      getRangeData(0,50);
+    }else if(ev.target.innerHTML == "50-70"){
+      getRangeData(50,70);
+    }else if(ev.target.innerHTML == "70-90"){
+      getRangeData(70,90);
+    }else if(ev.target.innerHTML == "90-110"){
+      getRangeData(90,110);
+    }else if(ev.target.innerHTML == "110-130"){
+      getRangeData(110,130);
+    }else if(ev.target.innerHTML == "130+"){
+      getRangeData(130,1000000);
+    }
+  }
+
+  const getRangeData = (lower,higher) => {
+    const url = BASE_URL + "/properties/searchprice/" + searchTerm + "/" + lower + "/" + higher + "/100/0";
+    axios.get(url)
+    .then((res)=> {
+        setListData(res.data)
+        setShowPrice(false)
+    })
+    .catch(console.warn())
+  }
+
+  const priceArray = [{range:"-50"},{range:"50-70"},{range:"70-90"},{range:"90-110"},{range:"110-130"},{range:"130+"}];
+
   return (
     <div className="container">
 
           <SearchBar {...props}/>
 
       <div className="row">
-        <div className="col-6">
+        <div className="col-9">
           <div className="container text-nowrap">
           <h1>Accomodation in { searchTerm }</h1>
-            <div className="row">
-              <div className="col-5">
-                <button className="btn btn-outline-secondary text-nowrap btn-sm">Cancellation flexability</button>
+          <div className="row">
+            <div className="col-3">
+              <div className="dropdown">
+                <button className="btn btn-outline-secondary dropdown-toggle" type="button" onClick={toggleType}>
+                  Type of place
+                </button>
+                <div className="list-group">
+                {
+                  showType === true ? locations.map((data,index)=><div onClick={propertyType}>{data.property_type}</div>) : null
+                }
               </div>
-              <div className="col-4 text-center">
-                <button className="btn btn-outline-secondary text-nowrap btn-sm">Type of place</button>
-              </div>
-              <div className="col-3">
-                <button className="btn btn-outline-secondary text-nowrap btn-sm">Price</button>
               </div>
             </div>
+            <div className="col-3">
+              <button className="btn btn-outline-secondary dropdown-toggle"  onClick={togglePrice}>Price</button>
+              <div className="list-group">
+              {
+                showPrice === true ? priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>) : null
+              }
+            </div>
+            </div>
+            <div className="col-6">
+              {
+                locations.length > 0 ?
+                <Paginate length={locations.length} pageCount={pageCount} loadPageData={loadPageData} perPage={SEARCH_RESULTS_PER_PAGE} searchTerm={searchTerm} />
+                 :
+                <p>Loading....</p>
+              }
+            </div>
+          </div>
           </div>
         </div>
         <div className="col-3" id="">
-        </div>
-        <div className="col-3">
-        {
-          locations.length > 0 ?
-          <MapContainer locations={locations}/>
-            :
-          <p>Loading...</p>
-        }
-      </div>
-      </div>
-      <div className="container mt-2">
-        <div className="row">
-          <div className="col-6">
-            {
-              searchTerm !== '' ?
-              <Paginate searchTerm={searchTerm} perPage={3} author={'AirBnC'} listData={listDataRet}/>
-                :
-              <p>Loading....</p>
-            }
-          </div>
-          <div className="col-6">
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-8 click">
           {
             locations.length > 0 ?
-            listData.map((data, index) => <ListingDisplay key={index} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+            <MapContainer locations={locations}/>
               :
             <p>Loading...</p>
           }
+        </div>
+      </div>
+
+      <div className="container mt-2">
+      <div className="row">
+        <div className="col-8 click">
+          {
+            listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+          }
+        <div className="spacer">
+        </div>
         </div>
         <div className="col-4">
         </div>
       </div>
     </div>
+
+  </div>
   ); //return
 }; //function
 export default SearchResults;
-
-          // <Pagination resultCount={["insert","state","here","d","e","f","g"]} currentPageNumber={"currentPage"}/>
