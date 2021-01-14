@@ -10,7 +10,7 @@ class UserProfile extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        user_id: 80,
+        user_id: 205,
         about_info:'',
         name:'',
         email_confirmed:false,
@@ -26,12 +26,12 @@ class UserProfile extends React.Component {
       .then((res)=> {
         console.log("data",res.data);
         this.setState({
-          about_info:res.data[0].about_info,
-          name:res.data[0].name,
-          email_confirmed:res.data[0].email_confirmed,
-          identity_confirmed:res.data[0].identity_confirmed,
-          reservations:res.data[0].reservations,
-          reviews:res.data[0].reviews
+          about_info: res.data[0].about_info,
+          name: res.data[0].name,
+          email_confirmed: res.data[0].email_confirmed,
+          identity_confirmed: res.data[0].identity_confirmed,
+          reservations: res.data[0].reservations,
+          reviews: res.data[0].reviews
         })
       })
       .catch(console.warn)
@@ -39,7 +39,7 @@ class UserProfile extends React.Component {
     }
 
   render(){
-
+      console.log("Logitout",this.state.reservations);
     return(
       <div>
         <h1> Hi {this.state.name} </h1>
@@ -75,19 +75,16 @@ class UserProfile extends React.Component {
 
           <div>
             {
-              this.state.reservations.map((data,index)=>{
-                <ReservationsProfile reservation={data}/>
-              })
+              this.state.reservations.map((data,index)=> <ReservationsProfile reservation={data} /> )
             }
 
           </div>
 
 
         </div>
-
+<div className="big-spacer">
+</div>
       </div>
-
-
     )
   }
 }

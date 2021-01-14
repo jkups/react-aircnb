@@ -36,9 +36,9 @@ const SearchResults = (props) => {
       setPageCount(Math.ceil(res.data.length / SEARCH_RESULTS_PER_PAGE ))
     })
     .catch(console.warn())
-
      // loadPageData(3,0);
   },[searchTerm])
+
 
   const loadPageData = (offset) => {
     // console.log({itemsPerPage,offset});
@@ -84,6 +84,9 @@ const SearchResults = (props) => {
      })
      .catch(console.warn())
   }
+
+
+
   const priceRanges = (ev) => {
 
     if(ev.target.innerHTML == "-50"){
@@ -113,6 +116,29 @@ const SearchResults = (props) => {
 
   const priceArray = [{range:"-50"},{range:"50-70"},{range:"70-90"},{range:"90-110"},{range:"110-130"},{range:"130+"}];
 
+  const mkArray = (array) => {
+    let arr = [];
+    for(let i = 0; i < array.length;i++){
+      arr.push(array[i].property_type);
+    }
+    return arr;
+  }
+
+  const sort_unique = (arr) => {
+
+    if (arr.length === 0) return arr;
+
+    arr = arr.sort(function (a, b) { return a*1 - b*1; });
+    var ret = [arr[0]];
+    for (var i = 1; i < arr.length; i++) { //Start loop at 1: arr[0] can never be a duplicate
+      if (arr[i-1] !== arr[i]) {
+        ret.push(arr[i]);
+      }
+    }
+    console.log("the array:",ret);
+    return ret;
+  }
+
   return (
     <div className="container">
 
@@ -130,7 +156,7 @@ const SearchResults = (props) => {
                 </button>
                 <div className="list-group">
                 {
-                  showType === true ? locations.map((data,index)=><div onClick={propertyType}>{data.property_type}</div>) : null
+                  showType === true ? sort_unique(mkArray(locations)).map((data,index)=><div key={index} onClick={propertyType}>{data}</div>) : null
                 }
               </div>
               </div>

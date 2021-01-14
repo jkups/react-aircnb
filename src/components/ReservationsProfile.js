@@ -3,7 +3,7 @@ import React from 'react';
 import '../App.css'
 
 
-const ReservationsProfile = (props)=>{
+const ReservationsProfile = (props) => {
   return(
     <div>
       <h1> {props.reservation.booking_code}   </h1>
@@ -11,13 +11,10 @@ const ReservationsProfile = (props)=>{
         <ul>
           <li>From Date: {props.reservation.from_date}</li>
           <li>To Date: {props.reservation.to_date}</li>
-          <li>To Date: {props.reservation.to_date}</li>
           <li>Guests: {props.reservation.guests_count}</li>
           <li>Total Paid: {props.reservation.total_paid}</li>
-
         </ul>
       </p>
-
     </div>
   )
 }

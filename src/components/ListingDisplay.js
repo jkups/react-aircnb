@@ -9,7 +9,7 @@ const ListingDisplay = (props) => {
       <div className="row">
         <div className="col-6 my-2 ml-1">
           {
-            <img src={props.propertyData.images[0].image_url} loading="lazy" alt={props.propertyData.images[0].name} className="rounded"/>
+            <img src={"https://res.cloudinary.com/dhl1cdqch/image/upload/v1610626496/" + props.propertyData.images[0].image_url} loading="lazy" alt={props.propertyData.images[0].name} className="rounded"/>
           }
         </div>
         <div className="col-6 my-2 pt-3 text-right">
