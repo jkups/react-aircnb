@@ -3,6 +3,7 @@ import { Link, Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import Home from './components/Home';
 import './App.css';
+import UserProfile from './components/UserProfile'
 
 // Authentication Components
 import AuthModal from './components/authentication/AuthModal'
@@ -116,6 +117,8 @@ class AirBnC extends React.Component {
           <Route exact path="/search" component={SearchBar }/>
 
           <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
+
+          <Route exact path = "/profile" component ={UserProfile}  />
 
           <Route exact path="/property/:listing_id/:startDate/:endDate" render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} isLoggedIn={this.state.isLoggedIn} user={this.state.user} /> } />
 
