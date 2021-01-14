@@ -26,7 +26,7 @@ const SearchResults = (props) => {
   // }
 
   useEffect(()=>{
-    axios.get(SEARCH_RESULTS_RAILS + "/" + searchTerm)
+    axios.get(SEARCH_RESULTS_RAILS + "/" + searchTerm, { withCredentials: true })
     .then(res => {
       setLocations(res.data)
     })

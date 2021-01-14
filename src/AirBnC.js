@@ -22,7 +22,6 @@ import Footer from './components/Footer'
 import Terms from './components/Terms'
 import Contact from './components/Contact'
 import About from './components/About'
-import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 
 
@@ -31,8 +30,8 @@ const SERVER_BASE_URL = 'http://localhost:3000';
 class AirBnC extends React.Component {
   state = {
     authForm: '',
-    authModalVisible: false,
-    isLoggedIn: false,
+    authModalVisible: '',
+    isLoggedIn: '',
     user: {}
   }
 
