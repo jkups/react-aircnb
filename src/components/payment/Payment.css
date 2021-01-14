@@ -91,3 +91,20 @@
   margin-bottom: 20px;
   border-radius: 5px;
 }
+
+.braintree > div {
+  background-color: white;
+  padding:15px;
+  margin-bottom:45px;
+  border-radius: 5px;
+}
+.braintree > div span {
+  color:grey;
+}
+
+.braintree > div img {
+  display: block;
+  margin-left:-2px;
+  margin-top:5px;
+  width: 40%;
+}

@@ -38,6 +38,7 @@ const CalendarSearch = (props) => {
         moveRangeOnFirstSelection={false}
         ranges={state}
       />
+
     </div>
   ); //return
 

@@ -10,7 +10,7 @@ class Header extends React.Component {
     return(
       <div className="header">
         <div>
-          <a href="https://www.google.com/search?q=covid+safe" target="_blank" rel="noreferrer">Learn more about COVID-19 safe measurements</a>
+          <a href="https://www.google.com/search?q=covid+safe" target="_blank" rel="noreferrer">Learn more about COVID-19 safe measures</a>
         </div>
       </div>
     );

@@ -21,10 +21,10 @@ render(){
   // console.log("**location: **",this.props.locations.title,this.props.locations.heading,this.props.locations.listing_price,this.props.locations.max_guests);
   // console.log("Locations: ",this.props.locations);
     return (
-      <div className="">
+      <div className="Top">
         <Map
           google={this.props.google}
-          zoom={10}
+          zoom={11}
           style={mapStyles}
           initialCenter={this.props.coOrds[0]}
         >
