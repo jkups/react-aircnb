@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import '../App.css';
 import ReservationsProfile from './ReservationsProfile';
+import ReviewForm from './ReviewForm';
 
-const BASE_URL = 'http://localhost:3000/'
+const BASE_URL = 'http://localhost:3000'
 
 class UserProfile extends React.Component {
 
@@ -16,7 +17,8 @@ class UserProfile extends React.Component {
         email_confirmed:false,
         identity_confirmed:false,
         reservations:[],
-        reviews:[]
+        reviews:[],
+        data:[]
       }
     }
 
@@ -31,7 +33,8 @@ class UserProfile extends React.Component {
           email_confirmed:res.data[0].email_confirmed,
           identity_confirmed:res.data[0].identity_confirmed,
           reservations:res.data[0].reservations,
-          reviews:res.data[0].reviews
+          reviews:res.data[0].reviews,
+          data:res.data
         })
       })
       .catch(console.warn)
@@ -40,17 +43,22 @@ class UserProfile extends React.Component {
 
   render(){
 
+
     return(
-      <div>
-        <h1> Hi {this.state.name} </h1>
+      <div className="Terms">
+        <h1> Hi, I'm {this.state.name} </h1>
+        <br />
 
         <div>
           <h2> About me  </h2>
+          <hr />
+          <br />
+          <p>
+            {this.state.about_info}
 
-        <p>
-          {this.state.about_info}
+          </p>
 
-        </p>
+          <br />
 
           <div>
               <hr />
@@ -72,13 +80,17 @@ class UserProfile extends React.Component {
             </p>
           </div>
           <hr />
+          <br />
 
           <div>
+
+            <h2> Reservations  </h2>
             {
-              this.state.reservations.map((data,index)=>{
-                <ReservationsProfile reservation={data}/>
-              })
+              this.state.reservations.map((data,index)=> <div key={index}> <span> <ReservationsProfile reservation={data}/> </span> <span> <ReviewForm data={this.state.data} reservationid={data.id} userid={this.state.user_id} /> </span> </div>)
+
             }
+
+
 
           </div>
 

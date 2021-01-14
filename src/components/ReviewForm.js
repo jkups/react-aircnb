@@ -2,14 +2,23 @@ import React from 'react';
 import axios from 'axios';
 import '../App.css'
 
-class Review_form extends React.Component {
+class ReviewForm extends React.Component {
 
   constructor(props) {
       super(props);
       this.state = {
         comment: '',
-        rating:''
+        rating:'',
+        review:{}
       }
+    }
+
+    componentDidMount(){
+      this.props.data[0].reviews.forEach((item)=>{
+        if (item.reservation_id === this.props.reservationid){
+          this.setState({review:item})
+        }
+      })
     }
 
     handleSubmit(event){
@@ -19,7 +28,7 @@ class Review_form extends React.Component {
       { withCredentials: true }
       )
       .then((response)=>{
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({response:response.data})
       })
       .catch(console.warn)
@@ -36,7 +45,7 @@ class Review_form extends React.Component {
 
 
   render(){
-
+    console.log("data is",this.state.review);
     return(
       <div>
 
@@ -62,4 +71,4 @@ class Review_form extends React.Component {
   }
 }
 
-export default Review_form
+export default ReviewForm
