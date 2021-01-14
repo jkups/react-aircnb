@@ -4,6 +4,7 @@ import ListingDisplay from './ListingDisplay';
 import MapContainer from './MapContainer';
 import Paginate from './Paginate';
 import SearchBar from './SearchBar';
+import './Search.css'
 
 
 // const GOOGLE_GEOCODE_API = "https://maps.googleapis.com/maps/api/geocode/json?";
@@ -114,71 +115,120 @@ const SearchResults = (props) => {
   const priceArray = [{range:"-50"},{range:"50-70"},{range:"70-90"},{range:"90-110"},{range:"110-130"},{range:"130+"}];
 
   return (
-    <div className="container">
+    <div className="search-result">
+        {
 
-          <SearchBar {...props}/>
+          // <SearchBar {...props}/>
+        }
 
-      <div className="row">
-        <div className="col-9">
-          <div className="container text-nowrap">
-          <h1>Accomodation in { searchTerm }</h1>
-          <div className="row">
-            <div className="col-3">
-              <div className="dropdown">
-                <button className="btn btn-outline-secondary dropdown-toggle" type="button" onClick={toggleType}>
-                  Type of place
-                </button>
-                <div className="list-group">
-                {
-                  showType === true ? locations.map((data,index)=><div onClick={propertyType}>{data.property_type}</div>) : null
-                }
+        <div>
+          <h3>
+            <strong>Accomodation in { searchTerm }</strong>
+          </h3>
+          <div className="search-filter">
+            <div className="type-filter">
+              <div className="filter-button" onClick={toggleType}>
+                Type of place
               </div>
-              </div>
-            </div>
-            <div className="col-3">
-              <button className="btn btn-outline-secondary dropdown-toggle"  onClick={togglePrice}>Price</button>
-              <div className="list-group">
               {
-                showPrice === true ? priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>) : null
+                showType === true ?
+                <div className="filter-options">
+                  {
+                    locations.map((data,index) => <div onClick={propertyType}>{data.property_type}</div>)
+                  }
+                </div> : null
               }
             </div>
+            <div className="price-filter">
+              <button className="filter-button" onClick={togglePrice}>Price</button>
+              {
+                showPrice === true ?
+                <div className="filter-options">
+                  {
+                    priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>)
+                  }
+                </div> : null
+              }
             </div>
-            <div className="col-6">
+          </div>
+          <div className="search-list">
+            {
+              listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+            }
+            <div className="pagination">
               {
                 locations.length > 0 ?
                 <Paginate length={locations.length} pageCount={pageCount} loadPageData={loadPageData} perPage={SEARCH_RESULTS_PER_PAGE} searchTerm={searchTerm} />
-                 :
+                :
                 <p>Loading....</p>
               }
             </div>
           </div>
+        </div>
+        <div>
+          <div className="search-map">
+            {
+              locations.length > 0 ?
+              <MapContainer locations={locations}/>
+                :
+              <p>Loading...</p>
+            }
           </div>
         </div>
-        <div className="col-3" id="">
-          {
-            locations.length > 0 ?
-            <MapContainer locations={locations}/>
-              :
-            <p>Loading...</p>
-          }
-        </div>
-      </div>
 
-      <div className="container mt-2">
-      <div className="row">
-        <div className="col-8 click">
-          {
-            listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
-          }
-        <div className="spacer">
-        </div>
-        </div>
-        <div className="col-4">
-        </div>
-      </div>
     </div>
-
-  </div>
   ); //return
 }; //function
 export default SearchResults;
+
+
+// <div>
+//   <h1>Accomodation in { searchTerm }</h1>
+//   <div className="col-9">
+//     <div className="container text-nowrap">
+//       <div className="row">
+//         <div className="col-3">
+//           <div className="part of filter:  dropdown">
+//             <button className="btn btn-outline-secondary dropdown-toggle" type="button" onClick={toggleType}>
+//               Type of place
+//             </button>
+//             <div className="list-group">
+//               {
+//                 showType === true ? locations.map((data,index)=><div onClick={propertyType}>{data.property_type}</div>) : null
+//               }
+//             </div>
+//           </div>
+//         </div>
+//         <div className="col-3">
+//           <button className="btn btn-outline-secondary dropdown-toggle"  onClick={togglePrice}>Price</button>
+//           <div className="list-group">
+//             {
+//               showPrice === true ? priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>) : null
+//             }
+//           </div>
+//         </div>
+//         <div className="col-6">
+//           {
+//             locations.length > 0 ?
+//             <Paginate length={locations.length} pageCount={pageCount} loadPageData={loadPageData} perPage={SEARCH_RESULTS_PER_PAGE} searchTerm={searchTerm} />
+//             :
+//             <p>Loading....</p>
+//           }
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+//   <div className="col-3" id="">
+//     {
+//       locations.length > 0 ?
+//       <MapContainer locations={locations}/>
+//       :
+//       <p>Loading...</p>
+//     }
+//   </div>
+// </div>
+// <div>
+//   {
+//     listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+//   }
+// </div>
