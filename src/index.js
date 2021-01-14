@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import AirBnC from './AirBnC';
 import reportWebVitals from './reportWebVitals';
-// import Confirmation from './components/Confirmation';
-// import SearchBar from './components/SearchBar';
+
 
 ReactDOM.render(
   <React.StrictMode>

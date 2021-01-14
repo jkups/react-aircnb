@@ -40,3 +40,5 @@ node_modules/
 .byebug_history
 .eslintcache
 yarn.lock
+yarn.lock*
+build/

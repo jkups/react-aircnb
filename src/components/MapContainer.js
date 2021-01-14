@@ -43,12 +43,12 @@ export class MapContainer extends React.Component {
 
 render(){
   const mapStyles = {
-    width: '300px',
-    height: '400px',
+    width: '100%',
+    height: '100%',
   };
 
     return (
-      <div className="position-fixed">
+      <div>
         <Map
           google={this.props.google}
           zoom={10}
