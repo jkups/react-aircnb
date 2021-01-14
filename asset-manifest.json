@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/react-air-cnb-app/static/css/main.42e69778.chunk.css",
+    "main.js": "/react-air-cnb-app/static/js/main.7e9d71e5.chunk.js",
+    "main.js.map": "/react-air-cnb-app/static/js/main.7e9d71e5.chunk.js.map",
+    "runtime-main.js": "/react-air-cnb-app/static/js/runtime-main.bc3064d7.js",
+    "runtime-main.js.map": "/react-air-cnb-app/static/js/runtime-main.bc3064d7.js.map",
+    "static/css/2.06382735.chunk.css": "/react-air-cnb-app/static/css/2.06382735.chunk.css",
+    "static/js/2.3b27d37a.chunk.js": "/react-air-cnb-app/static/js/2.3b27d37a.chunk.js",
+    "static/js/2.3b27d37a.chunk.js.map": "/react-air-cnb-app/static/js/2.3b27d37a.chunk.js.map",
+    "static/js/3.7ea01514.chunk.js": "/react-air-cnb-app/static/js/3.7ea01514.chunk.js",
+    "static/js/3.7ea01514.chunk.js.map": "/react-air-cnb-app/static/js/3.7ea01514.chunk.js.map",
+    "index.html": "/react-air-cnb-app/index.html",
+    "static/css/2.06382735.chunk.css.map": "/react-air-cnb-app/static/css/2.06382735.chunk.css.map",
+    "static/css/main.42e69778.chunk.css.map": "/react-air-cnb-app/static/css/main.42e69778.chunk.css.map",
+    "static/js/2.3b27d37a.chunk.js.LICENSE.txt": "/react-air-cnb-app/static/js/2.3b27d37a.chunk.js.LICENSE.txt",
+    "static/media/card-logo.bbd80c36.png": "/react-air-cnb-app/static/media/card-logo.bbd80c36.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bc3064d7.js",
+    "static/css/2.06382735.chunk.css",
+    "static/js/2.3b27d37a.chunk.js",
+    "static/css/main.42e69778.chunk.css",
+    "static/js/main.7e9d71e5.chunk.js"
+  ]
+}
