@@ -52,6 +52,37 @@ once you have pressed the search button you can see the results:
 
 ![](public/searchresults.png)
 
+once you choose the place you can see more details about the property:
+
+![](public/selection.png)
+
+Once you like the place and you are ready to pay you go to the next page:
+
+![](public/payment.png)
+
+Once you pay you will see the booking confirmation
+
+![](public/bookingconfirmation.png)
+
+If you have any problems or feedback you can contact the admin:
+
+![](public/contact.png)
+
+There is also a page about us:
+
+![](public/about.png)
+
+and also about Terms and Conditions:
+
+![](public/terms.png)
+
+
+
+
+
+
+
+
 
 
 
