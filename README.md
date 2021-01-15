@@ -36,6 +36,25 @@ This is the homepage:
 
 ![](public/home.png)
 
+then the user needs to login:
+
+![](public/login.png)
+
+choose for the check in date:
+
+![](public/checkin.png)
+
+choose for the check in date:
+
+![](public/checkout.png)
+
+once you have pressed the search button you can see the results:
+
+![](public/searchresults.png)
+
+
+
+
 Known bugs
 ------------------------------------------------------
 TBA
