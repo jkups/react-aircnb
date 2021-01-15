@@ -85,12 +85,9 @@ class UserProfile extends React.Component {
 
             <h2> Reservations  </h2>
             {
-<<<<<<< HEAD
-              this.state.reservations.map((data,index)=> <div key={index}> <span> <ReservationsProfile reservation={data}/> </span> <span> <ReviewForm data={this.state.data} reservationid={data.id} userid={this.state.user_id} /> </span> </div>)
 
-=======
-              this.state.reservations.map((data,index)=> <ReservationsProfile reservation={data} /> )
->>>>>>> 09f278d652e95d47ce8a56806d6600fd4266c507
+              this.state.reservations.map((data,index)=> <div key={index}> <span> <ReservationsProfile reservation={data}/> </span> <span> <ReviewForm data={this.state.data} reservationid={data.id} userid={this.state.user_id} /> </span> </div>)
+            
             }
 
 
