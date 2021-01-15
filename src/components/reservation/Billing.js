@@ -169,6 +169,7 @@ class Billing extends React.Component {
                   handleSelect={ this.props.handleSelect }
                   selectionRange={ this.props.selectionRange }
                   dateRangeReserved={this.props.property.reservations}
+                  disabledDates={this.props.disabledDates}
                 />
                 <div className="calendar action">
                   <span onClick={ this.clearCalendar }>

@@ -11,7 +11,7 @@ class UserProfile extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        user_id: 205,
+        user_id: 241,
         about_info:'',
         name:'',
         email_confirmed:false,
@@ -42,7 +42,7 @@ class UserProfile extends React.Component {
     }
 
   render(){
-      console.log("Logitout",this.state.reservations);
+      // console.log("Logitout",this.state.reservations);
     return(
       <div className="Terms">
         <h1> Hi, I'm {this.state.name} </h1>
@@ -87,7 +87,7 @@ class UserProfile extends React.Component {
             {
 
               this.state.reservations.map((data,index)=> <div key={index}> <span> <ReservationsProfile reservation={data}/> </span> <span> <ReviewForm data={this.state.data} reservationid={data.id} userid={this.state.user_id} /> </span> </div>)
-            
+
             }
 
 

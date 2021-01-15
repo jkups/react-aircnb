@@ -7,7 +7,7 @@ const Reviews = (props) => {
     console.log("rating: ", props.review.rating);
     let stars = [];
      for(let i = 0; i < props.review.rating; i++){
-       stars.push(<span> ⭐ </span>)
+       stars.push(<span className="star-rating"> &#9733; </span>)
      }
      return stars;
   }
