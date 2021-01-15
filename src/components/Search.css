@@ -37,10 +37,11 @@
   display:flex;
   border-radius: 50px;
   background-color: white;
+  border: 1px solid lightgrey;
 }
 
 .search-wrapper .search-item {
-  padding: 10px 30px;
+  padding: 8px 30px;
   border-radius:50px;
   cursor: pointer;
 }
@@ -76,6 +77,7 @@
   border-radius: 25px;
   box-shadow: 1px 1px rgba(0,0,0,0.5);
   margin-top: 15px;
+  border: 1px solid lightgrey;
 }
 
 .search-button {
@@ -92,6 +94,7 @@
 
 .search-result {
   display: flex;
+  margin-top: 64px;
 }
 
 .search-result > div {
@@ -103,7 +106,7 @@
 }
 
 .search-map {
-  position: relative;
+  position: fixed;
   width: 100%;
   height:100%;
 }
@@ -195,4 +198,40 @@
 
 .filter-options div:hover {
   background-color: lightgrey;
+}
+
+.search-trigger {
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+  height: 50px;
+  margin-top: 7px;
+  cursor:pointer;
+}
+
+.search-trigger:hover {
+  box-shadow: 2px 2px 3px 0px rgba(0,0,0,0.5);
+}
+
+.search-trigger div {
+  width: 150px;
+}
+
+.search-trigger-button {
+  padding: 8px 13px;
+  border-radius: 50%;
+  border: none;
+  background-color: pink;
+}
+
+.loading {
+  padding: 5px 10px;
+  background-color: lightgrey;
+  color: white;
+  margin: 25px 0;
+  display: inline-block;
+  border-radius: 10px;
 }

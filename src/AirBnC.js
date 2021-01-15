@@ -18,7 +18,7 @@ import Payment from './components/payment/Payment'
 import Confirmation from './components/Confirmation'
 
 // Common Components
-import Header from './components/Header'
+import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import Terms from './components/Terms'
 import Contact from './components/Contact'
@@ -87,25 +87,8 @@ class AirBnC extends React.Component {
     return(
       <div>
         <Router>
-          <div>
-            <Header />
-            <div className="nav-wrapper">
-              <div className="container">
-                <nav className="nav">
-                  <div className="logo">
-                    <Link to="/" >aircnb</Link>
-                  </div>
-                  <Link to="/" className="nav-links"> Home </Link>
-                  {
-                    this.state.isLoggedIn ?
-                    <Link className="nav-links" onClick={ this.handleLogout }>Logout</Link>
-                    :
-                    <Link className="nav-links" onClick={ () => this.toggleAuthModal('login', true) }>Login</Link>
-                  }
-                </nav>
-              </div>
-            </div>
-          </div>
+
+          <Route path="/" render={ props => <Navigation {...props} isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout} toggleAuthModal={this.toggleAuthModal} /> } />
 
           <Route exact path = "/" component = {Home} />
           <Route exact path = "/About" component = {About} />

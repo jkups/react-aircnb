@@ -41,6 +41,16 @@ const SearchBar = (props) => {
     setEndDate(item[0].endDate);
   }
 
+  const componentDidMount = () => {
+    console.log('here above');
+    if(Object.keys(props.match.params).length > 0){
+      console.log("here");
+      setSearchText(props.match.params.searchText);
+      setStartDate(props.match.params.startDate);
+      setEndDate(props.match.params.endDate);
+    }
+  }
+
   return(
     <div>
         <div className="search-wrapper">

@@ -31,7 +31,8 @@ class Reservation extends React.Component {
     	service_fee: 0,
       longitude: -33.8688197,
       latitude: 151.2092955,
-      reviews: []
+      reviews: [],
+      reservations: [],
     }
   }
 
@@ -73,10 +74,28 @@ class Reservation extends React.Component {
     })
 
     let stars = [];
-     for(let i = 0; i < (ratings / iterate) ; i++){
-       stars.push(<span> ⭐ </span>)
-     }
-     return stars;
+    for(let i = 0; i < (ratings / iterate) ; i++){
+      stars.push(<span className="star-rating"> &#9733; </span>)
+    }
+
+   return {
+     stars:stars, ratingAvg: ratings/iterate, ratingCount: iterate
+   };
+  }
+
+  getReservedDates = () => {
+    const reservedDates = []
+    const reservations = this.state.property.reservations.slice()
+    if(reservations.length === 0){
+      return null
+    }
+
+    for(const reservation of reservations){
+      reservedDates.push(new Date(reservation.from_date))
+      reservedDates.push(new Date(reservation.to_date))
+    }
+    console.log(reservedDates);
+    return reservedDates
   }
 
   render(){
@@ -87,7 +106,6 @@ class Reservation extends React.Component {
     }]
 
     // console.log("$$$$propertyData:$$$", this.state.property);
-
     const amenitiesOne = this.state.property.amenities.split(',')
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
 
@@ -98,7 +116,10 @@ class Reservation extends React.Component {
             <h3>{ this.state.property.heading }</h3>
             <div>
               <span>{ this.state.property.address }</span>&nbsp;&nbsp;&#183;&nbsp;&nbsp;
-              <span>5.0 (8)</span>
+              <span>
+                <span className="star-rating">&#9733;</span>&nbsp;
+                {this.rating().ratingAvg} ({this.rating().ratingCount} Comments)
+              </span>
             </div>
           </div>
           <div className="image-gallery">
@@ -163,7 +184,7 @@ class Reservation extends React.Component {
                 </ul>
               </div>
               <div className="amenities">
-                <h4>Reviews { this.rating()}</h4>
+                <h4>Reviews { this.rating().stars }</h4>
                   {
                        this.state.property.reviews.map((review,index) => <Reviews key={index} review={review} />)
                   }
@@ -189,6 +210,7 @@ class Reservation extends React.Component {
                   handleSelect={ this.handleSelect }
                   isLoggedIn={ this.props.isLoggedIn }
                   processReservation={ this.processReservation }
+                  disabledDates={ this.getReservedDates() }
                 />
               </div>
             </li>

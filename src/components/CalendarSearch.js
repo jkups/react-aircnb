@@ -36,6 +36,7 @@ const CalendarSearch = (props) => {
         showDateDisplay={false}
         onChange={handleSelect}
         moveRangeOnFirstSelection={false}
+        minDate={new Date()}
         ranges={state}
       />
 

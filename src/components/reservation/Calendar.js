@@ -23,6 +23,7 @@ class Calendar extends React.Component {
           months={2}
           direction="horizontal"
           showDateDisplay={false}
+          minDate={new Date()}
           onChange={(ranges) => this.props.handleSelect(ranges)}
         />
       </div>

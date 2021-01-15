@@ -116,66 +116,64 @@ const SearchResults = (props) => {
 
   return (
     <div className="search-result">
-        {
-
-          // <SearchBar {...props}/>
-        }
-
-        <div>
-          <h3>
-            <strong>Accomodation in { searchTerm }</strong>
-          </h3>
-          <div className="search-filter">
-            <div className="type-filter">
-              <div className="filter-button" onClick={toggleType}>
-                Type of place
-              </div>
-              {
-                showType === true ?
-                <div className="filter-options">
-                  {
-                    locations.map((data,index) => <div onClick={propertyType}>{data.property_type}</div>)
-                  }
-                </div> : null
-              }
+      <div>
+        <h3>
+          <strong>Accomodation in { searchTerm }</strong>
+        </h3>
+        <div className="search-filter">
+          <div className="type-filter">
+            <div className="filter-button" onClick={toggleType}>
+              Type of place
             </div>
-            <div className="price-filter">
-              <button className="filter-button" onClick={togglePrice}>Price</button>
-              {
-                showPrice === true ?
-                <div className="filter-options">
-                  {
-                    priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>)
-                  }
-                </div> : null
-              }
-            </div>
-          </div>
-          <div className="search-list">
             {
-              listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+              showType === true ?
+              <div className="filter-options">
+                {
+                  locations.map((data,index) => <div onClick={propertyType}>{data.property_type}</div>)
+                }
+              </div> : null
             }
-            <div className="pagination">
-              {
-                locations.length > 0 ?
-                <Paginate length={locations.length} pageCount={pageCount} loadPageData={loadPageData} perPage={SEARCH_RESULTS_PER_PAGE} searchTerm={searchTerm} />
-                :
-                <p>Loading....</p>
-              }
-            </div>
+          </div>
+          <div className="price-filter">
+            <button className="filter-button" onClick={togglePrice}>Price</button>
+            {
+              showPrice === true ?
+              <div className="filter-options">
+                {
+                  priceArray.map((data,index)=><div onClick={priceRanges}>{data.range}</div>)
+                }
+              </div> : null
+            }
           </div>
         </div>
-        <div>
-          <div className="search-map">
+        <div className="search-list">
+          {
+            listData.map((data, index) => <ListingDisplay key={data.id} propertyData={data} searchTerm={searchTerm} handleClick={handleClick}/>)
+          }
+          <div className="pagination">
             {
               locations.length > 0 ?
-              <MapContainer locations={locations}/>
-                :
-              <p>Loading...</p>
+              <Paginate length={locations.length} pageCount={pageCount} loadPageData={loadPageData} perPage={SEARCH_RESULTS_PER_PAGE} searchTerm={searchTerm} />
+              :
+              <div className="loading">
+                Loading...
+              </div>
             }
           </div>
         </div>
-
+      </div>
+      <div className="map-wrapper">
+        <div className="search-map">
+          {
+            locations.length > 0 ?
+            <MapContainer locations={locations}/>
+              :
+            <div className="loading">
+              Loading...
+            </div>
+          }
+        </div>
+      </div>
     </div>
   ); //return
 }; //function
