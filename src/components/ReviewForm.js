@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import '../App.css'
 
+const BASE_URL = "http://localhost:3000";
+
 class ReviewForm extends React.Component {
 
   constructor(props) {
@@ -9,45 +11,94 @@ class ReviewForm extends React.Component {
       this.state = {
         comment: '',
         rating:'',
-        review:{}
+        reservation_id: this.props.reservationid,
+        isUpdate: false,
+        response: false
       }
     }
 
     componentDidMount(){
+      console.log("data: ", this.props.data);
       this.props.data[0].reviews.forEach((item)=>{
+
         if (item.reservation_id === this.props.reservationid){
-          this.setState({review:item})
+          console.log("equal?:",item.reservation_id,this.props.reservationid);
+          this.setState({
+            comment: item.comment,
+            rating: item.rating,
+            review_id: item.id,
+          })
+          this.setState({isUpdate: true})
+          // console.log("staste:",this.state.review.reservation_id);
         }
       })
     }
 
     handleSubmit(event){
       event.preventDefault();
-      axios.post(`http://localhost:3000/reviews.json`,
-      { review: this.state },
-      { withCredentials: true }
-      )
-      .then((response)=>{
-        // console.log(response.data);
-        this.setState({response:response.data})
-      })
-      .catch(console.warn)
+      console.log("check",this.state);
+      if(this.state.isUpdate === true){
+        axios.put(BASE_URL + "/reviews/" + this.state.review_id + "",
+        {
+          rating: this.state.rating,
+          comment: this.state.comment,
+          reservation_id: this.state.reservation_id,
+         },
+        { withCredentials: true }
+        )
+        .then((response)=>{
+          // console.log(response.data);
+          this.setState({response:true})
+          setTimeout(()=>{
+            this.setState({response:false});
+          })
+        })
+        .catch(console.warn)
+      }else{
+        console.log("Im in the wrong place",this.state);
+        axios.post(BASE_URL + "/reviews",
+        {
+          rating: this.state.rating,
+          comment: this.state.comment,
+          reservation_id: this.state.reservation_id,
+         },
+        { withCredentials: true }
+        )
+        .then((response)=>{
+          // console.log(response.data);
+          this.setState({response:true})
+          setTimeout(()=>{
+            this.setState({response:false});
+          })
+        })
+        .catch(console.warn)
+      }
+
     } //handleSubmit
 
 
     onRatingChange(event) {
-      this.setState({rating: event.target.value})
+      this.setState({
+        rating: event.target.value
+      })
     }
 
     onCommentChange(event) {
-      this.setState({comment: event.target.value})
+      this.setState({
+        comment: event.target.value
+      })
     }
 
 
   render(){
-    console.log("data is",this.state.review);
+    // console.log("data is",this.state.review);
     return(
       <div>
+
+        {
+          this.state.response === true ? <p>Submitted</p> : null
+        }
+
 
       <form id="submit-review" onSubmit={this.handleSubmit.bind(this)} method="POST">
        <div className="form-group">
