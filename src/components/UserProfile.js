@@ -2,21 +2,23 @@ import React from 'react';
 import axios from 'axios';
 import '../App.css';
 import ReservationsProfile from './ReservationsProfile';
+import ReviewForm from './ReviewForm';
 
-const BASE_URL = 'http://localhost:3000/'
+const BASE_URL = 'http://localhost:3000'
 
 class UserProfile extends React.Component {
 
   constructor(props) {
       super(props);
       this.state = {
-        user_id: 80,
+        user_id: 241,
         about_info:'',
         name:'',
         email_confirmed:false,
         identity_confirmed:false,
         reservations:[],
-        reviews:[]
+        reviews:[],
+        data:[]
       }
     }
 
@@ -31,7 +33,8 @@ class UserProfile extends React.Component {
           email_confirmed:res.data[0].email_confirmed,
           identity_confirmed:res.data[0].identity_confirmed,
           reservations:res.data[0].reservations,
-          reviews:res.data[0].reviews
+          reviews:res.data[0].reviews,
+          data:res.data
         })
       })
       .catch(console.warn)
@@ -39,18 +42,22 @@ class UserProfile extends React.Component {
     }
 
   render(){
-
+      // console.log("Logitout",this.state.reservations);
     return(
-      <div>
-        <h1> Hi {this.state.name} </h1>
+      <div className="Terms">
+        <h1> Hi, I'm {this.state.name} </h1>
+        <br />
 
         <div>
           <h2> About me  </h2>
+          <hr />
+          <br />
+          <p>
+            {this.state.about_info}
 
-        <p>
-          {this.state.about_info}
+          </p>
 
-        </p>
+          <br />
 
           <div>
               <hr />
@@ -72,22 +79,26 @@ class UserProfile extends React.Component {
             </p>
           </div>
           <hr />
+          <br />
 
           <div>
+
+            <h2> Reservations  </h2>
             {
-              this.state.reservations.map((data,index)=>{
-                <ReservationsProfile reservation={data}/>
-              })
+
+              this.state.reservations.map((data,index)=> <div key={index}> <ReservationsProfile reservation={data} className="inline"/> <ReviewForm data={this.state.data} reservationid={data.id} className="inline"/></div>)
+
             }
+
+
 
           </div>
 
 
         </div>
-
+<div className="big-spacer">
+</div>
       </div>
-
-
     )
   }
 }
