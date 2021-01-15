@@ -44,7 +44,7 @@ choose for the check in date:
 
 ![](public/checkin.png)
 
-choose for the check in date:
+choose for the check out date:
 
 ![](public/checkout.png)
 
