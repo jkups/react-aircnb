@@ -30,7 +30,9 @@ class Reservation extends React.Component {
     	cleaning_fee: 0,
     	service_fee: 0,
       longitude: -33.8688197,
-      latitude: 151.2092955
+      latitude: 151.2092955,
+      reviews: [],
+      reservations: [],
     }
   }
 
@@ -50,7 +52,6 @@ class Reservation extends React.Component {
     const url = `${SERVER_BASE_URL}/properties/${this.props.match.params.listing_id}.json`
     const startDate = `'${this.props.match.params.startDate}'`
     const endDate = `'${this.props.match.params.endDate}'`
-
     axios.get(url)
     .then(res => {
       this.setState({
@@ -64,16 +65,49 @@ class Reservation extends React.Component {
     })
   }
 
+  rating = () => {
+    let ratings = 0;
+    let iterate = 0;
+    this.state.property.reviews.forEach((review)=>{
+      ratings += review.rating;
+      iterate++;
+    })
+
+    let stars = [];
+    for(let i = 0; i < (ratings / iterate) ; i++){
+      stars.push(<span className="star-rating"> &#9733; </span>)
+    }
+
+   return {
+     stars:stars, ratingAvg: ratings/iterate, ratingCount: iterate
+   };
+  }
+
+  getReservedDates = () => {
+    const reservedDates = []
+    const reservations = this.state.property.reservations.slice()
+    if(reservations.length === 0){
+      return null
+    }
+
+    for(const reservation of reservations){
+      reservedDates.push(new Date(reservation.from_date))
+      reservedDates.push(new Date(reservation.to_date))
+    }
+    console.log(reservedDates);
+    return reservedDates
+  }
+
   render(){
-    const address = this.state.property.address
-    const locations = [
-      this.state.property.longitude,
-      this.state.property.latitude
-    ]
-    
+
+    const coOrds = [{
+      lng:this.state.property.longitude,
+      lat:this.state.property.latitude
+    }]
+
+    // console.log("$$$$propertyData:$$$", this.state.property);
     const amenitiesOne = this.state.property.amenities.split(',')
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
-
 
     return(
       <div className="container">
@@ -82,7 +116,10 @@ class Reservation extends React.Component {
             <h3>{ this.state.property.heading }</h3>
             <div>
               <span>{ this.state.property.address }</span>&nbsp;&nbsp;&#183;&nbsp;&nbsp;
-              <span>5.0 (8)</span>
+              <span>
+                <span className="star-rating">&#9733;</span>&nbsp;
+                {this.rating().ratingAvg} ({this.rating().ratingCount} Comments)
+              </span>
             </div>
           </div>
           <div className="image-gallery">
@@ -147,19 +184,21 @@ class Reservation extends React.Component {
                 </ul>
               </div>
               <div className="amenities">
-                <h4>Reviews</h4>
-
-                     <Reviews />
-
+                <h4>Reviews { this.rating().stars }</h4>
+                  {
+                       this.state.property.reviews.map((review,index) => <Reviews key={index} review={review} />)
+                  }
               </div>
               <div className="map">
                 <h4>Location</h4>
+                <div className="map-wrapper">
                 {
-                  locations.length > 0 ?
-                  <MapContainerShow lat={this.state.property.latitude} long={this.state.property.longitude} locations={locations} />
-                    :
-                  <p>Loading...</p>
+                    this.state.property.listing_price > 0 ?
+                      <MapContainerShow coOrds={coOrds} locations={this.state.property} />
+                        :
+                      <p>Loading...</p>
                 }
+                </div>
               </div>
             </li>
             <li>
@@ -171,6 +210,7 @@ class Reservation extends React.Component {
                   handleSelect={ this.handleSelect }
                   isLoggedIn={ this.props.isLoggedIn }
                   processReservation={ this.processReservation }
+                  disabledDates={ this.getReservedDates() }
                 />
               </div>
             </li>

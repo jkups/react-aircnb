@@ -6,19 +6,6 @@
   margin: 0 auto;
 }
 
-nav, nav a {
-  padding: 15px;
-  text-align: right;
-}
-
-nav a {
-  color: white;
-}
-
-nav span {
-  margin: 0 5px;
-}
-
 .auth-modal {
   position: fixed;
   top: 0;

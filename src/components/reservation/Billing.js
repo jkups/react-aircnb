@@ -28,7 +28,6 @@ class Billing extends React.Component {
 
   updateGuestsCount = value => {
     const maxGuests = this.props.property.max_guests
-    console.log(maxGuests);
     let guestsCount = this.state.guestsCount
 
     if(value && guestsCount < maxGuests ) guestsCount++
@@ -51,9 +50,9 @@ class Billing extends React.Component {
       axios.post(`${SERVER_BASE_URL}/reservations.json`,
         { reservation },
         { withCredentials: true }
+
       )
       .then(res => {
-        console.log(res.data);
         this.props.processReservation(res.data)
       })
       .catch(console.warn)
@@ -73,8 +72,8 @@ class Billing extends React.Component {
     const cleaningFee = this.props.property.cleaning_fee
     const serviceFee = this.props.property.service_fee
     const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
-
     const total = pricePerNight * dateDiff
+
     const grandTotal = pricePerNight * dateDiff + cleaningFee + serviceFee
 
     const dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -170,6 +169,7 @@ class Billing extends React.Component {
                   handleSelect={ this.props.handleSelect }
                   selectionRange={ this.props.selectionRange }
                   dateRangeReserved={this.props.property.reservations}
+                  disabledDates={this.props.disabledDates}
                 />
                 <div className="calendar action">
                   <span onClick={ this.clearCalendar }>

@@ -5,10 +5,21 @@ export class MapContainer extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          lat: this.props.lat, //-33.8688197,
-          long: this.props.long //151.2092955,
+          // lat: this.props.lat, //-33.8688197,
+          // long: this.props.long, //151.2092955,
+          bounds: null,
       };
   };
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.locations !== this.props.locations){
+      const bounds = new this.props.google.maps.LatLngBounds();
+        this.props.locations.forEach((item, i) => {
+          bounds.extend({lat:item.latitude,lng:item.longitude});
+        });
+        this.setState({bounds});
+    }
+  }
 
 
   displayMarkers = () => {
@@ -24,7 +35,7 @@ export class MapContainer extends React.Component {
               title={"$100"}
               name={"location.name"}
               icon={{
-                url: `https://chart.googleapis.com/chart?chst=d_bubble_text_small&chld=bb|$ ${location.listing_price} / ${location.max_guests} Guests|FFFFFF|000000`,
+                url: `https://chart.googleapis.com/chart?chst=d_map_spin&chld=1|0|FFFFFF|10|b|$ ${location.listing_price}`,
               }}
               />
     })
@@ -32,27 +43,18 @@ export class MapContainer extends React.Component {
 
 render(){
   const mapStyles = {
-    width: '300px',
-    height: '550px',
+    width: '50%',
+    height: '95%',
   };
-  console.log("State lat map: ",this.state.lat);
-  console.log("Prop lat map: ",this.props.lat);
-  // console.log("Inside long: ",this.props.long);
-  // console.log("Locations: ",this.props.locations);
-  const points = this.props.locations;
-
-  // const bounds = new this.props.goolge.maps.LatLngBounds();
-  // for(let i = 0; i < points.length; i++){
-  //   bounds.extend(points[i])
-  // }
 
     return (
-      <div className="position-fixed">
+      <div>
         <Map
           google={this.props.google}
           zoom={10}
           style={mapStyles}
-          initialCenter={{ lat: this.props.lat, lng: this.props.long}}
+          initialCenter={{ lat: this.props.locations[0].latitude, lng: this.props.locations[0].longitude}}
+          bounds={this.state.bounds}
         >
         {this.displayMarkers()}
         </Map>

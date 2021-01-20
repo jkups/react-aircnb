@@ -1,15 +1,18 @@
 import React from 'react';
-// import {Route, Link, HashRouter as Router} from 'react-router-dom';
-// import axios from 'axios';
+import SearchBar from './SearchBar'
+import './Search.css'
+
 
 const Home = (props) => {
-  console.log("history: ",props.history);
   return (
-    <div>
-      <div className="spacer">
-      Home
+    <div className="hero">
+      <div className="hero-search">
+        <SearchBar {...props}/>
       </div>
-      <div className="home-back">
+      <div className="container hero-heading">
+        <h1>Go</h1>
+        <h1>Near</h1>
+        <span>Explore nearby stays</span>
       </div>
     </div>
   ); //return

@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+// import React, {useState, useEffect} from 'react';
 import '../App.css';
 
 const Pagination = (props) => {
@@ -12,8 +13,8 @@ const Pagination = (props) => {
   //set to three to test that it works...
   const [resultsPerPage, updateResultsPerPage] = useState(3);
 
-  //set number of pages
-  // const [pageNumbers, updatePageNumbers] = useState([]);
+  set number of pages
+  const [pageNumbers, updatePageNumbers] = useState([]);
 
   //render page numbers
   let pageNumbers = [];

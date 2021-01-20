@@ -31,11 +31,15 @@ const CalendarSearch = (props) => {
   return(
     <div>
       <DateRange
-        editableDateInputs={true}
+        months={2}
+        direction="horizontal"
+        showDateDisplay={false}
         onChange={handleSelect}
         moveRangeOnFirstSelection={false}
+        minDate={new Date()}
         ranges={state}
       />
+
     </div>
   ); //return
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Redirect, Link, Route, HashRouter as Router } from 'react-router-dom';
+import { Link, Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import Home from './components/Home';
 import './App.css';
+import UserProfile from './components/UserProfile'
 
 // Authentication Components
 import AuthModal from './components/authentication/AuthModal'
@@ -17,12 +18,11 @@ import Payment from './components/payment/Payment'
 import Confirmation from './components/Confirmation'
 
 // Common Components
-import Header from './components/Header'
+import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import Terms from './components/Terms'
 import Contact from './components/Contact'
 import About from './components/About'
-import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 
 
@@ -31,8 +31,8 @@ const SERVER_BASE_URL = 'http://localhost:3000';
 class AirBnC extends React.Component {
   state = {
     authForm: '',
-    authModalVisible: false,
-    isLoggedIn: false,
+    authModalVisible: '',
+    isLoggedIn: '',
     user: {}
   }
 
@@ -87,34 +87,17 @@ class AirBnC extends React.Component {
     return(
       <div>
         <Router>
-          <div className="container-fluid nav">
-            <Header />
-            <div className="container">
-              <nav>
-                {
-                  this.state.isLoggedIn ?
-                  <span>
-                    <Link onClick={ this.handleLogout }>Logout</Link>
-                  </span>
-                  :
-                  <span>
-                    <Link onClick={ () => this.toggleAuthModal('login', true) }>Login</Link>
-                  </span>
-                }
-                <span>
-                  <Link to="/property/1" >Demo Reservation</Link>
-                </span>
-              </nav>
-            </div>
-          </div>
+
+          <Route path="/" render={ props => <Navigation {...props} isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout} toggleAuthModal={this.toggleAuthModal} /> } />
 
           <Route exact path = "/" component = {Home} />
           <Route exact path = "/About" component = {About} />
           <Route exact path = "/Terms" component = {Terms} />
           <Route exact path = "/Contact" component = {Contact} />
-          <Route exact path="/search" component={SearchBar }/>
 
           <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
+
+          <Route exact path = "/profile" component ={UserProfile}  />
 
           <Route exact path="/property/:listing_id/:startDate/:endDate" render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} isLoggedIn={this.state.isLoggedIn} user={this.state.user} /> } />
 

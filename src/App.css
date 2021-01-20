@@ -38,64 +38,94 @@
   }
 }
 
-.Header{
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
+.header a {
+  display: block;
   padding: 1em;
-  margin-bottom: 2em;
   background-color: rgb(50, 39, 37);
   color: #fff;
-
+  position: relative;
+  text-align: center;
+  font-size:14px;
 }
 
-.Header a{
-  text-decoration: none;
+.header a:hover {
   color: #fff;
-
+  background-color: rgba(0,0,0,0.5)
 }
 
-.Footer{
-    box-sizing: border-box;
-    width: 100%;
-    display: inline-block;
-    justify-content: center;
-    align-items: baseline;
-    padding: 1.5em;
-    background-color: #F8F8F8;
-    border-top: 1px solid #E7E7E7;
-    position: fixed;
-    bottom: 0px;
-    height: 10px;
-    /* padding-bottom: 1px; */
-    /* margin: 10px; */
+.nav-wrapper {
+  position:relative;
+  z-index:1000;
+  box-shadow: 0px -3px 18px 0px rgba(0,0,0,0.5);
+  background-color: white;
 }
 
-.Footer a {
+.nav-wrapper.stay {
+  position:fixed;
+  top:0;
+  left:0;
+  right: 0;
+}
+
+.nav {
+  display:flex;
+  color: black;
+  justify-content:space-between;
+}
+
+
+.nav .logo {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 14px 0;
+}
+
+.nav .logo a {
+  color: black;
+  text-decoration: none;
+}
+
+.nav .nav-links {
+  display: inline-block;
+  padding: 20px;
   text-decoration: none;
   color: black;
 }
 
-.Footer .Fleft{
-  position: fixed;
-  display: inline-block;
-  left: 0;
-  bottom: 0;
-  padding-bottom: 15px;
-  padding-left: 20px;
-  /* border: 1px solid green; */
+.nav .nav-links:hover {
+  background-color: pink;
+  color: black;
+  border-bottom: 2px solid purple;
+  padding-bottom: 18px;
 }
 
+.star-rating {
+  fontSize:18px;
+  color:purple;
+}
+.footer {
+  border-top: 1px solid #E7E7E7;
+  background-color: white;
+  padding: 10px 0;
+  position: relative;
+  z-index:1000;
+}
 
-.Footer .Fright{
-  position: fixed;
-  display: inline-block;
-  right:0;
-  bottom: 0;
-  padding-bottom: 15px;
-  padding-right: 20px;
+.footer div{
+  display: flex;
+}
+
+.footer a {
+  text-decoration: none;
+  color: black;
+}
+
+.footer a:hover {
+  color: black;
+}
+
+.footer span {
+  flex-grow: 1;
 }
 
 .Terms{
@@ -122,17 +152,19 @@
   pointer-events: none;
 }
 
-.nav {
-  background-color: black;
+.pagination{
+  /* border: 1px solid red; */
+
+}
+
+.click:hover{
+  cursor: pointer;
 }
 
 .spacer{
-  height: 145px;
+  height: 100px;
 }
 
-.home-back{
-  background-image: url('https://news.airbnb.com/wp-content/uploads/sites/4/2020/04/Airbnb_Peru_Skylodge.jpg');
-  background-repeat: no-repeat;
-  width: 100vw;
-  height: 100vh;
+.big-spacer{
+  height: 600px;
 }
