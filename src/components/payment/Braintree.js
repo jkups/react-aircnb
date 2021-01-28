@@ -5,14 +5,9 @@ import CardLogo from './card-logo.png'
 class Braintree extends React.Component {
 
   state = {
-    hostedFields: {}
-  }
-
-  updateField = (emitter, color) => {
-    console.log(emitter);
-    const el = ReactDOM.findDOMNode(this).querySelector(`.${emitter}`)
-    console.log(el);
-    el.style.borderBottomColor = color
+    hostedFields: {},
+    submitValue: 'Pay with Card',
+    submitDisabled: true
   }
 
   componentDidMount = () => {
@@ -62,23 +57,6 @@ class Braintree extends React.Component {
   	})
 
     hostedFields.then(hostedFields => {
-		// submitBtn.setAttribute('disabled', 'disabled');
-
-  		hostedFields.on('empty', event => {
-        this.updateField(event.emittedBy, '')
-  		})
-
-  		// hostedFields.on('validityChange', event => {
-  		// 	var field = event.fields[event.emittedBy];
-      //
-  		// 	if (field.isValid) {
-      //     this.updateField(event.emittedBy, 'green')
-  		// 	} else if (field.isPotentiallyValid) {
-      //     this.updateField(event.emittedBy, '#17a2b8')
-  		// 	} else {
-      //     this.updateField(event.emittedBy, 'red')
-  		// 	}
-  		// })
 
   		hostedFields.on('cardTypeChange', event => {
   			if (event.cards.length === 1) {
@@ -102,7 +80,8 @@ class Braintree extends React.Component {
   		});
 
       this.setState({
-        hostedFields: hostedFields
+        hostedFields: hostedFields,
+        submitDisabled: false
       })
 
   	})
@@ -123,8 +102,12 @@ class Braintree extends React.Component {
     );
 
     if(formValid){
-      const el = ReactDOM.findDOMNode(this).querySelector('#cardholder-name')
-      const cardholderName = el.value
+      this.setState({
+        submitValue: 'Processing...',
+        submitDisabled: true
+      })
+
+      const cardholderName = 'John Doe' //hard coded for simplicity :)
 
       this.state.hostedFields.tokenize({ cardholderName: cardholderName }).then(payload => {
         // send payload.nonce to server
@@ -132,7 +115,7 @@ class Braintree extends React.Component {
       }).catch(console.warn);
 
     } else {
-      console.log('error')
+      alert('Your payment details are invalid.')
     }
   }
 
@@ -157,7 +140,7 @@ class Braintree extends React.Component {
           <label htmlFor="expiration">Expiration Date</label>
           <div id="expiration"></div>
 
-          <input className="button" id="pay" type="submit" value="Pay with Card"/>
+          <input className="button" id="pay" type="submit" value={this.state.submitValue} disabled={this.state.submitDisabled}/>
         </form>
       </div>
     )

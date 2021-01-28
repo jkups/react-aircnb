@@ -4,14 +4,6 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange } from 'react-date-range';
 
 class Calendar extends React.Component {
-  state = {
-    dateRangeReserved: false,
-  }
-
-  componentDidMount = () => {
-    // map existing reservation dates
-    // update dateRangeReserved state
-  }
 
   render(){
     const selectionRange = this.props.selectionRange
@@ -24,6 +16,7 @@ class Calendar extends React.Component {
           direction="horizontal"
           showDateDisplay={false}
           minDate={new Date()}
+          disabledDates={this.props.reservedDates}
           onChange={(ranges) => this.props.handleSelect(ranges)}
         />
       </div>

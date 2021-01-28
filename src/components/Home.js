@@ -1,6 +1,6 @@
 import React from 'react';
-import SearchBar from './SearchBar'
-import './Search.css'
+import SearchBar from './search/SearchBar'
+import './search/Search.css'
 
 
 const Home = (props) => {
@@ -16,5 +16,6 @@ const Home = (props) => {
       </div>
     </div>
   ); //return
-}; //function
+}; //Home
+
 export default Home;

@@ -15,6 +15,7 @@
   background-color: rgba(0,0,0,0.6);
   justify-content:center;
   align-items:center;
+  z-index: 1000;
 }
 
 .auth-wrapper {
@@ -29,6 +30,16 @@
   border-radius: 5px;
   padding: 25px;
   text-align: center;
+}
+
+.auth-dialog span {
+  color: grey;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.auth-modal span:hover {
+  text-decoration: underline;
 }
 
 .show-modal {

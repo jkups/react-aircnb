@@ -2,7 +2,7 @@ import React from 'react'
 import Calendar from './Calendar'
 import axios from 'axios'
 
-const SERVER_BASE_URL = 'https://aircnb.herokuapp.com'
+const SERVER_BASE_URL = 'http://localhost:3000'
 
 class Billing extends React.Component {
   state = {
@@ -50,7 +50,6 @@ class Billing extends React.Component {
       axios.post(`${SERVER_BASE_URL}/reservations.json`,
         { reservation },
         { withCredentials: true }
-
       )
       .then(res => {
         this.props.processReservation(res.data)
@@ -58,7 +57,7 @@ class Billing extends React.Component {
       .catch(console.warn)
 
     } else {
-      this.props.toggleAuthModal('login', true)
+      this.props.switchAuthForm('login', true)
     }
   }
 
@@ -67,15 +66,18 @@ class Billing extends React.Component {
   }
 
   render(){
-    const pricePerNight = this.props.property.listing_price
-    const maxGuests = this.props.property.max_guests
-    const cleaningFee = this.props.property.cleaning_fee
-    const serviceFee = this.props.property.service_fee
-    const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24
+
+    const {
+      listing_price: pricePerNight,
+      max_guests: maxGuests,
+      cleaning_fee: cleaningFee,
+      service_fee: serviceFee
+    } = this.props.property;
+
+    const dateDiff = (this.props.selectionRange.endDate - this.props.selectionRange.startDate) / 1000 / 60 / 60 / 24;
+
     const total = pricePerNight * dateDiff
-
     const grandTotal = pricePerNight * dateDiff + cleaningFee + serviceFee
-
     const dateFormat = { year: 'numeric', month: 'short', day: 'numeric' };
 
     let nights = dateDiff <= 0 ? 'Select a date range' : `${dateDiff} nights`
@@ -169,10 +171,10 @@ class Billing extends React.Component {
                   handleSelect={ this.props.handleSelect }
                   selectionRange={ this.props.selectionRange }
                   dateRangeReserved={this.props.property.reservations}
-                  disabledDates={this.props.disabledDates}
+                  reservedDates={this.props.reservedDates}
                 />
                 <div className="calendar action">
-                  <span onClick={ this.clearCalendar }>
+                  <span className="button" onClick={ this.clearCalendar }>
                     Clear dates
                   </span>
                   <span className="button" onClick={ this.toggleCalendar }>

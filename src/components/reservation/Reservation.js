@@ -1,12 +1,13 @@
 import React from 'react'
+import MapProperty from '../geomap/MapProperty';
+import axios from 'axios'
+import queryString from 'query-string';
 import Billing from './Billing'
 import './Reservation.css'
 import '../authentication/Auth.css'
-import MapContainerShow from '../MapContainerShow';
-import axios from 'axios'
 import Reviews from './Reviews'
 
-const SERVER_BASE_URL = 'https://aircnb.herokuapp.com'
+const SERVER_BASE_URL = 'http://localhost:3000'
 
 class Reservation extends React.Component {
   state = {
@@ -21,7 +22,7 @@ class Reservation extends React.Component {
     	title: '',
     	address: '',
     	description: '',
-    	images: [],
+    	images: [{}],
     	max_guests: 0,
     	listing_price: 0,
     	bedrooms: 0,
@@ -43,21 +44,37 @@ class Reservation extends React.Component {
   }
 
   processReservation = reservation => {
-    const url = `/book/${reservation.id}/${reservation.from_date}/${reservation.to_date}`
+    let startDate = new Date(reservation.from_date).toLocaleDateString()
+    let endDate = new Date(reservation.to_date).toLocaleDateString()
 
-    this.props.history.push(url)
+    startDate = startDate.split('/').join('-')
+    endDate = endDate.split('/').join('-')
+
+    this.props.history.push({
+      pathname: `/book/${reservation.id}`,
+      search: '?' + new URLSearchParams({
+        checkin: startDate,
+        checkout: endDate,
+      }).toString()
+    })
   }
 
   componentDidMount = () => {
-    const url = `${SERVER_BASE_URL}/properties/${this.props.match.params.listing_id}.json`
-    const startDate = `'${this.props.match.params.startDate}'`
-    const endDate = `'${this.props.match.params.endDate}'`
+    const search = this.props.location.search
+    const id = this.props.match.params.id
+    let startDate = (queryString.parse(search).checkin).split('-')
+    let endDate = (queryString.parse(search).checkout).split('-')
+
+    startDate = new Date(startDate[2],startDate[1]-1,startDate[0])
+    endDate = new Date(endDate[2],endDate[1]-1,endDate[0])
+
+    const url = `${SERVER_BASE_URL}/properties/${id}.json`
     axios.get(url)
     .then(res => {
       this.setState({
         ranges: {
-          startDate: new Date(startDate),
-          endDate: new Date(endDate),
+          startDate: startDate,
+          endDate: endDate,
           key: "selection"
         },
         property: res.data[0]
@@ -66,46 +83,58 @@ class Reservation extends React.Component {
   }
 
   rating = () => {
-    let ratings = 0;
-    let iterate = 0;
-    this.state.property.reviews.forEach((review)=>{
-      ratings += review.rating;
-      iterate++;
-    })
+    const reviews = this.state.property.reviews
+    const reviewsCount = reviews.length
+    const avgRating = reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviewsCount
 
-    let stars = [];
-    for(let i = 0; i < (ratings / iterate) ; i++){
+    const stars = [];
+    for(let i = 0; i < Math.round(avgRating); i++){
       stars.push(<span className="star-rating"> &#9733; </span>)
     }
 
-   return {
-     stars:stars, ratingAvg: ratings/iterate, ratingCount: iterate
-   };
+    return { stars, reviewsCount, avgRating }
   }
 
   getReservedDates = () => {
-    const reservedDates = []
     const reservations = this.state.property.reservations.slice()
-    if(reservations.length === 0){
-      return null
-    }
+    if(reservations.length === 0) return null
 
-    for(const reservation of reservations){
-      reservedDates.push(new Date(reservation.from_date))
-      reservedDates.push(new Date(reservation.to_date))
-    }
-    console.log(reservedDates);
+    const reservedDates = reservations.flatMap(date => {
+      const dateRange = []
+      const startDate = new Date(date.from_date)
+      const endDate =  new Date(date.to_date)
+      const dateDiff = (endDate - startDate)/ 1000 / 60 / 60 / 24
+
+      for(let i = 0; i <= dateDiff; i++){
+        dateRange.push(new Date(startDate.getTime()));
+        startDate.setDate(startDate.getDate() + 1);
+      }
+      return dateRange
+
+    }).filter((date, idx, arr) => idx === arr.indexOf(date))
+
     return reservedDates
   }
 
   render(){
 
-    const coOrds = [{
+    //hard coded additional property images for simplicity :)
+    const propertyImages = {
+      first: [
+        'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+        'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80'
+      ],
+      second: [
+        'https://images.unsplash.com/photo-1584455333741-c8192566df82?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80',
+        'https://images.unsplash.com/photo-1574873215043-44119461cb3b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
+      ]
+    }
+
+    const coordinates = [{
       lng:this.state.property.longitude,
       lat:this.state.property.latitude
     }]
 
-    // console.log("$$$$propertyData:$$$", this.state.property);
     const amenitiesOne = this.state.property.amenities.split(',')
     const amenitiesTwo = amenitiesOne.splice(-amenitiesOne.length/2)
 
@@ -118,31 +147,33 @@ class Reservation extends React.Component {
               <span>{ this.state.property.address }</span>&nbsp;&nbsp;&#183;&nbsp;&nbsp;
               <span>
                 <span className="star-rating">&#9733;</span>&nbsp;
-                {this.rating().ratingAvg} ({this.rating().ratingCount} Comments)
+                {this.rating().avgRating} ({this.rating().reviewsCount} Comments)
               </span>
             </div>
           </div>
           <div className="image-gallery">
             <ul>
               <li>
-                <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" />
+                <img src={`https://res.cloudinary.com/dhl1cdqch/image/upload/v1610626496/${this.state.property.images[0].image_url}`} alt=""/>
               </li>
               <li>
                 <ul>
-                  <li>
-                    <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" />
-                  </li>
-                  <li>
-                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80" />
-                  </li>
+                  {
+                    propertyImages.first.map((image, idx) => (
+                      <li key={idx}>
+                        <img src={image} alt=""/>
+                      </li>
+                    ))
+                  }
                 </ul>
                 <ul>
-                  <li>
-                    <img src="https://images.unsplash.com/photo-1584455333741-c8192566df82?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80" />
-                  </li>
-                  <li>
-                    <img src="https://images.unsplash.com/photo-1574873215043-44119461cb3b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" />
-                  </li>
+                  {
+                    propertyImages.second.map((image, idx) => (
+                      <li key={idx}>
+                        <img src={image} alt=""/>
+                      </li>
+                    ))
+                  }
                 </ul>
               </li>
             </ul>
@@ -194,7 +225,7 @@ class Reservation extends React.Component {
                 <div className="map-wrapper">
                 {
                     this.state.property.listing_price > 0 ?
-                      <MapContainerShow coOrds={coOrds} locations={this.state.property} />
+                      <MapProperty coordinates={coordinates} locations={this.state.property} />
                         :
                       <p>Loading...</p>
                 }
@@ -204,13 +235,13 @@ class Reservation extends React.Component {
             <li>
               <div className="right">
                 <Billing
-                  toggleAuthModal={ this.props.toggleAuthModal}
+                  switchAuthForm={ this.props.switchAuthForm}
                   selectionRange={ this.state.ranges }
                   property={ this.state.property }
                   handleSelect={ this.handleSelect }
                   isLoggedIn={ this.props.isLoggedIn }
                   processReservation={ this.processReservation }
-                  disabledDates={ this.getReservedDates() }
+                  reservedDates={ this.getReservedDates() }
                 />
               </div>
             </li>

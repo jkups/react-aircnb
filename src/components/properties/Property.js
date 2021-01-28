@@ -1,15 +1,13 @@
-import React, { useState} from 'react';
-// import {Route, Link, HashRouter as Router} from 'react-router-dom';
-// import axios from 'axios';
+import React from 'react';
 
-const ListingDisplay = (props) => {
+const Property = (props) => {
 
   const formatCurrency = value => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
   }
 
   return (
-    <div className="list-item" onClick={props.handleClick} id={props.propertyData.id}>
+    <div className="list-item" onClick={props.showProperty} id={props.propertyData.id}>
         <div className="list-image">
           {
             <img src={"https://res.cloudinary.com/dhl1cdqch/image/upload/v1610626496/" + props.propertyData.images[0].image_url} loading="lazy" alt={props.propertyData.images[0].name} />
@@ -41,4 +39,4 @@ const ListingDisplay = (props) => {
     </div>
   ); //return
 }; //function
-export default ListingDisplay;
+export default Property;

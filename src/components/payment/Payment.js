@@ -4,7 +4,7 @@ import axios from 'axios'
 import './Payment.css'
 import '../authentication/Auth.css'
 
-const SERVER_BASE_URL = 'https://aircnb.herokuapp.com';
+const SERVER_BASE_URL = 'http://localhost:3000';
 
 
 class Payment extends React.Component {
@@ -67,16 +67,15 @@ class Payment extends React.Component {
     const endDate =  new Date (this.state.to_date)
     const guestsCount =  this.state.guests_count
     const totalDue =  this.state.total_due
-    const pricePerNight =  this.state.property.listing_price
-    const cleaningFee =  this.state.property.cleaning_fee
-    const serviceFee =  this.state.property.service_fee
-    const heading =  this.state.property.heading
-    const title =  this.state.property.title
-    const bedrooms =  this.state.property.bedrooms
-    const bathrooms =  this.state.property.bathrooms
+
+    const {
+      listing_price: pricePerNight,
+      cleaning_fee: cleaningFee,
+      service_fee: serviceFee,
+      heading, title, bedrooms, bathrooms
+    } = this.state.property
 
     const dateDiff = (endDate - startDate) / 1000 / 60 / 60 / 24
-
     const total = pricePerNight * dateDiff
 
     return(

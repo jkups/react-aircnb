@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 window.React = React;
 
-const BASE_URL = "https://aircnb.herokuapp.com/";
+const BASE_URL = "http://localhost:3000/";
 
 class Paginate extends Component {
   // static propTypes = {
@@ -30,12 +30,12 @@ class Paginate extends Component {
     // this.setState({
     //   total_count: this.props.length,
     // })
-    this.props.loadPageData(0);
+    this.props.fetchFilteredProperties(0);
   }
   //We need to rerequest a new page update new search request.
   componentDidUpdate(prevProps) {
     if(prevProps.searchTerm !== this.props.searchTerm){
-      this.props.loadPageData(0);
+      this.props.fetchFilteredProperties(0);
     }
   }
 
@@ -45,7 +45,7 @@ class Paginate extends Component {
     let offset = Math.ceil(selected * this.props.perPage);
     console.log({selected, props: this.props.perPage});
     this.setState({ offset: offset }, () => {
-      this.props.loadPageData(offset);
+      this.props.fetchFilteredProperties(offset);
     });
   };
 

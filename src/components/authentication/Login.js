@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const SERVER_BASE_URL = 'https://aircnb.herokuapp.com';
+const SERVER_BASE_URL = 'http://localhost:3000';
 
 class Login extends React.Component {
   state = {
@@ -24,7 +24,6 @@ class Login extends React.Component {
       { withCredentials: true }
     )
     .then( response => {
-      console.log(response.data);
       if(response.data.logged_in){
         this.props.handleLogin(response.data)
       }
@@ -34,7 +33,7 @@ class Login extends React.Component {
 
   render(){
     return(
-      <div className="auth-dialog">
+      <div className="auth-dialog" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={ this.handleSubmit }>
           <h4>Login</h4>
           <div>
@@ -44,6 +43,7 @@ class Login extends React.Component {
               name="email"
               placeholder="Enter your email address"
               onChange={ this.handleChange }
+              required
               />
           </div>
           <div>
@@ -53,13 +53,14 @@ class Login extends React.Component {
               name="password"
               placeholder="Enter your password"
               onChange={ this.handleChange }
+              required
               />
           </div>
           <div>
             <button className="button" type="submit">Login</button>
           </div>
         </form>
-        <span onClick={ () => this.props.toggleAuthModal('signup', true) }>
+        <span onClick={ () => this.props.switchAuthForm('signup', true) }>
           Don't have an account? Signup.
         </span>
       </div>

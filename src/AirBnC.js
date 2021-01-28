@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link, Route, HashRouter as Router } from 'react-router-dom';
+import { Route, HashRouter as Router } from 'react-router-dom';
 import axios from 'axios';
-import Home from './components/Home';
 import './App.css';
-import UserProfile from './components/UserProfile'
 
 // Authentication Components
 import AuthModal from './components/authentication/AuthModal'
@@ -11,22 +9,24 @@ import Login from './components/authentication/Login'
 import Signup from './components/authentication/Signup'
 
 // Reservation components
+import PropertyList from './components/properties/PropertyList';
 import Reservation from './components/reservation/Reservation'
 
 // Payment components
 import Payment from './components/payment/Payment'
-import Confirmation from './components/Confirmation'
+import Confirmation from './components/payment/Confirmation'
 
 // Common Components
+import Home from './components/Home';
 import Navigation from './components/Navigation'
 import Footer from './components/Footer'
 import Terms from './components/Terms'
 import Contact from './components/Contact'
 import About from './components/About'
-import SearchResults from './components/SearchResults';
+import UserProfile from './components/UserProfile'
 
 
-const SERVER_BASE_URL = 'https://aircnb.herokuapp.com';
+const SERVER_BASE_URL = 'http://localhost:3000';
 
 class AirBnC extends React.Component {
   state = {
@@ -50,7 +50,13 @@ class AirBnC extends React.Component {
     .catch(console.log)
   }
 
-  toggleAuthModal = (form, visible) => {
+  toggleAuthModal = () => {
+    this.setState({
+      authModalVisible: false,
+    })
+  }
+
+  switchAuthForm = (form, visible) => {
     this.setState({
       authModalVisible: visible,
       authForm: form
@@ -88,22 +94,22 @@ class AirBnC extends React.Component {
       <div>
         <Router>
 
-          <Route path="/" render={ props => <Navigation {...props} isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout} toggleAuthModal={this.toggleAuthModal} /> } />
+          <Route path="/" render={ props => <Navigation {...props} isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout} switchAuthForm={this.switchAuthForm} /> } />
 
           <Route exact path = "/" component = {Home} />
           <Route exact path = "/About" component = {About} />
           <Route exact path = "/Terms" component = {Terms} />
           <Route exact path = "/Contact" component = {Contact} />
 
-          <Route exact path="/search/:searchText/:startDate/:endDate" component={SearchResults }/>
+          <Route exact path="/search" component={PropertyList}/>
 
           <Route exact path = "/profile" component ={UserProfile}  />
 
-          <Route exact path="/property/:listing_id/:startDate/:endDate" render={ props => <Reservation {...props} toggleAuthModal={ this.toggleAuthModal} isLoggedIn={this.state.isLoggedIn} user={this.state.user} /> } />
+          <Route exact path="/property/:id" render={ props => <Reservation {...props} switchAuthForm={ this.switchAuthForm} isLoggedIn={this.state.isLoggedIn} user={this.state.user} /> } />
 
           <Route exact path="/book/:reservation_id/confirmation" component={Confirmation} />
 
-          <Route exact path="/book/:reservation_id/:startDate/:endDate" render={ props => <Payment {...props} isLoggedIn={this.state.isLoggedIn}
+          <Route exact path="/book/:reservation_id" render={ props => <Payment {...props} isLoggedIn={this.state.isLoggedIn}
           user={this.state.user} /> } />
 
 {
@@ -119,16 +125,16 @@ class AirBnC extends React.Component {
           }
           {
             this.state.authModalVisible ?
-            <AuthModal>
+            <AuthModal toggleAuthModal={this.toggleAuthModal}>
               {
                 this.state.authForm === 'login' ?
                 <Login
                   handleLogin={ this.handleLogin }
-                  toggleAuthModal={ this.toggleAuthModal }
+                  switchAuthForm={ this.switchAuthForm }
                   /> :
                 <Signup
                   handleLogin={ this.handleLogin }
-                  toggleAuthModal={ this.toggleAuthModal }
+                  switchAuthForm={ this.switchAuthForm }
                   />
               }
             </AuthModal> : null

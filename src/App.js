@@ -1,7 +1,7 @@
 import React from 'react';
 // import {Route, Link, HashRouter as Router} from 'react-router-dom';
 // import axios from 'axios';
-import SearchResults from './components/SearchResults'
+import PropertyList from './components/PropertyList'
 import './App.css'
 
 
@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       
-       <SearchResults />
+       <PropertyList />
 
     </div>
   );
@@ -18,4 +18,4 @@ function App() {
 
 export default App;
 
-// <SearchResults />
+// <PropertyList />

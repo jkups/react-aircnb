@@ -23,7 +23,7 @@ import '../App.css'
     event.preventDefault();
       axios({
       method: "POST",
-      url:"https://aircnb.herokuapp.com/contact/create",
+      url:"http://localhost:3000/contact/create",
       data:  this.state,
       withCredentials: true
     }).then((response)=>{
