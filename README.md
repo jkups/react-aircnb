@@ -64,26 +64,6 @@ Once you pay you will see the booking confirmation
 
 ![](public/bookingconfirmation.png)
 
-If you have any problems or feedback you can contact the admin:
-
-![](public/contact.png)
-
-There is also a page about us:
-
-![](public/about.png)
-
-and also about Terms and Conditions:
-
-![](public/terms.png)
-
-
-
-
-
-
-
-
-
 
 
 Known bugs
