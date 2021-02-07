@@ -36,12 +36,16 @@ const PropertyList = (props) => {
   useEffect( () => fetchProperties(),[searchTerm] )
 
   const fetchProperties = () => {
-    axios.get(BASE_URL + "/properties/search/" + searchTerm)
-    .then(res => {
-      setProperties(res.data)
-      setPageCount(Math.ceil(res.data.length / SEARCH_RESULTS_PER_PAGE ))
-    })
-    .catch(console.warn())
+    if(searchTerm){
+      axios.get(BASE_URL + "/properties/search/" + searchTerm)
+      .then(res => {
+        setProperties(res.data)
+        setPageCount(Math.ceil(res.data.length / SEARCH_RESULTS_PER_PAGE ))
+      })
+      .catch(console.warn)
+    } else {
+      props.history.push('/')
+    }
   }
 
   const fetchFilteredProperties = (offset) => {
@@ -53,8 +57,8 @@ const PropertyList = (props) => {
     .catch(console.warn())
   }
 
-  const toggleFilter = (filter, action) => {
-    filter ? action(false) : action(true)
+  const toggleFilter = (filter, setStateValue) => {
+    filter ? setStateValue(false) : setStateValue(true)
   }
 
   const filterByType = (ev) => {
@@ -66,7 +70,7 @@ const PropertyList = (props) => {
          setTypeFilter(`(${type})`)
          setShowType(false)
      })
-     .catch(console.warn())
+     .catch(console.warn)
   }
 
   const filterByPrice = (ev) => {
@@ -82,7 +86,7 @@ const PropertyList = (props) => {
         setPriceFilter(`(${lower} - ${higher})`)
         setShowPrice(false)
     })
-    .catch(console.warn())
+    .catch(console.warn)
   }
 
   const showProperty = (ev) => {

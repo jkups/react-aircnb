@@ -65,26 +65,32 @@ class Reservation extends React.Component {
   componentDidMount = () => {
     const search = this.props.location.search
     const id = this.props.match.params.id
-    let startDate = (queryString.parse(search).checkin).split('-')
-    let endDate = (queryString.parse(search).checkout).split('-')
 
-    startDate = new Date(startDate[2],startDate[1]-1,startDate[0])
-    endDate = new Date(endDate[2],endDate[1]-1,endDate[0])
+    if(!queryString.parse(search).checkin || !queryString.parse(search).checkout) {
+      this.props.history.push('/')
+      
+    } else {
+      let startDate = (queryString.parse(search).checkin).split('-')
+      let endDate = (queryString.parse(search).checkout).split('-')
 
-    const url = `${SERVER_BASE_URL}/properties/${id}.json`
-    axios.get(url)
-    .then(res => {
-      this.setState({
-        ranges: {
-          startDate: startDate,
-          endDate: endDate,
-          key: "selection"
-        },
-        property: res.data[0]
+      startDate = new Date(startDate[2],startDate[1]-1,startDate[0])
+      endDate = new Date(endDate[2],endDate[1]-1,endDate[0])
+
+      const url = `${SERVER_BASE_URL}/properties/${id}.json`
+      axios.get(url)
+      .then(res => {
+        this.setState({
+          ranges: {
+            startDate: startDate,
+            endDate: endDate,
+            key: "selection"
+          },
+          property: res.data[0]
+        })
+
+        this.getReservedDates()
       })
-
-      this.getReservedDates()
-    })
+    }
   }
 
   rating = () => {

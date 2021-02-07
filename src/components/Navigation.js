@@ -54,7 +54,7 @@ class Navigation extends React.Component {
                   this.props.isLoggedIn ?
                   <>
                     <Link className="nav-links" onClick={this.props.handleLogout}>Logout</Link>
-                    <span>Welcome,&nbsp;
+                    <span style={{padding:'20px'}}>Welcome,&nbsp;
                       {
                         JSON.parse(sessionStorage.getItem('user')).name
                       }
