@@ -17,6 +17,11 @@ This is a group project and an attempt to clone the popular AirBnB platform.
   - Test Credentials:
     * username - john@ga.co,
     * password - chicken
+    * payment credentials:
+      * card name - John Doe
+      * card number - 4111 1111 1111 1111
+      * cvv - 400
+      * expiration date - 09/22
 
 ### Tech Stack
 * React
