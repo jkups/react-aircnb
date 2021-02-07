@@ -1,75 +1,71 @@
-AirCnB platform
------------------------------------------------------
+# AirCnB platform
 
-This is a group project and is a reservation platform to book accommodation around Australia.
+This is a group project and an attempt to clone the popular AirBnB platform.
 
-links
-------------------------------------------------------
-<p>Github Rails code: https://github.com/staceyrea/rails-air-cnb-app </p>
-<p>Github React code: https://github.com/staceyrea/react-air-cnb-app </p>
-<p>Live demo (Heroku-rails): https://air-bnb-replication.herokuapp.com/ </p>
-<p>Live demo (Gitgub-react): https://staceyrea.github.io/react-air-cnb-app/#/ </p>
-
-Tech stack used
-------------------------------------------------------
-
-React
-PostgreSQL
-RoR
-CSS
-Bootstrap
-Braintree
-APIs
-JSON
-AXIOS
-Geolocation
-ActionMailer
+### Links
+* Github Rails code: https://github.com/jkups/rails-aircnb
+* Github React code: https://github.com/jkups/react-aircnb
 
 
-
-How to use
-------------------------------------------------------
-
-AirCnB is a platform with properties around Australia for rent. Ruby on Rails (the backend) is for the admin to use while React (the frontend) is for the users to place property reservations.
-
-This is the homepage:
-
-![](public/home.png)
-
-then the user needs to login:
-
-![](public/login.png)
-
-choose for the check in date:
-
-![](public/checkin.png)
-
-choose for the check out date:
-
-![](public/checkout.png)
-
-once you have pressed the search button you can see the results:
-
-![](public/searchresults.png)
-
-once you choose the place you can see more details about the property:
-
-![](public/selection.png)
-
-Once you like the place and you are ready to pay you go to the next page:
-
-![](public/payment.png)
-
-Once you pay you will see the booking confirmation
-
-![](public/bookingconfirmation.png)
+* Live demo (Backend): https://aircnb.herokuapp.com
+  - Test Credentials:
+    * username - david@ga.co, 
+    * password - chicken
 
 
+* Live demo (Frontend): https://jkups.github.io/react-aircnb
+  - Test Credentials:
+    * username - john@ga.co,
+    * password - chicken
 
-Known bugs
-------------------------------------------------------
-TBA
+### Tech Stack
+* React
+* Ruby on Rails
+* HTML / CSS / JavaScript
 
-Future features
-------------------------------------------------------
-User will be able to favourite Properties
+### APIs / Plugins
+* Bootstrap
+* Braintree
+* Google Maps
+* Chartjs
+* Sendgrid
+
+
+## How to use
+Making a booking on AirCnB is quite straigthforward. Simply search for a property, select your booking dates and make payment online.
+
+Here is a snapshot of the interface and possible workflow:
+
+Homepage (search for an accomodation):
+
+<img src='public/home.png' width ='700px'/>
+<br /><br/>
+
+Your search result is displayed:
+
+<img src='public/searchresults.png' width ='700px'/>
+<br/><br/>
+
+Select an accommodation and make your booking:
+
+<img src='public/accommodation.png' width ='700px'/>
+<br/><br/>
+
+Secure your booking by paying online with credit or deit card:
+
+<img src='public/payment.png' width ='700px'/>
+<br/><br/>
+
+You get your booking confirmation once your payment goes through. This confirmation will also be sent to your registered email:
+
+<img src='public/bookingconfirmation.png' width ='700px'/>
+<br/><br/>
+
+### Known Issues and Bugs
+* Filters on search result page displays inaccurate results sometimes
+* Page navigation doesn't update as expected when filter is applied on the search results
+
+### Future features
+* Implement robust error handling
+* Make the platform mobile ready
+* Implement a host feature
