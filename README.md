@@ -36,7 +36,7 @@ Making a booking on AirCnB is quite straigthforward. Simply search for a propert
 
 Here is a snapshot of the interface and possible workflow:
 
-Homepage (search for an accomodation):
+Homepage (search for **"Sydney"**):
 
 <img src='public/home.png' width ='700px'/>
 <br />
