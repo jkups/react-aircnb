@@ -9,7 +9,7 @@ This is a group project and an attempt to clone the popular AirBnB platform.
 
 * Live demo (Backend): https://aircnb.herokuapp.com
   - Test Credentials:
-    * username - david@ga.co, 
+    * username - david@ga.co,
     * password - chicken
 
 
@@ -39,27 +39,27 @@ Here is a snapshot of the interface and possible workflow:
 Homepage (search for an accomodation):
 
 <img src='public/home.png' width ='700px'/>
-<br /><br/>
+<br />
 
 Your search result is displayed:
 
 <img src='public/searchresults.png' width ='700px'/>
-<br/><br/>
+<br/>
 
 Select an accommodation and make your booking:
 
 <img src='public/accommodation.png' width ='700px'/>
-<br/><br/>
+<br/>
 
 Secure your booking by paying online with credit or deit card:
 
 <img src='public/payment.png' width ='700px'/>
-<br/><br/>
+<br/>
 
 You get your booking confirmation once your payment goes through. This confirmation will also be sent to your registered email:
 
 <img src='public/bookingconfirmation.png' width ='700px'/>
-<br/><br/>
+<br/>
 
 ### Known Issues and Bugs
 * Filters on search result page displays inaccurate results sometimes

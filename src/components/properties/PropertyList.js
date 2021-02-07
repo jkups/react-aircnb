@@ -141,7 +141,10 @@ const PropertyList = (props) => {
           </div>
           <div className="price-filter">
             <div className="filter-button" onClick={() => toggleFilter(showPrice, setShowPrice)}>
-            Price {priceFilter}
+            Price {
+              priceFilter !== '' ?
+              `$${priceFilter}` : priceFilter
+            }
             {
               priceFilter ?
               <span className="clear" onClick={() => window.location.reload(true)}>x</span> : null
