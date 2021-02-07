@@ -184,6 +184,16 @@ img {
   margin: 0 5px;
 }
 
+.unavailable-notice {
+  display: block;
+  text-align: center;
+  border-radius: 3px;
+  padding: 5px;
+  color: white;
+  background-color: crimson;
+  font-size: 12px;
+}
+
 .bill > div:first-child {
   margin-top: 10px;
 }

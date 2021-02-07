@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import '../../App.css';
-//add import for selected page
 
 const SERVER_BASE_URL = 'http://localhost:3000';
 
@@ -26,11 +25,6 @@ class Confirmation extends React.Component {
         listing_price: 0
       }
     }
-    //reservations.json (booking code through params)
-    // bookingCode: "",
-    // startDate: "",
-    // endDate: "",
-    // propertyAddress: ""
   }
 
   formatCurrency = value => {
@@ -47,38 +41,35 @@ class Confirmation extends React.Component {
       withCredentials: true
     })
     .then(res => {
-      console.log(res.data);
       this.setState({
         reservation: res.data
-        // bookingCode: res.data.booking_code,
-        // startDate: res.data.from_date,
-        // endDate: res.data.to_date,
-        // propertyAddress: res.data.property.address
       })
     })
     .catch(console.warn)
   }
 
   render() {
-    const reservation = this.state.reservation
-    const property = this.state.reservation.property
+    const startDate = new Date(this.state.reservation.from_date)
+    const endDate = new Date(this.state.reservation.to_date)
 
-    const startDate = new Date(reservation.from_date)
-    const endDate = new Date(reservation.to_date)
-    const bookingCode = reservation.booking_code
-    const guestsCount =  reservation.guests_count
-    const totalDue =  reservation.total_due
-    const address = property.address
-    const pricePerNight =  property.listing_price
-    const cleaningFee =  property.cleaning_fee
-    const serviceFee =  property.service_fee
-    const heading =  property.heading
-    const title =  property.title
-    const bedrooms =  property.bedrooms
-    const bathrooms =  property.bathrooms
+    const {
+      booking_code: bookingCode,
+      guests_count: guestsCount,
+      total_due: totalDue
+    } = this.state.reservation
+
+    const {
+      address,
+      listing_price: pricePerNight,
+      cleaning_fee: cleaningFee,
+      service_fee: serviceFee,
+      heading,
+      title,
+      bedrooms,
+      bathrooms
+    } = this.state.reservation.property
 
     const dateDiff = (endDate - startDate) / 1000 / 60 / 60 / 24
-
     const total = pricePerNight * dateDiff
 
     return(
@@ -107,7 +98,7 @@ class Confirmation extends React.Component {
                   <ul>
                     <li className="dates">
                       <div>Dates</div>
-                      <div>{startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}</div>
+                      <div>{startDate.toLocaleDateString('en-GB')} - {endDate.toLocaleDateString('en-GB')}</div>
                     </li>
                     <li className="guests-count">
                       <div>Guests</div>

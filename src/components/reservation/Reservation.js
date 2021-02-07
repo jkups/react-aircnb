@@ -34,12 +34,15 @@ class Reservation extends React.Component {
       latitude: 151.2092955,
       reviews: [],
       reservations: [],
-    }
+    },
+    reservedDates: [],
+    selectionReserved: false
   }
 
   handleSelect = ranges => {
     this.setState({
-      ranges: ranges.selection
+      ranges: ranges.selection,
+      selectionReserved: false
     })
   }
 
@@ -79,6 +82,8 @@ class Reservation extends React.Component {
         },
         property: res.data[0]
       })
+
+      this.getReservedDates()
     })
   }
 
@@ -93,6 +98,25 @@ class Reservation extends React.Component {
     }
 
     return { stars, reviewsCount, avgRating }
+  }
+
+  isSelectionRangeReserved = reservedDates => {
+    const startDate = this.state.ranges.startDate
+    const endDate =  this.state.ranges.endDate
+    const dateDiff = (endDate - startDate)/ 1000 / 60 / 60 / 24
+
+    if(reservedDates){
+      for(let i = 0; i <= dateDiff; i++){
+        const date = startDate.toDateString()
+
+        for(const reserved of reservedDates){
+          if(reserved.toDateString() === date){
+            return true
+          }
+        }
+        startDate.setDate(startDate.getDate() + 1)
+      }
+    }
   }
 
   getReservedDates = () => {
@@ -113,7 +137,22 @@ class Reservation extends React.Component {
 
     }).filter((date, idx, arr) => idx === arr.indexOf(date))
 
-    return reservedDates
+    const selectionReserved = this.isSelectionRangeReserved(reservedDates)
+
+    if(selectionReserved){
+      this.setState({
+        ranges: {
+          startDate: new Date(),
+          endDate: new Date(),
+          key: "selection"
+        }
+      })
+    }
+
+    this.setState({
+      reservedDates: reservedDates,
+      selectionReserved: selectionReserved
+    })
   }
 
   render(){
@@ -241,7 +280,8 @@ class Reservation extends React.Component {
                   handleSelect={ this.handleSelect }
                   isLoggedIn={ this.props.isLoggedIn }
                   processReservation={ this.processReservation }
-                  reservedDates={ this.getReservedDates() }
+                  reservedDates={ this.state.reservedDates }
+                  selectionReserved={ this.state.selectionReserved }
                 />
               </div>
             </li>

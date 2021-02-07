@@ -6,7 +6,8 @@ const SERVER_BASE_URL = 'http://localhost:3000';
 class Login extends React.Component {
   state = {
     email:'',
-    password:''
+    password:'',
+    error: ''
   }
 
   handleChange = e => {
@@ -26,6 +27,10 @@ class Login extends React.Component {
     .then( response => {
       if(response.data.logged_in){
         this.props.handleLogin(response.data)
+      } else {
+        this.setState({
+          error: response.data.errors
+        })
       }
     })
     .catch(console.warn)
@@ -36,6 +41,9 @@ class Login extends React.Component {
       <div className="auth-dialog" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={ this.handleSubmit }>
           <h4>Login</h4>
+          {
+            this.state.error !== '' && <div className="error">{this.state.error}</div>
+          }
           <div>
             <input
               className="input"

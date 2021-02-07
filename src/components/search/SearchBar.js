@@ -47,8 +47,8 @@ const SearchBar = (props) => {
         pathname: '/search',
         search: '?' + new URLSearchParams({
           location: searchTerm,
-          checkin: startDate.toLocaleDateString().split('/').join('-'),
-          checkout: endDate.toLocaleDateString().split('/').join('-')
+          checkin: startDate.toLocaleDateString('en-GB').split('/').join('-'),
+          checkout: endDate.toLocaleDateString('en-GB').split('/').join('-')
         }).toString()
       });
     } else {
@@ -109,7 +109,7 @@ const SearchBar = (props) => {
             <div className="offset">
               {
                 Object.prototype.toString.call(startDate) === "[object Date]" ?
-                startDate.toLocaleDateString() :
+                startDate.toLocaleDateString('en-GB') :
                 startDate
               }
             </div>
@@ -120,7 +120,7 @@ const SearchBar = (props) => {
             <div className="offset">
               {
                 Object.prototype.toString.call(endDate) === "[object Date]" ?
-                endDate.toLocaleDateString() :
+                endDate.toLocaleDateString('en-GB') :
                 endDate
               }
             </div>

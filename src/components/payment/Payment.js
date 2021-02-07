@@ -31,7 +31,7 @@ class Payment extends React.Component {
     const user_id = this.props.user.id
 
     axios.post(`${SERVER_BASE_URL}/pay/${id}`,
-      { nonce: nonce, user_id: user_id},
+      { nonce, user_id},
       { withCredentials: true }
     )
     .then( res => {

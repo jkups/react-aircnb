@@ -100,7 +100,7 @@ class Billing extends React.Component {
               <div>CHECK-IN</div>
               <div>
                 {
-                  this.props.selectionRange.startDate.toLocaleDateString()
+                  this.props.selectionRange.startDate.toLocaleDateString('en-GB')
                 }
               </div>
             </div>
@@ -108,7 +108,7 @@ class Billing extends React.Component {
               <div>CHECKOUT</div>
               <div>
                 {
-                  this.props.selectionRange.endDate.toLocaleDateString()
+                  this.props.selectionRange.endDate.toLocaleDateString('en-GB')
                 }
               </div>
             </div>
@@ -132,7 +132,7 @@ class Billing extends React.Component {
                     <div>CHECK-IN</div>
                     <div>
                       {
-                        this.props.selectionRange.startDate.toLocaleDateString()
+                        this.props.selectionRange.startDate.toLocaleDateString('en-GB')
                       }
                     </div>
                   </div>
@@ -140,7 +140,7 @@ class Billing extends React.Component {
                     <div>CHECKOUT</div>
                     <div>
                       {
-                        this.props.selectionRange.endDate.toLocaleDateString()
+                        this.props.selectionRange.endDate.toLocaleDateString('en-GB')
                       }
                     </div>
                   </div>
@@ -170,7 +170,6 @@ class Billing extends React.Component {
                 <Calendar
                   handleSelect={ this.props.handleSelect }
                   selectionRange={ this.props.selectionRange }
-                  dateRangeReserved={this.props.property.reservations}
                   reservedDates={this.props.reservedDates}
                 />
                 <div className="calendar action">
@@ -188,6 +187,10 @@ class Billing extends React.Component {
           </span>
         </div>
         <div>
+          {
+            this.props.selectionReserved &&
+            <span className="unavailable-notice">The dates you selected are no more available</span>
+          }
           {
             dateDiff <= 0 ?
               <button

@@ -7,7 +7,8 @@ class Login extends React.Component {
   state = {
     name:'',
     email:'',
-    password:''
+    password:'',
+    error: ''
   }
 
   handleChange = e => {
@@ -25,9 +26,12 @@ class Login extends React.Component {
       { withCredentials: true }
     )
     .then( response => {
-      console.log(response.data);
       if(response.data.logged_in){
         this.props.handleLogin(response.data)
+      } else {
+        this.setState({
+          error: response.data.errors
+        })
       }
     })
     .catch(console.warn)
@@ -38,6 +42,9 @@ class Login extends React.Component {
       <div className="auth-dialog" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={ this.handleSubmit }>
           <h4>Signup</h4>
+          {
+            this.state.error !== '' && <div className="error">{this.state.error}</div>
+          }
           <div>
             <input
               className="input"

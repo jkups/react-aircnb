@@ -6,12 +6,10 @@ import { DateRange } from 'react-date-range';
 class Calendar extends React.Component {
 
   render(){
-    const selectionRange = this.props.selectionRange
-
     return(
       <div>
         <DateRange
-          ranges={[selectionRange]}
+          ranges={[this.props.selectionRange]}
           months={2}
           direction="horizontal"
           showDateDisplay={false}

@@ -41,11 +41,9 @@ class AirBnC extends React.Component {
       withCredentials: true
     })
     .then( response => {
-      if(response.data.logged_in){
-        this.handleLogin(response.data)
-      } else {
-        this.handleLogout()
-      }
+    response.data.logged_in ?
+      this.handleLogin(response.data) :
+      this.handleLogout()
     })
     .catch(console.log)
   }
@@ -64,6 +62,8 @@ class AirBnC extends React.Component {
   }
 
   handleLogin = data => {
+    sessionStorage.setItem('user', JSON.stringify(data.user))
+
     this.setState({
       authModalVisible: false,
       user: data.user,
@@ -76,13 +76,14 @@ class AirBnC extends React.Component {
       axios.delete(`${SERVER_BASE_URL}/login.json`,{
         withCredentials: true
       })
-      .then(data => console.log(data))
+      .then(data => {
+        sessionStorage.removeItem('user')
+        this.setState({
+          user: {},
+          isLoggedIn: false
+        })
+      })
     }
-
-    this.setState({
-      user: {},
-      isLoggedIn: false
-    })
   }
 
   componentDidMount() {
@@ -112,19 +113,13 @@ class AirBnC extends React.Component {
           <Route exact path="/book/:reservation_id" render={ props => <Payment {...props} isLoggedIn={this.state.isLoggedIn}
           user={this.state.user} /> } />
 
-{
-          // <Route exact path="/search/:reservationId/:startDate/:endDate" >
-          //   {
-          //     this.state.isLoggedIn ? <Payment /> : <Redirect to="/search" />
-          //   }
-          // </Route>
-}
+
           {
             // Authentication Component
             // Available on all routes
           }
           {
-            this.state.authModalVisible ?
+            this.state.authModalVisible &&
             <AuthModal toggleAuthModal={this.toggleAuthModal}>
               {
                 this.state.authForm === 'login' ?
@@ -137,7 +132,7 @@ class AirBnC extends React.Component {
                   switchAuthForm={ this.switchAuthForm }
                   />
               }
-            </AuthModal> : null
+            </AuthModal>
           }
 
           <Footer />

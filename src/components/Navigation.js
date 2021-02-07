@@ -52,7 +52,14 @@ class Navigation extends React.Component {
                 <Link to="/" className="nav-links"> Home </Link>
                 {
                   this.props.isLoggedIn ?
-                  <Link className="nav-links" onClick={this.props.handleLogout}>Logout</Link>
+                  <>
+                    <Link className="nav-links" onClick={this.props.handleLogout}>Logout</Link>
+                    <span>Welcome,&nbsp;
+                      {
+                        JSON.parse(sessionStorage.getItem('user')).name
+                      }
+                    </span>
+                  </>
                   :
                   <Link className="nav-links" onClick={ () => this.props.switchAuthForm('login', true) }>Login</Link>
                 }
