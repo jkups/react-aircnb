@@ -68,7 +68,7 @@ class Reservation extends React.Component {
 
     if(!queryString.parse(search).checkin || !queryString.parse(search).checkout) {
       this.props.history.push('/')
-      
+
     } else {
       let startDate = (queryString.parse(search).checkin).split('-')
       let endDate = (queryString.parse(search).checkout).split('-')
