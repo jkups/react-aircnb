@@ -51,7 +51,7 @@ Select an accommodation and make your booking:
 <img src='public/accommodation.png' width ='700px'/>
 <br/>
 
-Secure your booking by paying online with credit or deit card:
+Secure your booking by paying online with credit or debit card:
 
 <img src='public/payment.png' width ='700px'/>
 <br/>
