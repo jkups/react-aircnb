@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-aircnb/static/css/main.3d4a6920.chunk.css",
-    "main.js": "/react-aircnb/static/js/main.d275eade.chunk.js",
-    "main.js.map": "/react-aircnb/static/js/main.d275eade.chunk.js.map",
+    "main.js": "/react-aircnb/static/js/main.c7340255.chunk.js",
+    "main.js.map": "/react-aircnb/static/js/main.c7340255.chunk.js.map",
     "runtime-main.js": "/react-aircnb/static/js/runtime-main.7a087ef3.js",
     "runtime-main.js.map": "/react-aircnb/static/js/runtime-main.7a087ef3.js.map",
     "static/css/2.06382735.chunk.css": "/react-aircnb/static/css/2.06382735.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.06382735.chunk.css",
     "static/js/2.94f54b66.chunk.js",
     "static/css/main.3d4a6920.chunk.css",
-    "static/js/main.d275eade.chunk.js"
+    "static/js/main.c7340255.chunk.js"
   ]
 }
