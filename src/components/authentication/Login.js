@@ -38,40 +38,46 @@ class Login extends React.Component {
 
   render(){
     return(
-      <div className="auth-dialog" onClick={(e) => e.stopPropagation()}>
-        <form onSubmit={ this.handleSubmit }>
-          <h4>Login</h4>
-          {
-            this.state.error !== '' && <div className="error">{this.state.error}</div>
-          }
-          <div>
-            <input
-              className="input"
-              type="email"
-              name="email"
-              placeholder="Enter your email address"
-              onChange={ this.handleChange }
-              required
-              />
-          </div>
-          <div>
-            <input
-              className="input"
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              onChange={ this.handleChange }
-              required
-              />
-          </div>
-          <div>
-            <button className="button" type="submit">Login</button>
-          </div>
-        </form>
-        <span onClick={ () => this.props.switchAuthForm('signup', true) }>
-          Don't have an account? Signup.
-        </span>
-      </div>
+      <>
+        <div className="auth-dialog" onClick={(e) => e.stopPropagation()}>
+          <form onSubmit={ this.handleSubmit }>
+            <h4>Login</h4>
+            {
+              this.state.error !== '' && <div className="error">{this.state.error}</div>
+            }
+            <div>
+              <input
+                className="input"
+                type="email"
+                name="email"
+                placeholder="Enter your email address"
+                onChange={ this.handleChange }
+                required
+                />
+            </div>
+            <div>
+              <input
+                className="input"
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                onChange={ this.handleChange }
+                required
+                />
+            </div>
+            <div>
+              <button className="button" type="submit">Login</button>
+            </div>
+          </form>
+          <span onClick={ () => this.props.switchAuthForm('signup', true) }>
+            Don't have an account? Signup.
+          </span>
+        </div>
+        <div style={{color:'grey', marginTop:'15px'}}>
+          see test credentials&nbsp;
+          <a href="https://github.com/jkups/react-aircnb" target="_blank">here</a>
+        </div>
+      </>
     )
   }
 }
